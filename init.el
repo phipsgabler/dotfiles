@@ -35,7 +35,12 @@
  '(safe-local-variable-values (quote ((TeX-command-extra-options . "-shell-escape") (TeX-engine . xelatex))))
  '(tex-bibtex-command "Biber"))
 
-
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 
 ;; ;; FUNCTIONS
 
@@ -222,9 +227,4 @@ Emacs buffer are those starting with “*”."
 
 ;; darkroom-mode
 (require 'darkroom)
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
