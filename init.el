@@ -157,6 +157,25 @@ Emacs buffer are those starting with “*”."
       (local-set-key (kbd "RET") 'newline-and-indent))) 
 
 
+;; haskell mode
+(add-to-list 'auto-mode-alist '("\\.hs\\'" . haskell-mode))
+;;(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+;;(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
+;;(add-hook 'haskell-mode-hook 'haskell-mode-save-buffer)
+(add-hook 'haskell-mode-hook 
+          (lambda () (define-key haskell-mode-map (kbd "C-c <right>") 'comment-region)))
+(add-hook 'haskell-mode-hook 
+          (lambda () (define-key haskell-mode-map (kbd "C-c <left>") 'uncomment-region)))
+(autoload 'ghc-init "ghc" nil t)
+;;(add-hook 'haskell-mode-hook (lambda () (ghc-init) (flymake-mode)))
+(defun my-haskell-mode-save-buffer ()
+  (interactive)
+  (save-buffer)
+)
+(define-key haskell-mode-map (kbd "C-x C-s") 'my-haskell-mode-save-buffer)
+
+
 ;; cc mode
 (require 'cc-mode)
 (setq c-default-style "ellemtel"
