@@ -91,6 +91,9 @@
 (setq-default fill-column 100)
 (put 'downcase-region 'disabled nil)
 
+;; various key bindings
+(global-set-key (kbd "C-x a r") 'align-regexp)
+
 ;; always ask the same way
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -163,22 +166,39 @@ Emacs buffer are those starting with “*”."
 
 
 ;; haskell mode
+(require 'haskell-mode)
 (add-to-list 'auto-mode-alist '("\\.hs\\'" . haskell-mode))
-;;(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
-;;(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
-;;(add-hook 'haskell-mode-hook 'haskell-mode-save-buffer)
-(add-hook 'haskell-mode-hook 
-          (lambda () (define-key haskell-mode-map (kbd "C-c <right>") 'comment-region)))
-(add-hook 'haskell-mode-hook 
-          (lambda () (define-key haskell-mode-map (kbd "C-c <left>") 'uncomment-region)))
-(autoload 'ghc-init "ghc" nil t)
-;;(add-hook 'haskell-mode-hook (lambda () (ghc-init) (flymake-mode)))
 (defun my-haskell-mode-save-buffer ()
   (interactive)
-  (save-buffer)
-)
-(define-key haskell-mode-map (kbd "C-x C-s") 'my-haskell-mode-save-buffer)
+  (save-buffer))
+(add-hook 'haskell-mode-hook 
+          (lambda () (progn 
+                       (define-key haskell-mode-map (kbd "C-c <right>") 'comment-region)
+                       (define-key haskell-mode-map (kbd "C-c <left>") 'uncomment-region)
+                       (define-key haskell-mode-map (kbd "C-x C-s") 'my-haskell-mode-save-buffer)
+                       (local-set-key (kbd "M-q") 'align))))
+
+; alignment rules (https://github.com/haskell/haskell-mode/wiki/Indentation#aligning-code)
+(add-to-list 'align-rules-list
+             '(haskell-types
+               (regexp . "\\(\\s-+\\)\\(::\\|∷\\)\\s-+")
+               (modes quote (haskell-mode literate-haskell-mode))))
+(add-to-list 'align-rules-list
+             '(haskell-assignment
+               (regexp . "\\(\\s-+\\)=\\s-+")
+               (modes quote (haskell-mode literate-haskell-mode))))
+(add-to-list 'align-rules-list
+             '(haskell-arrows
+               (regexp . "\\(\\s-+\\)\\(->\\|→\\)\\s-+")
+               (modes quote (haskell-mode literate-haskell-mode))))
+(add-to-list 'align-rules-list
+             '(haskell-left-arrows
+               (regexp . "\\(\\s-+\\)\\(<-\\|←\\)\\s-+")
+               (modes quote (haskell-mode literate-haskell-mode))))
+;;(autoload 'ghc-init "ghc" nil t)
+;;(add-hook 'haskell-mode-hook (lambda () (ghc-init) (flymake-mode)))
+
+
 
 
 ;; cc mode
