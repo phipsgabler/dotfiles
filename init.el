@@ -114,7 +114,7 @@
 ;; auto fill
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (add-hook 'tex-mode-hook 'turn-on-auto-fill)
-(add-hook 'markdown-mode-hook 'turn-on-auto-fill)
+(remove-hook 'markdown-mode-hook 'turn-on-auto-fill)
 
 
 ;; color theme
