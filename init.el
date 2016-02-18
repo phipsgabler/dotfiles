@@ -122,8 +122,8 @@
 (if (display-graphic-p)
     (progn (load-theme 'bharadwaj t t)
            (enable-theme 'bharadwaj))           
-  (progn (load-theme 'tty-dark t t)
-         (enable-theme 'tty-dark)))
+    (progn (load-theme 'tty-dark t t)
+           (enable-theme 'tty-dark)))
 
 
 
@@ -268,3 +268,10 @@ Emacs buffer are those starting with “*”."
 ;; darkroom-mode
 (require 'darkroom)
 
+
+;; multiple-cursors
+(require 'multiple-cursors)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C-S-c a") 'mc/edit-beginnings-of-lines)
+(global-set-key (kbd "C-S-c e") 'mc/edit-ends-of-lines)
+(global-set-key (kbd "C-S-c %") 'mc/mark-all-in-region)
