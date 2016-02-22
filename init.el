@@ -158,11 +158,12 @@ Emacs buffer are those starting with “*”."
 (require 'markdown-mode)
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-
+(add-hook 'markdown-mode-hook '(lambda ()
+                                (turn-off-auto-fill)))
 
 ;; lisp mode
 (add-hook 'lisp-mode-hook '(lambda ()
-      (local-set-key (kbd "RET") 'newline-and-indent))) 
+                             (local-set-key (kbd "RET") 'newline-and-indent))) 
 
 
 ;; haskell mode
