@@ -154,12 +154,12 @@ Emacs buffer are those starting with “*”."
 
 ;; markdown/pandoc
 ;(autoload 'pandoc-mode "pandoc-mode")
-;(add-hook 'markdown-mode-hook 'pandoc-mode)
 (require 'markdown-mode)
-(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+(add-hook 'markdown-mode-hook 'pandoc-mode)
 (add-hook 'markdown-mode-hook '(lambda ()
                                 (turn-off-auto-fill)))
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 ;; lisp mode
 (add-hook 'lisp-mode-hook '(lambda ()
