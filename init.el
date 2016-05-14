@@ -245,7 +245,6 @@ Emacs buffer are those starting with “*”."
 
 
 ;; octave mode
-(autoload 'octave-mode "octave-mod" nil t)
 (add-to-list 'auto-mode-alist '("\\.m$" . octave-mode))
 
 
@@ -276,3 +275,7 @@ Emacs buffer are those starting with “*”."
 (global-set-key (kbd "C-S-c a") 'mc/edit-beginnings-of-lines)
 (global-set-key (kbd "C-S-c e") 'mc/edit-ends-of-lines)
 (global-set-key (kbd "C-S-c %") 'mc/mark-all-in-region)
+
+
+;; auctex
+(add-to-list 'auto-mode-alist '("\\.sg$" . latex-mode))
