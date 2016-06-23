@@ -279,7 +279,9 @@ Emacs buffer are those starting with “*”."
 
 ;; auctex
 (add-to-list 'auto-mode-alist '("\\.sg$" . latex-mode))
-
+(add-to-list 'auto-mode-alist '("\\.sg$" . (lambda ()
+                                (electric-indent-mode 0))))
 
 ;; JavaScript
 (setq js-indent-level 2)
+(setq js-switch-indent-offset 2)
