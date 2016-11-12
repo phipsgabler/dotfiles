@@ -15,14 +15,58 @@
  ;; If there is more than one, they won't work right.
  '(TeX-PDF-mode t)
  '(TeX-command-BibTeX "Biber")
- '(TeX-command-list (quote (("TeX" "%(PDF)%(tex) %`%S%(PDFout)%(mode)%' %t" TeX-run-TeX nil (plain-tex-mode texinfo-mode ams-tex-mode) :help "Run plain TeX") ("LaTeX" "%`%l%(mode)%' %t" TeX-run-TeX nil (latex-mode doctex-mode) :help "Run LaTeX") ("Makeinfo" "makeinfo %t" TeX-run-compile nil (texinfo-mode) :help "Run Makeinfo with Info output") ("Makeinfo HTML" "makeinfo --html %t" TeX-run-compile nil (texinfo-mode) :help "Run Makeinfo with HTML output") ("AmSTeX" "%(PDF)amstex %`%S%(PDFout)%(mode)%' %t" TeX-run-TeX nil (ams-tex-mode) :help "Run AMSTeX") ("ConTeXt" "texexec --once --texutil %(execopts)%t" TeX-run-TeX nil (context-mode) :help "Run ConTeXt once") ("ConTeXt Full" "texexec %(execopts)%t" TeX-run-TeX nil (context-mode) :help "Run ConTeXt until completion") ("BibTeX" "bibtex %s" TeX-run-BibTeX nil t :help "Run BibTeX") ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer") ("Print" "%p" TeX-run-command t t :help "Print the file") ("Queue" "%q" TeX-run-background nil t :help "View the printer queue" :visible TeX-queue-command) ("File" "%(o?)dvips %d -o %f " TeX-run-command t t :help "Generate PostScript file") ("Index" "makeindex %s" TeX-run-command nil t :help "Create index file") ("Check" "lacheck %s" TeX-run-compile nil (latex-mode) :help "Check LaTeX file for correctness") ("Spell" "(TeX-ispell-document \"\")" TeX-run-function nil t :help "Spell-check the document") ("Clean" "TeX-clean" TeX-run-function nil t :help "Delete generated intermediate files") ("Clean All" "(TeX-clean t)" TeX-run-function nil t :help "Delete generated intermediate and output files") ("Other" "" TeX-run-command t t :help "Run an arbitrary command") ("Biber" "biber %s.bib" TeX-run-BibTeX nil t))))
+ '(TeX-command-list
+   (quote
+    (("TeX" "%(PDF)%(tex) %`%S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
+      (plain-tex-mode texinfo-mode ams-tex-mode)
+      :help "Run plain TeX")
+     ("LaTeX" "%`%l%(mode)%' %t" TeX-run-TeX nil
+      (latex-mode doctex-mode)
+      :help "Run LaTeX")
+     ("Makeinfo" "makeinfo %t" TeX-run-compile nil
+      (texinfo-mode)
+      :help "Run Makeinfo with Info output")
+     ("Makeinfo HTML" "makeinfo --html %t" TeX-run-compile nil
+      (texinfo-mode)
+      :help "Run Makeinfo with HTML output")
+     ("AmSTeX" "%(PDF)amstex %`%S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
+      (ams-tex-mode)
+      :help "Run AMSTeX")
+     ("ConTeXt" "texexec --once --texutil %(execopts)%t" TeX-run-TeX nil
+      (context-mode)
+      :help "Run ConTeXt once")
+     ("ConTeXt Full" "texexec %(execopts)%t" TeX-run-TeX nil
+      (context-mode)
+      :help "Run ConTeXt until completion")
+     ("BibTeX" "bibtex %s" TeX-run-BibTeX nil t :help "Run BibTeX")
+     ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
+     ("Print" "%p" TeX-run-command t t :help "Print the file")
+     ("Queue" "%q" TeX-run-background nil t :help "View the printer queue" :visible TeX-queue-command)
+     ("File" "%(o?)dvips %d -o %f " TeX-run-command t t :help "Generate PostScript file")
+     ("Index" "makeindex %s" TeX-run-command nil t :help "Create index file")
+     ("Check" "lacheck %s" TeX-run-compile nil
+      (latex-mode)
+      :help "Check LaTeX file for correctness")
+     ("Spell" "(TeX-ispell-document \"\")" TeX-run-function nil t :help "Spell-check the document")
+     ("Clean" "TeX-clean" TeX-run-function nil t :help "Delete generated intermediate files")
+     ("Clean All" "(TeX-clean t)" TeX-run-function nil t :help "Delete generated intermediate and output files")
+     ("Other" "" TeX-run-command t t :help "Run an arbitrary command")
+     ("Biber" "biber %s.bib" TeX-run-BibTeX nil t))))
  '(TeX-source-correlate-method (quote synctex))
  '(TeX-source-correlate-mode nil)
  '(TeX-source-correlate-start-server nil)
  '(TeX-view-program-list (quote (("texworks" "texworks %o"))))
- '(TeX-view-program-selection (quote (((output-dvi style-pstricks) "dvips and gv") (output-dvi "xdvi") (output-pdf "texworks") (output-html "xdg-open"))))
+ '(TeX-view-program-selection
+   (quote
+    (((output-dvi style-pstricks)
+      "dvips and gv")
+     (output-dvi "xdvi")
+     (output-pdf "texworks")
+     (output-html "xdg-open"))))
  '(column-number-mode t)
- '(custom-safe-themes (quote ("6c57adb4d3da69cfb559e103e555905c9eec48616104e217502d0a372e63dcea" default)))
+ '(custom-safe-themes
+   (quote
+    ("6c57adb4d3da69cfb559e103e555905c9eec48616104e217502d0a372e63dcea" default)))
  '(ess-swv-processor (quote knitr))
  '(fill-column 100)
  '(font-latex-fontify-sectioning (quote color))
@@ -30,9 +74,17 @@
  '(haskell-indent-offset 2)
  '(haskell-program-name "ghci")
  '(inhibit-startup-screen t)
+ '(package-selected-packages
+   (quote
+    (rainbow-delimiters pandoc-mode web-mode tabbar scala-mode2 multiple-cursors markdown-mode idris-mode haskell-mode ess darkroom color-theme-modern auctex)))
  '(python-python-command "python3")
  '(python-shell-interpreter "ipython3")
- '(safe-local-variable-values (quote ((TeX-command-extra-options . "-shell-escape") (TeX-engine . xelatex))))
+ '(safe-local-variable-values
+   (quote
+    ((TeX-master . "../document")
+     (TeX-master . "document")
+     (TeX-command-extra-options . "-shell-escape")
+     (TeX-engine . xelatex))))
  '(tex-bibtex-command "Biber"))
 
 (custom-set-faces
@@ -111,6 +163,9 @@
 
 ;; ;; MODE OPTIONS
 
+;; add rainbow delimiters to all programming modes
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
 ;; auto fill
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (add-hook 'tex-mode-hook 'turn-on-auto-fill)
@@ -153,8 +208,8 @@ Emacs buffer are those starting with “*”."
 
 
 ;; markdown/pandoc
-;(autoload 'pandoc-mode "pandoc-mode")
 (require 'markdown-mode)
+(require 'pandoc-mode)
 (add-hook 'markdown-mode-hook 'pandoc-mode)
 (add-hook 'markdown-mode-hook '(lambda ()
                                 (turn-off-auto-fill)))
