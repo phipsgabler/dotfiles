@@ -226,7 +226,8 @@ Emacs buffer are those starting with “*”."
   :mode "\\.m$")
 
 ;; ess-mode
-(use-package ess)
+(use-package ess
+  :mode ("\\.r\\'" . R-mode))
 
 ;; scala-mode
 (use-package scala-mode
