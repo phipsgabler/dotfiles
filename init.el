@@ -229,8 +229,8 @@ Emacs buffer are those starting with “*”."
 ;; ess-mode
 (use-package ess)
 
-;; scala-mode2
-(use-package scala-mode2
+;; scala-mode
+(use-package scala-mode
   :mode ("\\.scala$" . scala-mode))
 
 ;; web-mode

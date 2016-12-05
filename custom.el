@@ -63,7 +63,7 @@
  '(haskell-program-name "ghci")
  '(package-selected-packages
    (quote
-    (js2-mode rainbow-delimiters pandoc-mode web-mode tabbar scala-mode2 multiple-cursors markdown-mode idris-mode haskell-mode ess darkroom color-theme-modern auctex)))
+    (scala-mode js2-mode rainbow-delimiters pandoc-mode web-mode tabbar multiple-cursors markdown-mode idris-mode haskell-mode ess darkroom color-theme-modern auctex)))
  '(python-python-command "python3")
  '(python-shell-interpreter "ipython3")
  '(safe-local-variable-values
