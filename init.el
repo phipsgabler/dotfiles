@@ -9,9 +9,8 @@
 (setq-default column-number-mode t)
 (global-hl-line-mode t) ; turn on highlighting current line
 ;; (global-visual-line-mode t) ; break lines at word boundaries
-
-(setq-default delete-selection-mode 1 ; delete selected text when typing
-              indent-tabs-mode nil
+(delete-selection-mode t) ; delete selected text when typing
+(setq-default indent-tabs-mode nil
               tab-width 2)
 
 ;; autofill mode
