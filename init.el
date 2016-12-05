@@ -4,6 +4,8 @@
 
 
 ;; ;; GENERAL
+;; TODO: look at this: https://github.com/stevenbagley/emacs-init/blob/master/emacs-init.el
+
 (setq-default inhibit-startup-screen t)
 (global-linum-mode t)
 (setq-default column-number-mode t)
@@ -24,6 +26,7 @@
 
 ;; various key bindings
 (global-set-key (kbd "C-x a r") 'align-regexp)
+(global-set-key (kbd "C-x C-r") 'revert-buffer)
 
 ;; always ask the same way
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -49,15 +52,14 @@
 
 
 ;; ;; FUNCTIONS
-;; function to mark a whole line
 (defun select-current-line ()
    "Mark the current line"
-   (interactive "p")
+   (interactive)
    (end-of-line)
    (set-mark (line-beginning-position))
    (message "Selected line!"))
+(global-set-key (kbd "C-@") 'select-current-line)
 
-;; function to mark a whole line
 (defun copy-line (&optional arg)
    "Copy lines (as many as prefix argument) in the kill ring"
    (interactive "p")
@@ -65,6 +67,21 @@
                    (line-beginning-position (+ 1 arg)))
    (message "%d line%s copied" arg (if (= 1 arg) "" "s")))
 (global-set-key (kbd "C-M-w") 'copy-line)
+
+(defun kill-current-line ()
+  "Kills entire current line."
+  (interactive)
+  (beginning-of-line)
+  (let ((kill-whole-line t))
+    (kill-line)))
+(global-set-key (kbd "C-c k") 'kill-this-line)
+
+(defun copy-rectangle (start end)
+  "Copy the region-rectangle instead of `kill-rectangle'."
+  (interactive "r")
+  (setq killed-rectangle (extract-rectangle start end))
+  (message "Copied rectangle from %d to %d" start end))
+(global-set-key (kbd "C-x r w") 'copy-rectangle)
 
 ;; shortcuts to customize this file
 (defun reload-init-file ()
@@ -81,10 +98,8 @@
 
 ;; ;; MELPA and packages
 (require 'package)
-;(add-to-list 'package-archives
-;             '("melpa-stable" . "http://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(package-initialize) ;; You might already have this line
+(package-initialize)
 
 ;; automatically load use-package to subsequently do loading automatically
 (if (not (package-installed-p 'use-package))
@@ -249,7 +264,10 @@ Emacs buffer are those starting with “*”."
   :bind (("C-S-c C-S-c" . mc/edit-lines)
          ("C-S-c a" . mc/edit-beginnings-of-lines)
          ("C-S-c e" . mc/edit-ends-of-lines)
-         ("C-S-c %" . mc/mark-all-in-region)))
+         ("C-S-c %" . mc/mark-all-in-region)
+         ("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)
+         ("C-S-c h" . mc/mark-all-like-this)))
 
 ;; auctex
 (use-package tex
