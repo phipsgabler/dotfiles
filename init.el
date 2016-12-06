@@ -199,25 +199,29 @@ Emacs buffer are those starting with “*”."
          ("C-c <left>" . uncomment-region)
          ("C-x C-s" . haskell-mode-save-buffer))
   :config
-  ; alignment rules after https://github.com/haskell/haskell-mode/wiki/Indentation#aligning-code
-  (add-hook 'align-load-hook (lambda ()
-                               (progn
-                                 (add-to-list 'align-rules-list
-                                              '(haskell-types
-                                                (regexp . "\\(\\s-+\\)\\(::\\|∷\\)\\s-+")
-                                                (modes quote (haskell-mode literate-haskell-mode))))
-                                 (add-to-list 'align-rules-list
-                                              '(haskell-assignment
-                                                (regexp . "\\(\\s-+\\)=\\s-+")
-                                                (modes quote (haskell-mode literate-haskell-mode))))
-                                 (add-to-list 'align-rules-list
-                                              '(haskell-arrows
-                                                (regexp . "\\(\\s-+\\)\\(->\\|→\\)\\s-+")
-                                                (modes quote (haskell-mode literate-haskell-mode))))
-                                 (add-to-list 'align-rules-list
-                                              '(haskell-left-arrows
-                                                (regexp . "\\(\\s-+\\)\\(<-\\|←\\)\\s-+")
-                                                (modes quote (haskell-mode literate-haskell-mode))))))))
+  (progn
+    (haskell-indent-offset 2)
+    (haskell-program-name "ghci")
+    ;; alignment rules after: https://github.com/haskell/haskell-mode/wiki/Indentation#aligning-code
+    (add-hook 'align-load-hook
+              (lambda ()
+                (progn
+                  (add-to-list 'align-rules-list
+                               '(haskell-types
+                                 (regexp . "\\(\\s-+\\)\\(::\\|∷\\)\\s-+")
+                                 (modes '(haskell-mode literate-haskell-mode))))
+                  (add-to-list 'align-rules-list
+                               '(haskell-assignment
+                                 (regexp . "\\(\\s-+\\)=\\s-+")
+                                 (modes '(haskell-mode literate-haskell-mode))))
+                  (add-to-list 'align-rules-list
+                               '(haskell-arrows
+                                 (regexp . "\\(\\s-+\\)\\(->\\|→\\)\\s-+")
+                                 (modes '(haskell-mode literate-haskell-mode))))
+                  (add-to-list 'align-rules-list
+                               '(haskell-left-arrows
+                                 (regexp . "\\(\\s-+\\)\\(<-\\|←\\)\\s-+")
+                                 (modes '(haskell-mode literate-haskell-mode)))))))))
   ;;(autoload 'ghc-init "ghc" nil t)
   ;;(add-hook 'haskell-mode-hook (lambda () (ghc-init) (flymake-mode))
 
@@ -258,7 +262,10 @@ Emacs buffer are those starting with “*”."
   ;; since ess mode behaves strangely otherwise...
   :init (progn
           (autoload 'R-mode "ess-site.el" "Major mode for editing R source." t)
-          (add-to-list 'auto-mode-alist '("\\.R\\'" . R-mode))))
+          (add-to-list 'auto-mode-alist '("\\.[rR]\\'" . R-mode))
+          (add-to-list 'auto-mode-alist '("\\.[rR]nw\\'" . Rnw-mode))))
+    ;; :config (progn
+    ;;         (setq ess-swv-processor ('knitr))))
 
 ;; scala-mode
 (use-package scala-mode

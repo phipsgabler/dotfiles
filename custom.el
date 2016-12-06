@@ -56,14 +56,11 @@
  '(custom-safe-themes
    (quote
     ("6c57adb4d3da69cfb559e103e555905c9eec48616104e217502d0a372e63dcea" default)))
- '(ess-swv-processor (quote knitr))
  '(font-latex-fontify-sectioning (quote color))
  '(font-latex-quotes nil)
- '(haskell-indent-offset 2)
- '(haskell-program-name "ghci")
  '(package-selected-packages
    (quote
-    (scala-mode js2-mode rainbow-delimiters pandoc-mode web-mode tabbar multiple-cursors markdown-mode idris-mode haskell-mode ess darkroom color-theme-modern auctex)))
+    (lisp-mode scala-mode js2-mode rainbow-delimiters pandoc-mode web-mode tabbar multiple-cursors markdown-mode idris-mode haskell-mode ess darkroom color-theme-modern auctex)))
  '(python-python-command "python3")
  '(python-shell-interpreter "ipython3")
  '(safe-local-variable-values
