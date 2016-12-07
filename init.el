@@ -16,7 +16,7 @@
               tab-width 2)
 
 ;; autofill mode
-(setq fill-column 100)
+(setq-default fill-column 100)
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 
@@ -75,7 +75,7 @@
   (let ((kill-whole-line t))
     (kill-line))
   (message "Line killed!"))
-(global-set-key (kbd "C-c k") 'kill-current-line)
+(global-set-key (kbd "C-S-k") 'kill-current-line)
 
 (defun copy-rectangle (start end)
   "Copy the region-rectangle instead of `kill-rectangle'."
@@ -193,11 +193,11 @@ Emacs buffer are those starting with “*”."
 
 (use-package haskell-mode
   :mode "\\.hs\\'"
-  :bind (("M-q" . align)
-         :map haskell-mode-map
-         ("C-c <right>" . comment-region)
-         ("C-c <left>" . uncomment-region)
-         ("C-x C-s" . haskell-mode-save-buffer))
+  :bind (:map haskell-mode-map
+              ("M-q" . align)
+              ("C-c <right>" . comment-region)
+              ("C-c <left>" . uncomment-region)
+              ("C-x C-s" . haskell-mode-save-buffer))
   :config
   (progn
     (haskell-indent-offset 2)
@@ -291,7 +291,7 @@ Emacs buffer are those starting with “*”."
                        '("\\.sg\\'" . (lambda ()
                                         (latex-mode)
                                         (electric-indent-mode f))))
-          (add-hook 'tex-mode-hook 'turn-on-auto-fill)))
+          (add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)))
 
 ;; JavaScript
 (use-package js-mode
