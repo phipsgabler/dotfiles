@@ -120,7 +120,9 @@
 
 ;; add rainbow delimiters to all programming modes
 (use-package rainbow-delimiters
-  :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+  :init (progn
+          (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+          (add-hook 'tex-mode-hook 'rainbow-delimiters-mode)))
 
 (use-package paren
   :init (show-paren-mode t)
