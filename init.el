@@ -125,10 +125,6 @@
 (bind-key "C-x C-r" 'revert-buffer)
 (bind-key "M-SPC" 'cycle-spacing)
 
-;; lisp mode
-(add-hook 'lisp-mode-hook
-          (lambda ()
-            (local-set-key (kbd "RET") 'newline-and-indent)))
 
 ;; ;; MINOR MODES
 
@@ -205,7 +201,7 @@ Emacs buffer are those starting with “*”."
   :init (progn
           (use-package pandoc-mode)
           (add-hook 'markdown-mode-hook 'pandoc-mode)
-          (disable-auto-fill 'markdown-mode-hook))
+          (remove-auto-fill 'markdown-mode-hook)))
 
 
 ;; haskell mode
@@ -314,7 +310,53 @@ Emacs buffer are those starting with “*”."
                                         (LaTe-Xmode)
                                         (electric-indent-mode f)
                                         (turn-off-auto-fill))))
-          (add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)))
+          (add-hook 'LaTeX-mode-hook 'turn-on-auto-fill))
+  :config (progn
+            (setq TeX-PDF-mode t)
+            (setq TeX-auto-save t)
+            (setq TeX-command-default "LaTeX")
+            (setq TeX-view-program-list '(("TeXworks" "texworks %o")
+                                          ("Evince" "evince %o")))
+            (setq TeX-view-program-selection '((output-pdf "TeXworks")
+                                               (output-dvi "Evince")))
+            (setq TeX-command-list
+                  '(("TeX" "%(PDF)%(tex) -shell-escape %`%S%(PDFout)%(mode)%' %t"
+                     TeX-run-TeX nil (plain-tex-mode)
+                     :help "Run plain TeX")
+                    ("LaTeX" "%(PDF)%(latex) -shell-escape %t"
+                     TeX-run-TeX nil (latex-mode)
+                     :help "Run LaTeX")
+                    ("XeLaTeX" "xelatex -shell-escape %t"
+                     TeX-run-TeX nil (latex-mode)
+                     :help "Run XeLaTeX")
+                    ("Biber" "biber %s.bib" TeX-run-Biber nil t :help "Run Biber")
+                    ("BibTeX" "bibtex %s" TeX-run-BibTeX nil t :help "Run BibTeX")
+                    ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
+                    ("Dvips" "%(o?)dvips %d -o %f " TeX-run-command t t :help "Generate PostScript file")
+                    ("Ps2pdf" "ps2pdf %f" TeX-run-ps2pdf nil t :help "Convert PostScript file to PDF")
+                    ("latexmk" "latexmk -pdf %s"
+                     TeX-run-TeX nil t
+                     :help "Run latexmk on file")
+                    ("ConTeXt" "texexec --once --texutil %(execopts)%t" TeX-run-TeX nil
+                     (context-mode)
+                     :help "Run ConTeXt once")
+                    ("ConTeXt Full" "texexec %(execopts)%t" TeX-run-TeX nil
+                     (context-mode)
+                     :help "Run ConTeXt until completion")
+                    ("Index" "makeindex %s" TeX-run-command nil t :help "Create index file")
+                    ("Check" "lacheck %s" TeX-run-compile nil
+                     (latex-mode)
+                     :help "Check LaTeX file for correctness")
+                    ("Spell" "(TeX-ispell-document \"\")"
+                     TeX-run-function nil t
+                     :help "Spell-check the document")
+                    ("Clean" "TeX-clean"
+                     TeX-run-function nil t
+                     :help "Delete generated intermediate files")
+                    ("Clean All" "(TeX-clean t)"
+                     TeX-run-function nil t
+                     :help "Delete generated intermediate and output files")
+                    ("Other" "" TeX-run-command t t :help "Run an arbitrary command")))))
 
 ;; JavaScript
 (use-package js-mode
@@ -322,3 +364,12 @@ Emacs buffer are those starting with “*”."
   :config (progn
             (setq js-indent-level 2)
             (setq js-switch-indent-offset 2)))
+
+(use-package python
+  :mode ("\\.py\\'" . python-mode)
+  :bind (:map python-mode-map
+              ("C-c l" . python-indent-shift-left)
+              ("C-c r" . python-indent-shift-right))
+  :config (progn
+            (setq python-python-command "python")
+            (setq python-shell-interpreter "ipython")))
