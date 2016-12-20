@@ -52,7 +52,7 @@
    (set-mark (line-beginning-position))
    (message "Selected line!"))
 
-(defun copy-line (&optional arg)
+(defun copy-current-line (&optional arg)
    "Copy lines (as many as prefix argument) in the kill ring"
    (interactive "p")
    (kill-ring-save (line-beginning-position)
@@ -85,11 +85,6 @@
   (interactive)
   (find-file "~/.emacs.d/init.el"))
 
-(defun remove-auto-fill (hook)
-  "Be sure to disable auto fill for a given hook"
-  (add-hook hook 'turn-off-auto-fill)
-  (remove-hook hook 'turn-on-auto-fill))
-
 (defun kill-to-bol ()
   "Kill from point to beginning of line."
   (interactive)
@@ -115,7 +110,7 @@
 
 ;; costom stuff defined above
 (bind-key "C-@" 'select-current-line)
-(bind-key "C-M-w" 'copy-line)
+(bind-key "C-M-w" 'copy-current-line)
 (bind-key "C-S-k" 'kill-current-line)
 (bind-key "C-x r w" 'copy-rectangle)
 (bind-key "C-<backspace>" 'kill-to-bol)
@@ -137,8 +132,7 @@
 (use-package rainbow-delimiters
   :init (progn
           (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-          (add-hook 'TeX-mode-hook 'rainbow-delimiters-mode)
-          (add-hook 'LaTeX-mode-hook 'rainbow-delimiters-mode)))
+          (add-hook 'TeX-mode-hook 'rainbow-delimiters-mode)))
 
 (use-package paren
   :init (show-paren-mode t)
@@ -194,6 +188,7 @@ Emacs buffer are those starting with “*”."
 ;; MAJOR MODES
 
 ;; markdown/pandoc
+
 (use-package markdown-mode
   :mode "\\.text\\'"
   :mode "\\.md\\'"
@@ -201,7 +196,7 @@ Emacs buffer are those starting with “*”."
   :init (progn
           (use-package pandoc-mode)
           (add-hook 'markdown-mode-hook 'pandoc-mode)
-          (remove-auto-fill 'markdown-mode-hook)))
+          (remove-hook 'markdown-mode-hook 'turn-on-auto-fill)))
 
 
 ;; haskell mode
