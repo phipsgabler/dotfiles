@@ -23,9 +23,6 @@
 ;; reactivate downcasing
 (put 'downcase-region 'disabled nil)
 
-;; various key bindings
-(global-set-key (kbd "C-x a r") 'align-regexp)
-(global-set-key (kbd "C-x C-r") 'revert-buffer)
 
 ;; always ask the same way
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -45,10 +42,6 @@
             (define-key dired-mode-map (kbd "^")
               (lambda () (interactive) (find-alternate-file "..")))))
 
-;; lisp mode
-(add-hook 'lisp-mode-hook
-          (lambda ()
-            (local-set-key (kbd "RET") 'newline-and-indent)))
 
 
 ;; ;; FUNCTIONS
@@ -58,7 +51,6 @@
    (end-of-line)
    (set-mark (line-beginning-position))
    (message "Selected line!"))
-(global-set-key (kbd "C-@") 'select-current-line)
 
 (defun copy-line (&optional arg)
    "Copy lines (as many as prefix argument) in the kill ring"
@@ -66,7 +58,6 @@
    (kill-ring-save (line-beginning-position)
                    (line-beginning-position (+ 1 arg)))
    (message "%d line%s copied" arg (if (= 1 arg) "" "s")))
-(global-set-key (kbd "C-M-w") 'copy-line)
 
 (defun kill-current-line ()
   "Kills entire current line."
@@ -75,14 +66,12 @@
   (let ((kill-whole-line t))
     (kill-line))
   (message "Line killed!"))
-(global-set-key (kbd "C-S-k") 'kill-current-line)
 
 (defun copy-rectangle (start end)
   "Copy the region-rectangle instead of `kill-rectangle'."
   (interactive "r")
   (setq killed-rectangle (extract-rectangle start end))
   (message "Copied rectangle from %d to %d" start end))
-(global-set-key (kbd "C-x r w") 'copy-rectangle)
 
 ;; shortcuts to customize this file
 (defun reload-init-file ()
@@ -95,6 +84,16 @@
   "Opens .init file in a new buffer"
   (interactive)
   (find-file "~/.emacs.d/init.el"))
+
+(defun remove-auto-fill (hook)
+  "Be sure to disable auto fill for a given hook"
+  (add-hook hook 'turn-off-auto-fill)
+  (remove-hook hook 'turn-on-auto-fill))
+
+(defun kill-to-bol ()
+  "Kill from point to beginning of line."
+  (interactive)
+  (kill-line 0))
 
 
 ;; ;; MELPA and packages
@@ -109,7 +108,27 @@
       (package-install 'use-package)))
 (require 'use-package)
 (setq-default use-package-always-ensure t)
+(require 'bind-key)
 
+
+;; ;; KEY BINDINGS
+
+;; costom stuff defined above
+(bind-key "C-@" 'select-current-line)
+(bind-key "C-M-w" 'copy-line)
+(bind-key "C-S-k" 'kill-current-line)
+(bind-key "C-x r w" 'copy-rectangle)
+(bind-key "C-<backspace>" 'kill-to-bol)
+
+;; various missing stuff
+(bind-key "C-x a r" 'align-regexp)
+(bind-key "C-x C-r" 'revert-buffer)
+(bind-key "M-SPC" 'cycle-spacing)
+
+;; lisp mode
+(add-hook 'lisp-mode-hook
+          (lambda ()
+            (local-set-key (kbd "RET") 'newline-and-indent)))
 
 ;; ;; MINOR MODES
 
@@ -122,7 +141,8 @@
 (use-package rainbow-delimiters
   :init (progn
           (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-          (add-hook 'tex-mode-hook 'rainbow-delimiters-mode)))
+          (add-hook 'TeX-mode-hook 'rainbow-delimiters-mode)
+          (add-hook 'LaTeX-mode-hook 'rainbow-delimiters-mode)))
 
 (use-package paren
   :init (show-paren-mode t)
@@ -181,11 +201,11 @@ Emacs buffer are those starting with “*”."
 (use-package markdown-mode
   :mode "\\.text\\'"
   :mode "\\.md\\'"
+  :mode "\\.Rmd\\'"
   :init (progn
           (use-package pandoc-mode)
           (add-hook 'markdown-mode-hook 'pandoc-mode)
-          (add-hook 'markdown-mode-hook 'turn-off-auto-fill)
-          (remove-hook 'markdown-mode-hook 'turn-on-auto-fill)))
+          (disable-auto-fill 'markdown-mode-hook))
 
 
 ;; haskell mode
@@ -291,8 +311,9 @@ Emacs buffer are those starting with “*”."
           ;; this is just for editing song files
           (add-to-list 'auto-mode-alist 
                        '("\\.sg\\'" . (lambda ()
-                                        (latex-mode)
-                                        (electric-indent-mode f))))
+                                        (LaTe-Xmode)
+                                        (electric-indent-mode f)
+                                        (turn-off-auto-fill))))
           (add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)))
 
 ;; JavaScript
