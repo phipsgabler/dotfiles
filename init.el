@@ -34,15 +34,6 @@
     kept-old-versions 1)
 
 
-;; ;; BUILTIN MODES
-;; dired
-(put 'dired-find-alternate-file 'disabled nil)
-(add-hook 'dired-mode-hook
-          (lambda ()
-            (define-key dired-mode-map (kbd "^")
-              (lambda () (interactive) (find-alternate-file "..")))))
-
-
 
 ;; ;; FUNCTIONS
 (defun select-current-line ()
@@ -127,7 +118,16 @@
 (bind-key "M-SPC" 'cycle-spacing)
 
 
-;; ;; MINOR MODES
+;; ;; BUILTIN MODES
+(use-package dired
+  :ensure f
+  :init (progn
+          (put 'dired-find-alternate-file 'disabled nil))
+  :config (progn
+            (bind-key "^" '(lambda () (interactive) (find-alternate-file "..")) dired-mode-map)))
+
+
+;; ;; GLOBALLY USED MINOR MODES
 
 (use-package saveplace
   :init (progn
@@ -194,7 +194,6 @@ Emacs buffer are those starting with “*”."
 ;; MAJOR MODES
 
 ;; markdown/pandoc
-
 (use-package markdown-mode
   :mode "\\.text\\'"
   :mode "\\.md\\'"
