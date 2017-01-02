@@ -275,16 +275,11 @@ Emacs buffer are those starting with “*”."
 (use-package octave
   :mode ("\\.m\\'" . octave-mode))
 
-;; ess-mode
+;; ESS-mode for R and julia
 (use-package ess
-  :defer t
-  ;; since ess mode behaves strangely otherwise...
-  :init (progn
-          (autoload 'R-mode "ess-site.el" "Major mode for editing R source." t)
-          (add-to-list 'auto-mode-alist '("\\.[rR]\\'" . R-mode))
-          (add-to-list 'auto-mode-alist '("\\.[rR]nw\\'" . Rnw-mode))))
-    ;; :config (progn
-    ;;         (setq ess-swv-processor ('knitr))))
+  :init (require 'ess-site)
+  :config (progn
+            (setq ess-swv-processor 'knitr)))
 
 ;; scala-mode
 (use-package scala-mode
