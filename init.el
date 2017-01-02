@@ -190,6 +190,16 @@ Emacs buffer are those starting with “*”."
          ("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)))
 
+;; ido and stuff
+(use-package ido
+  :init (ido-mode t))
+
+(use-package smex
+  :init (progn
+          (setq smex-save-file "~/.emacs.cache/.smex-items")
+          (smex-initialize))
+  :bind ("M-x" . smex))
+
 
 ;; MAJOR MODES
 
