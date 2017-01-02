@@ -219,7 +219,7 @@ Emacs buffer are those starting with “*”."
               ("C-x C-s" . haskell-mode-save-buffer))
   :config
   (progn
-    (haskell-indent-offset 2)
+    ;; (haskell-indent-offset 2)
     (haskell-program-name "ghci")
     ;; alignment rules after: https://github.com/haskell/haskell-mode/wiki/Indentation#aligning-code
     (add-hook 'align-load-hook
