@@ -105,6 +105,12 @@
 (setq-default use-package-always-ensure t)
 (require 'bind-key)
 
+;; automatic updating every 7 days
+(use-package auto-package-update
+  :init (progn
+          (setq auto-package-update-interval 7)
+          (auto-package-update-maybe)))
+
 
 ;; ;; KEY BINDINGS
 
