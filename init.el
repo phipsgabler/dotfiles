@@ -192,7 +192,10 @@ Emacs buffer are those starting with “*”."
 
 ;; ido and stuff
 (use-package ido
-  :init (ido-mode t))
+  :init (progn
+          (ido-mode t)
+          (setq ido-enable-flex-matching t)
+          (setq ido-everywhere t)))
 
 (use-package smex
   :init (progn
