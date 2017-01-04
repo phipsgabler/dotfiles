@@ -5,6 +5,7 @@
 
 ;; ;; GENERAL
 ;; TODO: look at this: https://github.com/stevenbagley/emacs-init/blob/master/emacs-init.el
+;; https://github.com/jwiegley/dot-emacs/blob/master/init.el
 
 (setq-default inhibit-startup-screen t)
 (global-linum-mode t)
@@ -14,6 +15,11 @@
 (delete-selection-mode t) ; delete selected text when typing
 (setq-default indent-tabs-mode nil
               tab-width 2)
+
+;; font stuff
+;; source code pro, inconsolata, dejavu sans mono, droid sans mono
+(when (member "Inconsolata" (font-family-list))
+  (set-frame-font "Inconsolata-12"))
 
 ;; autofill mode
 (setq-default fill-column 100)
