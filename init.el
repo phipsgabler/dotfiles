@@ -201,6 +201,24 @@ Emacs buffer are those starting with “*”."
           (setq ido-enable-flex-matching t)
           (setq ido-everywhere t)))
 
+(use-package recentf
+  :init (progn
+          (recentf-mode 1)
+          (setq recentf-max-menu-items 25)))
+
+(defun recentf-ido-find-file ()
+  ;; http://www.xsteve.at/prg/emacs/power-user-tips.html
+  "Find a recent file using Ido."
+  (interactive)
+  (let ((home (expand-file-name (getenv "HOME"))))
+    (find-file
+     (ido-completing-read "Open recent file: "
+                          (mapcar (lambda (path)
+                                    (replace-regexp-in-string home "~" path))
+                                  recentf-list)
+                          nil t))))
+(bind-key "C-x C-F" 'recentf-ido-find-file)
+
 (use-package smex
   :init (progn
           (setq smex-save-file "~/.emacs.cache/.smex-items")
