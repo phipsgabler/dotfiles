@@ -117,6 +117,10 @@
 (bind-key "C-x C-r" 'revert-buffer)
 (bind-key "M-SPC" 'cycle-spacing)
 
+;; redefinitions
+(bind-key "M-;" 'comment-line)
+(bind-key "C-x M-;" 'comment-dwim)
+
 
 ;; ;; BUILTIN MODES
 (use-package dired
@@ -289,7 +293,10 @@ Emacs buffer are those starting with “*”."
 
 ;; ESS-mode for R and julia
 (use-package ess
-  :init (require 'ess-site)
+  :init (progn
+          (require 'ess-site)
+          (add-hook 'julia-mode-hook
+                    (lambda () (set-input-method "TeX"))))
   :config (progn
             (setq ess-swv-processor 'knitr)))
 
