@@ -144,7 +144,7 @@
           (setq-default save-place t)
           (setq save-place-file "~/.emacs.cache/saved-places")))
 
-;; add rainbow delimiters to all programming modes
+;; useful visualization stuff
 (use-package rainbow-delimiters
   :init (progn
           (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
@@ -156,6 +156,11 @@
             (set-face-background 'show-paren-match (face-background 'default))
             (set-face-foreground 'show-paren-match "#def")
             (set-face-attribute 'show-paren-match nil :weight 'extra-bold)))
+
+(use-package fill-column-indicator
+  :init (progn
+          (add-hook 'prog-mode-hook 'fci-mode)
+          (add-hook 'TeX-mode-hook 'fci-mode)))
 
 ;; automatically set color theme depending on display/console
 (use-package color-theme-modern
