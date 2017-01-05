@@ -228,7 +228,7 @@ Emacs buffer are those starting with “*”."
                                     (replace-regexp-in-string home "~" path))
                                   recentf-list)
                           nil t))))
-(bind-key "C-x C-F" 'recentf-ido-find-file)
+(bind-key "C-x C-S-f" 'recentf-ido-find-file)
 
 (use-package smex
   :init (progn
