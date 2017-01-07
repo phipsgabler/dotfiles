@@ -17,7 +17,7 @@
               tab-width 2)
 
 ;; font stuff
-;; source code pro, inconsolata, dejavu sans mono, droid sans mono
+;; source code pro, inconsolata, dejavu sans mono, droid sans mono, hack
 (when (member "Inconsolata" (font-family-list))
   (set-frame-font "Inconsolata-12"))
 
