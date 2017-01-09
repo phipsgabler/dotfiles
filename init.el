@@ -33,11 +33,16 @@
 ;; always ask the same way
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; define location of backups and save-places
+;; define location of backups and auto-saves
 (setq 
-    backup-directory-alist `(("." . "~/.emacs.cache/emacssaves"))
-    kept-new-versions 1
-    kept-old-versions 1)
+ backup-directory-alist '(("." . "~/.emacs.cache/emacssaves"))
+ delete-old-versions t
+ kept-new-versions 2
+ kept-old-versions 2
+ version-control t)
+
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
 
 
 
@@ -265,7 +270,7 @@ Emacs buffer are those starting with “*”."
   :config
   (progn
     ;; (haskell-indent-offset 2)
-    (haskell-program-name "ghci")
+    ;; (haskell-program-name "ghci")
     ;; alignment rules after: https://github.com/haskell/haskell-mode/wiki/Indentation#aligning-code
     (add-hook 'align-load-hook
               (lambda ()
