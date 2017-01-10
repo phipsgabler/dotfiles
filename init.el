@@ -345,9 +345,10 @@ Emacs buffer are those starting with “*”."
   :mode "\\.css\\'"
   :mode "\\.php\\'")
 
-;; darkroom-mode
-(use-package darkroom
-  :disabled t)
+;; distraction free writing
+(use-package writeroom-mode
+  ;;:init (add-hook 'writeroom-mode-hook (lambda () (linum-mode -1)))
+  )
 
 ;; auctex
 (use-package tex
