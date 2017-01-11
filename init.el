@@ -19,7 +19,7 @@
 ;; font stuff
 ;; source code pro, inconsolata, dejavu sans mono, droid sans mono, hack
 (when (member "Inconsolata" (font-family-list))
-  (set-frame-font "Inconsolata-12"))
+  (add-to-list 'default-frame-alist '(font . "Inconsolata-12")))
 
 ;; autofill mode
 (setq-default fill-column 100)
