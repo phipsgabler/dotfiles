@@ -4,8 +4,10 @@
 
 
 ;; ;; GENERAL
-;; TODO: look at this: https://github.com/stevenbagley/emacs-init/blob/master/emacs-init.el
-;; https://github.com/jwiegley/dot-emacs/blob/master/init.el
+;; TODO:
+;; - look at this: https://github.com/stevenbagley/emacs-init/blob/master/emacs-init.el
+;; - https://github.com/jwiegley/dot-emacs/blob/master/init.el
+;; - https://github.com/tpapp/unicode-math-input, or like this, for julia
 
 (setq-default inhibit-startup-screen t)
 (global-linum-mode t)
