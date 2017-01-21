@@ -8,6 +8,8 @@
 ;; - look at this: https://github.com/stevenbagley/emacs-init/blob/master/emacs-init.el
 ;; - https://github.com/jwiegley/dot-emacs/blob/master/init.el
 ;; - https://github.com/tpapp/unicode-math-input, or like this, for julia
+;; - https://github.com/bbatsov/prelude
+;; - https://dotfiles.github.io/
 
 (setq-default inhibit-startup-screen t)
 (global-linum-mode t)
@@ -95,6 +97,32 @@
   (kill-line 0))
 
 
+(defun smarter-move-beginning-of-line (arg)
+  ;; from: http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginning-of-a-line/
+  "Move point back to indentation of beginning of line.
+
+Move point to the first non-whitespace character on this line.
+If point is already there, move to the beginning of the line.
+Effectively toggle between the first non-whitespace character and
+the beginning of the line.
+
+If ARG is not nil or 1, move forward ARG - 1 lines first.  If
+point reaches the beginning or end of the buffer, stop there."
+  (interactive "^p")
+  (setq arg (or arg 1))
+
+  ;; Move lines first
+  (when (/= arg 1)
+    (let ((line-move-visual nil))
+      (forward-line (1- arg))))
+
+  (let ((orig-point (point)))
+    (back-to-indentation)
+    (when (= orig-point (point))
+      (move-beginning-of-line 1))))
+
+
+
 ;; ;; MELPA and packages
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -118,12 +146,13 @@
 
 ;; ;; KEY BINDINGS
 
-;; costom stuff defined above
+;; custom stuff defined above
 (bind-key "C-@" 'select-current-line)
 (bind-key "C-M-w" 'copy-current-line)
 (bind-key "C-S-k" 'kill-current-line)
 (bind-key "C-x r w" 'copy-rectangle)
 (bind-key "C-<backspace>" 'kill-to-bol)
+(bind-key "C-a" 'smarter-move-beginning-of-line)
 
 ;; various missing stuff
 (bind-key "C-x a r" 'align-regexp)
@@ -254,7 +283,8 @@ Emacs buffer are those starting with “*”."
   :init (progn
           (use-package pandoc-mode)
           (add-hook 'markdown-mode-hook 'pandoc-mode)
-          (remove-hook 'markdown-mode-hook 'turn-on-auto-fill)))
+          (remove-hook 'markdown-mode-hook 'turn-on-auto-fill)
+          (add-hook 'markdown-mode-hook 'turn-off-auto-fill)))
 
 
 ;; haskell mode
