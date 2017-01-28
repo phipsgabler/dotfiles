@@ -411,7 +411,7 @@ Emacs buffer are those starting with “*”."
                     ("XeLaTeX" "xelatex -shell-escape %t"
                      TeX-run-TeX nil (latex-mode)
                      :help "Run XeLaTeX")
-                    ("Biber" "biber %s.bib" TeX-run-Biber nil t :help "Run Biber")
+                    ("Biber" "biber %s" TeX-run-Biber nil t :help "Run Biber")
                     ("BibTeX" "bibtex %s" TeX-run-BibTeX nil t :help "Run BibTeX")
                     ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
                     ("Dvips" "%(o?)dvips %d -o %f " TeX-run-command t t :help "Generate PostScript file")
