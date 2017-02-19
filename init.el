@@ -12,6 +12,7 @@
 ;;   - https://github.com/bbatsov/prelude
 ;;   - https://dotfiles.github.io/
 ;;   - https://github.com/fommil/dotfiles/blob/master/.emacs.d/init.el
+;; - https://github.com/alexeyr/company-auctex/ 
 ;; - alternative fonts: source code pro, inconsolata, dejavu sans mono, droid sans mono, hack
 
 
@@ -38,12 +39,11 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; define location of backups and auto-saves
-(setq 
- backup-directory-alist '(("." . "~/.emacs.cache/emacssaves"))
- delete-old-versions t
- kept-new-versions 2
- kept-old-versions 2
- version-control t)
+(setq backup-directory-alist '(("." . "~/.emacs.cache/emacssaves"))
+      delete-old-versions t
+      kept-new-versions 2
+      kept-old-versions 2
+      version-control t)
 
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
@@ -245,8 +245,9 @@ Emacs buffer are those starting with “*”."
 (use-package ido
   :init (progn
           (ido-mode t)
-          (setq ido-enable-flex-matching t)
-          (setq ido-everywhere t)))
+          (setq ido-enable-flex-matching t
+	        ido-everywhere t)
+  :bind ("C-x C-b" . ibuffer))
 
 (use-package recentf
   :init (progn
@@ -275,7 +276,10 @@ Emacs buffer are those starting with “*”."
 ;; visual completion
 (use-package company
   :commands company-mode
-  :init (global-company-mode t))
+  :init (progn
+          (global-company-mode t)
+          (setq company-idle-delay 0)))
+
 
 ;; MAJOR MODES
 
