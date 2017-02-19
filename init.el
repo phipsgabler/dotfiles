@@ -5,23 +5,25 @@
 
 ;; ;; GENERAL
 ;; TODO:
-;; - look at this: https://github.com/stevenbagley/emacs-init/blob/master/emacs-init.el
-;; - https://github.com/jwiegley/dot-emacs/blob/master/init.el
-;; - https://github.com/tpapp/unicode-math-input, or like this, for julia
-;; - https://github.com/bbatsov/prelude
-;; - https://dotfiles.github.io/
+;; - look at the following:
+;;   - https://github.com/stevenbagley/emacs-init/blob/master/emacs-init.el
+;;   - https://github.com/jwiegley/dot-emacs/blob/master/init.el
+;;   - https://github.com/tpapp/unicode-math-input, or like this, for julia
+;;   - https://github.com/bbatsov/prelude
+;;   - https://dotfiles.github.io/
+;;   - https://github.com/fommil/dotfiles/blob/master/.emacs.d/init.el
+;; - alternative fonts: source code pro, inconsolata, dejavu sans mono, droid sans mono, hack
 
-(setq-default inhibit-startup-screen t)
+
+(setq inhibit-startup-screen t
+      column-number-mode t
+      indent-tabs-mode nil
+      tab-width 2)
 (global-linum-mode t)
-(setq-default column-number-mode t)
 (global-hl-line-mode t) ; turn on highlighting current line
-;; (global-visual-line-mode t) ; break lines at word boundaries
 (delete-selection-mode t) ; delete selected text when typing
-(setq-default indent-tabs-mode nil
-              tab-width 2)
 
 ;; font stuff
-;; source code pro, inconsolata, dejavu sans mono, droid sans mono, hack
 (when (member "Inconsolata" (font-family-list))
   (add-to-list 'default-frame-alist '(font . "Inconsolata-12")))
 
@@ -29,10 +31,8 @@
 (setq-default fill-column 100)
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
-
 ;; reactivate downcasing
 (put 'downcase-region 'disabled nil)
-
 
 ;; always ask the same way
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -272,6 +272,10 @@ Emacs buffer are those starting with “*”."
           (smex-initialize))
   :bind ("M-x" . smex))
 
+;; visual completion
+(use-package company
+  :commands company-mode
+  :init (global-company-mode t))
 
 ;; MAJOR MODES
 
@@ -367,8 +371,29 @@ Emacs buffer are those starting with “*”."
             (setq ess-swv-processor 'knitr)))
 
 ;; scala-mode
-(use-package scala-mode
-  :mode ("\\.scala\\'" . scala-mode))
+(use-package ensime
+  :config (progn
+	    (setq ensime-startup-notification nil
+		  ensime-startup-snapshot-notification nil)))
+(add-hook 'ensime-mode-hook
+          (lambda ()
+            (let ((backends (company-backends-for-buffer)))
+	      (setq company-backends (push '(ensime-company company-yasnippet) backends)))))
+
+;; (use-package scala-mode
+;;   :interpreter ("scala" . scala-mode)
+;;   :mode ("\\.scala\\'" . scala-mode))
+
+;; (use-package sbt-mode
+;;   :commands sbt-start sbt-command
+;;   :config
+;;   ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+;;   ;; allows using SPACE when in the minibuffer
+;;   (substitute-key-definition
+;;    'minibuffer-complete-word
+;;    'self-insert-command
+;;    minibuffer-local-completion-map))
+
 
 ;; web-mode
 (use-package web-mode
