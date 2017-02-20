@@ -247,7 +247,7 @@ Emacs buffer are those starting with “*”."
           (ido-mode t)
           (setq ido-enable-flex-matching t
 	        ido-everywhere t)
-  :bind ("C-x C-b" . ibuffer))
+  :bind ("C-x C-b" . ibuffer)))
 
 (use-package recentf
   :init (progn
