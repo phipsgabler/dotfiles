@@ -246,8 +246,8 @@ Emacs buffer are those starting with “*”."
   :init (progn
           (ido-mode t)
           (setq ido-enable-flex-matching t
-	        ido-everywhere t)
-  :bind ("C-x C-b" . ibuffer)))
+	        ido-everywhere t))
+  :bind ("C-x C-b" . ibuffer))
 
 (use-package recentf
   :init (progn
@@ -278,7 +278,12 @@ Emacs buffer are those starting with “*”."
   :commands company-mode
   :init (progn
           (global-company-mode t)
-          (setq company-idle-delay 0)))
+          (setq company-idle-delay 0)
+          (if (display-graphic-p)
+              (progn
+                (set-face-attribute 'company-tooltip nil :background "#cccccc" :foreground "black")
+                (set-face-attribute 'company-scrollbar-bg nil :background "#999999")
+                (set-face-attribute 'company-scrollbar-fg nil :background "#555555")))))
 
 
 ;; MAJOR MODES
