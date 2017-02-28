@@ -489,3 +489,6 @@ Emacs buffer are those starting with “*”."
   :config (progn
             (setq python-python-command "python")
             (setq python-shell-interpreter "ipython")))
+
+(use-package dockerfile-mode
+  :mode ("Dockerfile\\'" . dockerfile-mode))
