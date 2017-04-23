@@ -2,3 +2,7 @@ elpa/
 .mc-lists.el
 auto-save-list/
 .last-package-update-day
+abbrev_defs
+ido.last
+recentf
+texput.log
