@@ -492,3 +492,7 @@ Emacs buffer are those starting with “*”."
 
 (use-package dockerfile-mode
   :mode ("Dockerfile\\'" . dockerfile-mode))
+
+(use-package cperl-mode
+  :init (defalias 'perl-mode 'cperl-mode)
+  :mode "\\.pl\\'")
