@@ -496,3 +496,6 @@ Emacs buffer are those starting with “*”."
 (use-package cperl-mode
   :init (defalias 'perl-mode 'cperl-mode)
   :mode "\\.pl\\'")
+
+(use-package yaml-mode
+  :mode "\\.yml\\'")
