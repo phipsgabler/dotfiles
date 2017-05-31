@@ -423,7 +423,7 @@ Emacs buffer are those starting with “*”."
           ;; this is just for editing song files
           (add-to-list 'auto-mode-alist 
                        '("\\.sg\\'" . (lambda ()
-                                        (LaTe-Xmode)
+                                        (LaTeX-mode)
                                         (electric-indent-mode f)
                                         (turn-off-auto-fill))))
           (add-hook 'LaTeX-mode-hook 'turn-on-auto-fill))
