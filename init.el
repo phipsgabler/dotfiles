@@ -141,6 +141,8 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package auto-package-update
   :init (progn
           (setq auto-package-update-interval 7)
+	  (setq auto-package-update-prompt-before-update t)
+	  (setq auto-package-update-delete-old-versions t)
           (auto-package-update-maybe)))
 
 
