@@ -25,8 +25,11 @@
 (delete-selection-mode t) ; delete selected text when typing
 
 ;; font stuff
-(when (member "Inconsolata" (font-family-list))
-  (add-to-list 'default-frame-alist '(font . "Inconsolata-12")))
+(if (member "DejaVu Sans Mono" (font-family-list))
+    (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10"))
+  (when (member "Inconsolata" (font-family-list))
+    (add-to-list 'default-frame-alist '(font . "Inconsolata-12"))))
+
 
 ;; autofill mode
 (setq-default fill-column 100)
