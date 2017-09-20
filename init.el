@@ -386,14 +386,14 @@ Emacs buffer are those starting with “*”."
             (setq ess-swv-processor 'knitr)))
 
 ;; scala-mode
-(use-package ensime
-  :config (progn
-	    (setq ensime-startup-notification nil
-		  ensime-startup-snapshot-notification nil)))
-(add-hook 'ensime-mode-hook
-          (lambda ()
-            (let ((backends (company-backends-for-buffer)))
-	      (setq company-backends (push '(ensime-company company-yasnippet) backends)))))
+;; (use-package ensime
+;;   :config (progn
+;; 	    (setq ensime-startup-notification nil
+;; 		  ensime-startup-snapshot-notification nil)))
+;; (add-hook 'ensime-mode-hook
+;;           (lambda ()
+;;             (let ((backends (company-backends-for-buffer)))
+;; 	      (setq company-backends (push '(ensime-company company-yasnippet) backends)))))
 
 ;; (use-package scala-mode
 ;;   :interpreter ("scala" . scala-mode)
