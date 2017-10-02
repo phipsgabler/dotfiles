@@ -27,7 +27,7 @@
 
 ;; font stuff
 (if (member "DejaVu Sans Mono" (font-family-list))
-    (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10"))
+    (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-11"))
   (when (member "Inconsolata" (font-family-list))
     (add-to-list 'default-frame-alist '(font . "Inconsolata-12"))))
 
