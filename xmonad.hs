@@ -1,3 +1,6 @@
+--  Make sure xfdesktop is disabled from autostart, or uninstalled,
+--  since it may prevent xfce-panel from appearing once xmonad is started.
+
 import XMonad
 import XMonad.Config.Xfce
 import XMonad.Util.EZConfig (additionalKeys)
