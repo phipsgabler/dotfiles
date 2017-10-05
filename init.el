@@ -205,13 +205,10 @@ point reaches the beginning or end of the buffer, stop there."
           (add-hook 'TeX-mode-hook 'fci-mode)))
 
 ;; automatically set color theme depending on display/console
-(use-package color-theme-modern
+(use-package solarized-theme
   :init (if (display-graphic-p)
-            (progn (load-theme 'bharadwaj t t)
-                   (enable-theme 'bharadwaj))
-          (progn (load-theme 'tty-dark t t)
-                 (enable-theme 'tty-dark))))
-
+            (load-theme 'solarized-light)
+	  (load-theme 'solarized-dark)))
 
 ;; tabbar: show tabs at the top, automatically grouped
 (defun tabbar-buffer-groups ()
@@ -224,7 +221,7 @@ Emacs buffer are those starting with “*”."
   (list
    (cond
     ((string-equal "*" (substring (buffer-name) 0 1))
-     "Emacs Buffer" )
+     "Emacs Buffer")
     ((eq major-mode 'dired-mode)
      "Dired")
     (t
