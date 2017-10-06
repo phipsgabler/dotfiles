@@ -43,7 +43,7 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; define location of backups and auto-saves
-(setq backup-directory-alist '(("." . (in-emacs-d "cache/backups")))
+(setq backup-directory-alist `(("." . ,(in-emacs-d "cache/backups")))
       delete-old-versions t
       kept-new-versions 2
       kept-old-versions 2
@@ -206,10 +206,9 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; automatically set color theme depending on display/console
 (use-package solarized-theme
-  :init (if (display-graphic-p)
-            (load-theme 'solarized-light)
-	  (load-theme 'solarized-light)))
-
+  :init (when (display-graphic-p)
+          (load-theme 'solarized-light)))
+  
 ;; tabbar: show tabs at the top, automatically grouped
 (defun tabbar-buffer-groups ()
   ;; http://stackoverflow.com/a/3814313/1346276
@@ -280,12 +279,12 @@ Emacs buffer are those starting with “*”."
 
 ;; visual completion
 (use-package company
-  :commands company-mode use
+  :commands company-mode
   :init (progn
           (global-company-mode t)
           (setq company-idle-delay 0)
           (if (display-graphic-p)
-              (progn use
+              (progn
                 (set-face-attribute 'company-tooltip nil :background "#eee8d5" :foreground "#586e75")
                 (set-face-attribute 'company-scrollbar-bg nil :background "#93a1a1")
                 (set-face-attribute 'company-scrollbar-fg nil :background "#073642")))))
