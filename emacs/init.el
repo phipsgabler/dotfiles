@@ -256,7 +256,7 @@ Emacs buffer are those starting with “*”."
 (use-package recentf
   :init (progn
           (recentf-mode 1)
-          (customize-set-variable recentf-save-file (in-emacs-d "cache/recentf"))
+          ;; (customize-set-variable recentf-save-file (in-emacs-d "cache/recentf"))
           (setq recentf-max-menu-items 25)))
 
 (defun recentf-ido-find-file ()

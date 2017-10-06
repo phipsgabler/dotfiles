@@ -1,6 +1,11 @@
-elpa/
-.mc-lists.el
-auto-save-list/
-.last-package-update-day
-abbrev_defs
-cache
+emacs/elpa/
+emacs/.mc-lists.el
+emacs/auto-save-list/
+emacs/.last-package-update-day
+emacs/abbrev_defs
+emacs/cache
+emacs/recentf
+xmonad/*.errors
+xmonad/*.hi
+xmonad/*.o
+xmonad/xmonad-*
