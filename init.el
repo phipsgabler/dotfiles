@@ -1,5 +1,8 @@
+(defun in-emacs-d (filename)
+  (expand-file-name filename user-emacs-directory))
+
 ;; ;; CUSTOMIZE (in extra file)
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(setq custom-file (in-emacs-d "custom.el"))
 (load custom-file)
 
 
@@ -40,7 +43,7 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; define location of backups and auto-saves
-(setq backup-directory-alist '(("." . "~/.emacs.cache/emacssaves"))
+(setq backup-directory-alist '(("." . (in-emacs-d "cache/backups")))
       delete-old-versions t
       kept-new-versions 2
       kept-old-versions 2
@@ -181,7 +184,7 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package saveplace
   :init (progn
           (setq-default save-place t)
-          (setq save-place-file "~/.emacs.cache/saved-places")))
+          (setq save-place-file (in-emacs-d "cache/saved-places"))))
 
 ;; useful visualization stuff
 (use-package rainbow-delimiters
@@ -244,6 +247,7 @@ Emacs buffer are those starting with “*”."
 ;; ido and stuff
 (use-package ido
   :init (progn
+          (setq ido-save-directory-list-file (in-emacs-d "cache/ido.last"))
           (ido-mode t)
           (setq ido-enable-flex-matching t
 	        ido-everywhere t))
@@ -252,6 +256,7 @@ Emacs buffer are those starting with “*”."
 (use-package recentf
   :init (progn
           (recentf-mode 1)
+          (customize-set-variable recentf-save-file (in-emacs-d "cache/recentf"))
           (setq recentf-max-menu-items 25)))
 
 (defun recentf-ido-find-file ()
@@ -269,7 +274,7 @@ Emacs buffer are those starting with “*”."
 
 (use-package smex
   :init (progn
-          (setq smex-save-file "~/.emacs.cache/.smex-items")
+          (setq smex-save-file (in-emacs-d "cache/smex-items"))
           (smex-initialize))
   :bind ("M-x" . smex))
 

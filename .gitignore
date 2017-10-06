@@ -3,6 +3,4 @@ elpa/
 auto-save-list/
 .last-package-update-day
 abbrev_defs
-ido.last
-recentf
-texput.log
+cache
