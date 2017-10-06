@@ -26,11 +26,8 @@
 (delete-selection-mode t) ; delete selected text when typing
 
 ;; font stuff
-(if (member "DejaVu Sans Mono" (font-family-list))
-    (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-11"))
-  (when (member "Inconsolata" (font-family-list))
-    (add-to-list 'default-frame-alist '(font . "Inconsolata-12"))))
-
+(when (member "DejaVu Sans Mono" (font-family-list))
+    (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-11")))
 
 ;; autofill mode
 (setq-default fill-column 100)
@@ -208,7 +205,7 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package solarized-theme
   :init (if (display-graphic-p)
             (load-theme 'solarized-light)
-	  (load-theme 'solarized-dark)))
+	  (load-theme 'solarized-light)))
 
 ;; tabbar: show tabs at the top, automatically grouped
 (defun tabbar-buffer-groups ()
@@ -278,15 +275,15 @@ Emacs buffer are those starting with “*”."
 
 ;; visual completion
 (use-package company
-  :commands company-mode
+  :commands company-mode use
   :init (progn
           (global-company-mode t)
           (setq company-idle-delay 0)
           (if (display-graphic-p)
-              (progn
-                (set-face-attribute 'company-tooltip nil :background "#cccccc" :foreground "black")
-                (set-face-attribute 'company-scrollbar-bg nil :background "#999999")
-                (set-face-attribute 'company-scrollbar-fg nil :background "#555555")))))
+              (progn use
+                (set-face-attribute 'company-tooltip nil :background "#eee8d5" :foreground "#586e75")
+                (set-face-attribute 'company-scrollbar-bg nil :background "#93a1a1")
+                (set-face-attribute 'company-scrollbar-fg nil :background "#073642")))))
 
 
 ;; MAJOR MODES
