@@ -5,6 +5,7 @@ export PATH="/home/philipp/anaconda3/bin:/home/philipp/.local/bin:$PATH"
 
 # Path to your oh-my-zsh installation.
 export ZSH=/home/philipp/.oh-my-zsh
+POWERLEVEL9K_MODE='awesome-fontconfig'
 ZSH_THEME="powerlevel9k/powerlevel9k"
 
 custom_python() {
@@ -24,7 +25,6 @@ POWERLEVEL9K_CUSTOM_PYTHON_FOREGROUND="black"
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-POWERLEVEL9K_MODE='awesome-fontconfig'
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir custom_python vcs)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status history background_jobs)
