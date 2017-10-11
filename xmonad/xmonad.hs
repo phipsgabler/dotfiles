@@ -11,4 +11,4 @@ main = xmonad $ xfceConfig
   , terminal = "xfce4-terminal"}
   `additionalKeys` myKeys
 
-myKeys = [((mod4Mask, xK_p), spawn "xfce4-popup-whiskermenu")]
+myKeys = [((mod4Mask, xK_p), spawn "exe=$(dmenu_path | dmenu) && eval \"exec $exe\"")]
