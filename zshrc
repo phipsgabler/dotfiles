@@ -115,7 +115,7 @@ fpath=(~/.zsh/completions $fpath)
 autoload -U compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 
-export INFO='/home/philipp/Uni/Informatik/2016-2017/WS'
+export INFO='/home/philipp/Uni/Informatik/2017-2018/WS'
 
 eval "$(stack --bash-completion-script stack)"
 eval "$(hub alias -s)"
