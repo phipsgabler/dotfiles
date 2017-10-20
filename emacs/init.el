@@ -83,23 +83,28 @@
   (setq killed-rectangle (extract-rectangle start end))
   (message "Copied rectangle from %d to %d" start end))
 
-;; shortcuts to customize this file
-(defun reload-init-file ()
-   "Reloads the emacs config file"
-   (interactive)
-   (load-file "~/.emacs.d/init.el")
-   (message "New init file loaded!"))
-
-(defun edit-init-file ()
-  "Opens .init file in a new buffer"
+(defun rename-current-buffer-file ()
+  "Renames current buffer and file it is visiting."
   (interactive)
-  (find-file "~/.emacs.d/init.el"))
+  (let* ((name (buffer-name))
+        (filename (buffer-file-name))
+        (basename (file-name-nondirectory filename)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (let ((new-name (read-file-name "New name: " (file-name-directory filename) basename nil basename)))
+        (if (get-buffer new-name)
+            (error "A buffer named '%s' already exists!" new-name)
+          (rename-file filename new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil)
+          (message "File '%s' successfully renamed to '%s'"
+                   name (file-name-nondirectory new-name)))))))
 
 (defun kill-to-bol ()
   "Kill from point to beginning of line."
   (interactive)
   (kill-line 0))
-
 
 (defun smarter-move-beginning-of-line (arg)
   ;; from: http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginning-of-a-line/
@@ -124,6 +129,18 @@ point reaches the beginning or end of the buffer, stop there."
     (back-to-indentation)
     (when (= orig-point (point))
       (move-beginning-of-line 1))))
+
+;; shortcuts to customize this file
+(defun reload-init-file ()
+   "Reloads the emacs config file"
+   (interactive)
+   (load-file "~/.emacs.d/init.el")
+   (message "New init file loaded!"))
+
+(defun edit-init-file ()
+  "Opens .init file in a new buffer"
+  (interactive)
+  (find-file "~/.emacs.d/init.el"))
 
 
 
@@ -159,6 +176,7 @@ point reaches the beginning or end of the buffer, stop there."
 (bind-key "C-x r w" 'copy-rectangle)
 (bind-key "C-<backspace>" 'kill-to-bol)
 (bind-key "C-a" 'smarter-move-beginning-of-line)
+(bind-key "C-c r" 'rename-current-buffer-file)
 
 ;; various missing stuff
 (bind-key "C-x a r" 'align-regexp)
@@ -288,6 +306,9 @@ Emacs buffer are those starting with “*”."
                 (set-face-attribute 'company-tooltip nil :background "#eee8d5" :foreground "#586e75")
                 (set-face-attribute 'company-scrollbar-bg nil :background "#93a1a1")
                 (set-face-attribute 'company-scrollbar-fg nil :background "#073642")))))
+
+;; 'describe-unbound-keys' lets fone find unused key combos
+(use-package unbound)
 
 
 ;; MAJOR MODES

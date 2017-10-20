@@ -10,7 +10,7 @@
  '(font-latex-quotes nil)
  '(package-selected-packages
    (quote
-    (solarized-theme yaml-mode dockerfile-mode company company-mode writeroom-mode fill-column-indicator smex lisp-mode scala-mode js2-mode rainbow-delimiters pandoc-mode web-mode tabbar multiple-cursors markdown-mode idris-mode haskell-mode ess darkroom auctex)))
+    (unbound solarized-theme yaml-mode dockerfile-mode company company-mode writeroom-mode fill-column-indicator smex lisp-mode scala-mode js2-mode rainbow-delimiters pandoc-mode web-mode tabbar multiple-cursors markdown-mode idris-mode haskell-mode ess darkroom auctex)))
  '(safe-local-variable-values
    (quote
     ((TeX-master . "../document")
