@@ -68,6 +68,9 @@ there into `~/.config/xfce4/terminal/terminalrc`.
 
 Guake has several variants of the Solarized scheme built in, as has Gnome Terminal.
 
-## OhMyRepl.jl
+## Julia Packages
 
-For Julia; simply call `Pkg.add("OhMyRepl")` in the Julia shell.
+For the `.juliarc.jl`.  Depending on what you want to use, call
+- [`Pkg.add("OhMyREPL")`](https://github.com/KristofferC/OhMyREPL.jl) (for improved REPL features)
+- [`Pkg.add("Revise")`](https://github.com/timholy/Revise.jl) (for automatic module reloading)
+in the Julia shell.
