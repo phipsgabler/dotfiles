@@ -16,6 +16,8 @@
 ;;   - https://dotfiles.github.io/
 ;;   - https://github.com/fommil/dotfiles/blob/master/.emacs.d/init.el
 ;; - https://github.com/alexeyr/company-auctex/
+;; - customize [whitespace mode](https://www.emacswiki.org/emacs/WhiteSpace), use
+;;   global-whitespace-newline-mode
 ;; - emacs as daemon: https://www.emacswiki.org/emacs/EmacsAsDaemon
 ;; - alternative fonts: source code pro, inconsolata, dejavu sans mono, droid sans mono, hack
 
