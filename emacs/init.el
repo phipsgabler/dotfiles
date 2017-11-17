@@ -227,7 +227,13 @@ point reaches the beginning or end of the buffer, stop there."
 ;; automatically set color theme depending on display/console
 (use-package solarized-theme
   :init (when (display-graphic-p)
-          (load-theme 'solarized-light)))
+	  (setq solarized-distinct-fringe-background t)
+	  ;; Don't change the font for some headings and titles
+	  (setq solarized-use-variable-pitch nil)
+	  ;; make the modeline high contrast
+	  ;; (setq solarized-high-contrast-mode-line t)
+    (setq x-underline-at-descent-line t)
+    (load-theme 'solarized-light)))
   
 ;; tabbar: show tabs at the top, automatically grouped
 (defun tabbar-buffer-groups ()
@@ -251,6 +257,9 @@ Emacs buffer are those starting with “*”."
          ([M-right] . tabbar-forward-tab))
   :init (tabbar-mode t)
   :config (setq tabbar-buffer-groups-function 'tabbar-buffer-groups))
+
+(use-package powerline
+  :config (powerline-default-theme))
 
 ;; multiple-cursors
 (use-package multiple-cursors
