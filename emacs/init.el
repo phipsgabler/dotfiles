@@ -17,8 +17,9 @@
 ;;   - https://github.com/fommil/dotfiles/blob/master/.emacs.d/init.el
 ;; - https://github.com/alexeyr/company-auctex/
 ;; - customize [whitespace mode](https://www.emacswiki.org/emacs/WhiteSpace), use
-;;   global-whitespace-newline-mode
-;; - emacs as daemon: https://www.emacswiki.org/emacs/EmacsAsDaemon
+;;   global-whitespace-newline-mode and nice glyphs
+;; - emacs as daemon: https://www.emacswiki.org/emacs/EmacsAsDaemon,
+;;   https://askubuntu.com/questions/682898/how-to-open-files-with-emacs-in-new-tabs
 ;; - alternative fonts: source code pro, inconsolata, dejavu sans mono, droid sans mono, hack
 
 
@@ -228,10 +229,6 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package solarized-theme
   :init (when (display-graphic-p)
 	  (setq solarized-distinct-fringe-background t)
-	  ;; Don't change the font for some headings and titles
-	  (setq solarized-use-variable-pitch nil)
-	  ;; make the modeline high contrast
-	  ;; (setq solarized-high-contrast-mode-line t)
     (setq x-underline-at-descent-line t)
     (load-theme 'solarized-light)))
   
