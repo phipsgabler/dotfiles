@@ -267,7 +267,8 @@ Emacs buffer are those starting with “*”."
          ("C-S-c %" . mc/mark-all-in-region)
          ("C-S-c h" . mc/mark-all-like-this)
          ("C->" . mc/mark-next-like-this)
-         ("C-<" . mc/mark-previous-like-this)))
+         ("C-<" . mc/mark-previous-like-this)
+         ("C-S-<mouse-1>" . mc/add-cursor-on-click)))
 
 ;; ido and stuff
 (use-package ido
