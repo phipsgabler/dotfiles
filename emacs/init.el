@@ -15,6 +15,7 @@
 ;;   - https://github.com/bbatsov/prelude
 ;;   - https://dotfiles.github.io/
 ;;   - https://github.com/fommil/dotfiles/blob/master/.emacs.d/init.el
+;;   - https://github.com/mattfidler/emacs.d
 ;; - https://github.com/alexeyr/company-auctex/
 ;; - customize [whitespace mode](https://www.emacswiki.org/emacs/WhiteSpace), use
 ;;   global-whitespace-newline-mode and nice glyphs
@@ -253,7 +254,14 @@ Emacs buffer are those starting with “*”."
   :bind (([M-left] . tabbar-backward-tab)
          ([M-right] . tabbar-forward-tab))
   :init (tabbar-mode t)
-  :config (setq tabbar-buffer-groups-function 'tabbar-buffer-groups))
+  ;; :config (setq tabbar-buffer-groups-function 'tabbar-buffer-groups)
+  )
+
+;; better looking tabs for tabbar, and automatic ruler
+(use-package tabbar-ruler
+  :init (progn
+          (setq tabbar-ruler-global-tabbar t)
+          (setq tabbar-ruler-global-ruler t)))
 
 (use-package powerline
   :config (powerline-default-theme))
