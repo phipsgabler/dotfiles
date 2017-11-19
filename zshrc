@@ -81,7 +81,7 @@ POWERLEVEL9K_SHORTEN_STRATEGY="truncate_middle"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git python ssh-agent)
+plugins=(git python)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -98,7 +98,7 @@ export LANG=en_US.UTF-8
 # fi
 
 # ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
+export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
