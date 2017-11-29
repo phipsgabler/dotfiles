@@ -259,9 +259,7 @@ Emacs buffer are those starting with “*”."
 
 ;; better looking tabs for tabbar, and automatic ruler
 (use-package tabbar-ruler
-  :init (progn
-          (setq tabbar-ruler-global-tabbar t)
-          (setq tabbar-ruler-global-ruler t)))
+  :init (setq tabbar-ruler-global-tabbar t))
 
 (use-package powerline
   :config (powerline-default-theme))
