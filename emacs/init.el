@@ -22,6 +22,8 @@
 ;; - emacs as daemon: https://www.emacswiki.org/emacs/EmacsAsDaemon,
 ;;   https://askubuntu.com/questions/682898/how-to-open-files-with-emacs-in-new-tabs
 ;; - alternative fonts: source code pro, inconsolata, dejavu sans mono, droid sans mono, hack
+;; - JULIA: https://tpapp.github.io/post/julia-workflow/
+;; - htmlize: https://tpapp.github.io/post/htmlize-screenshot/
 
 
 (setq inhibit-startup-screen t
