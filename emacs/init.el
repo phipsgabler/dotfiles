@@ -24,6 +24,7 @@
 ;; - alternative fonts: source code pro, inconsolata, dejavu sans mono, droid sans mono, hack
 ;; - JULIA: https://tpapp.github.io/post/julia-workflow/
 ;; - htmlize: https://tpapp.github.io/post/htmlize-screenshot/
+;; - UPDATE use-package: https://github.com/jwiegley/use-package
 
 
 (setq inhibit-startup-screen t
@@ -517,11 +518,11 @@ Emacs buffer are those starting with “*”."
                     ("Other" "" TeX-run-command t t :help "Run an arbitrary command")))))
 
 ;; JavaScript
-(use-package js-mode
-  :ensure js2-mode
-  :config (progn
-            (setq js-indent-level 2)
-            (setq js-switch-indent-offset 2)))
+;; (use-package js-mode
+;;   :ensure js2-mode
+;;   :config (progn
+;;             (setq js-indent-level 2)
+;;             (setq js-switch-indent-offset 2)))
 
 (use-package python
   :mode ("\\.py\\'" . python-mode)
