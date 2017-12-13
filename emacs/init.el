@@ -24,7 +24,6 @@
 ;; - alternative fonts: source code pro, inconsolata, dejavu sans mono, droid sans mono, hack
 ;; - JULIA: https://tpapp.github.io/post/julia-workflow/
 ;; - htmlize: https://tpapp.github.io/post/htmlize-screenshot/
-;; - UPDATE use-package: https://github.com/jwiegley/use-package
 
 
 (setq inhibit-startup-screen t
@@ -166,14 +165,13 @@ point reaches the beginning or end of the buffer, stop there."
   (require 'bind-key))
 (setq-default use-package-always-ensure t)
 
-
 ;; automatic updating every 7 days
 (use-package auto-package-update
-  :init (progn
-          (setq auto-package-update-interval 7)
-	  (setq auto-package-update-prompt-before-update t)
-	  (setq auto-package-update-delete-old-versions t)
-          (auto-package-update-maybe)))
+  :init (auto-package-update-maybe)
+  :custom 
+  (auto-package-update-interval 7)
+  (auto-package-update-prompt-before-update t)
+  (auto-package-update-delete-old-versions t))
 
 
 ;; ;; KEY BINDINGS
@@ -200,8 +198,7 @@ point reaches the beginning or end of the buffer, stop there."
 ;; ;; BUILTIN MODES
 (use-package dired
   :ensure f
-  :init (progn
-          (put 'dired-find-alternate-file 'disabled nil))
+  :init (put 'dired-find-alternate-file 'disabled nil)
   :config (progn
             (bind-key "^" '(lambda () (interactive) (find-alternate-file "..")) dired-mode-map)))
 
@@ -209,15 +206,13 @@ point reaches the beginning or end of the buffer, stop there."
 ;; ;; GLOBALLY USED MINOR MODES
 
 (use-package saveplace
-  :init (progn
-          (setq-default save-place t)
-          (setq save-place-file (in-emacs-d "cache/saved-places"))))
+  :init (save-place-mode t)
+  :custom save-place-file (in-emacs-d "cache/saved-places"))
 
 ;; useful visualization stuff
 (use-package rainbow-delimiters
-  :init (progn
-          (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-          (add-hook 'TeX-mode-hook 'rainbow-delimiters-mode)))
+  :hook ((prog-mode TeX-mode) . rainbow-delimiters-mode)
+  )
 
 (use-package paren
   :init (show-paren-mode t)
@@ -227,16 +222,15 @@ point reaches the beginning or end of the buffer, stop there."
             (set-face-attribute 'show-paren-match nil :weight 'extra-bold)))
 
 (use-package fill-column-indicator
-  :init (progn
-          (add-hook 'prog-mode-hook 'fci-mode)
-          (add-hook 'TeX-mode-hook 'fci-mode)))
+  :hook ((prog-mode TeX-mode) . fci-mode))
 
 ;; automatically set color theme depending on display/console
 (use-package solarized-theme
-  :init (when (display-graphic-p)
-	  (setq solarized-distinct-fringe-background t)
-    (setq x-underline-at-descent-line t)
-    (load-theme 'solarized-light)))
+  :when (display-graphic-p)
+  :config (load-theme 'solarized-light)
+  :custom
+  (solarized-distinct-fringe-background t)
+  (x-underline-at-descent-line t))
   
 ;; tabbar: show tabs at the top, automatically grouped
 (defun tabbar-buffer-groups ()
@@ -258,13 +252,12 @@ Emacs buffer are those starting with “*”."
 (use-package tabbar
   :bind (([M-left] . tabbar-backward-tab)
          ([M-right] . tabbar-forward-tab))
-  :init (tabbar-mode t)
-  ;; :config (setq tabbar-buffer-groups-function 'tabbar-buffer-groups)
-  )
+  :init (tabbar-mode t))
+;; :config (setq tabbar-buffer-groups-function 'tabbar-buffer-groups)
 
 ;; better looking tabs for tabbar, and automatic ruler
 (use-package tabbar-ruler
-  :init (setq tabbar-ruler-global-tabbar t))
+  :custom (tabbar-ruler-global-tabbar t))
 
 (use-package powerline
   :config (powerline-default-theme))
@@ -283,18 +276,12 @@ Emacs buffer are those starting with “*”."
 
 ;; ido and stuff
 (use-package ido
-  :init (progn
-          (setq ido-save-directory-list-file (in-emacs-d "cache/ido.last"))
-          (ido-mode t)
-          (setq ido-enable-flex-matching t
-	        ido-everywhere t))
-  :bind ("C-x C-b" . ibuffer))
-
-(use-package recentf
-  :init (progn
-          (recentf-mode 1)
-          ;; (customize-set-variable recentf-save-file (in-emacs-d "cache/recentf"))
-          (setq recentf-max-menu-items 25)))
+  :init (ido-mode t)
+  :bind ("C-x C-b" . ibuffer)
+  :custom 
+  (ido-save-directory-list-file (in-emacs-d "cache/ido.last"))
+  (ido-enable-flex-matching t)
+  (ido-everywhere t))
 
 (defun recentf-ido-find-file ()
   ;; http://www.xsteve.at/prg/emacs/power-user-tips.html
@@ -307,25 +294,27 @@ Emacs buffer are those starting with “*”."
                                     (replace-regexp-in-string home "~" path))
                                   recentf-list)
                           nil t))))
-(bind-key "C-x C-S-f" 'recentf-ido-find-file)
+
+(use-package recentf
+  :init (recentf-mode t)
+  :bind ("C-x C-S-f" . recentf-ido-find-file)
+  :custom (recentf-max-menu-items 25))
 
 (use-package smex
-  :init (progn
-          (setq smex-save-file (in-emacs-d "cache/smex-items"))
-          (smex-initialize))
-  :bind ("M-x" . smex))
+  :init (smex-initialize)
+  :bind ("M-x" . smex)
+  :custom (smex-save-file (in-emacs-d "cache/smex-items")))
 
 ;; visual completion
 (use-package company
+  :init (global-company-mode t)
   :commands company-mode
-  :init (progn
-          (global-company-mode t)
-          (setq company-idle-delay 0)
-          (if (display-graphic-p)
-              (progn
-                (set-face-attribute 'company-tooltip nil :background "#eee8d5" :foreground "#586e75")
-                (set-face-attribute 'company-scrollbar-bg nil :background "#93a1a1")
-                (set-face-attribute 'company-scrollbar-fg nil :background "#073642")))))
+  :config (if (display-graphic-p)
+            (progn
+              (set-face-attribute 'company-tooltip nil :background "#eee8d5" :foreground "#586e75")
+              (set-face-attribute 'company-scrollbar-bg nil :background "#93a1a1")
+              (set-face-attribute 'company-scrollbar-fg nil :background "#073642")))
+  :custom (company-idle-delay 0))
 
 ;; 'describe-unbound-keys' lets fone find unused key combos
 (use-package unbound)
@@ -337,12 +326,13 @@ Emacs buffer are those starting with “*”."
 (use-package markdown-mode
   :mode "\\.text\\'"
   :mode "\\.md\\'"
-  :mode "\\.Rmd\\'"
-  :init (progn
-          (use-package pandoc-mode)
-          (add-hook 'markdown-mode-hook 'pandoc-mode)
-          (remove-hook 'markdown-mode-hook 'turn-on-auto-fill)
-          (add-hook 'markdown-mode-hook 'turn-off-auto-fill)))
+  :mode "\\.Rmd\\'")
+;; :config (progn
+;;           (remove-hook 'markdown-mode-hook 'turn-on-auto-fill)
+;;           (add-hook 'markdown-mode-hook 'turn-off-auto-fill))
+
+(use-package pandoc-mode
+  :hook markdown-mode)
 
 
 ;; haskell mode
@@ -357,32 +347,31 @@ Emacs buffer are those starting with “*”."
               ("C-c <right>" . comment-region)
               ("C-c <left>" . uncomment-region)
               ("C-x C-s" . haskell-mode-save-buffer))
-  :config
-  (progn
-    ;; (haskell-indent-offset 2)
-    ;; (haskell-program-name "ghci")
-    ;; alignment rules after: https://github.com/haskell/haskell-mode/wiki/Indentation#aligning-code
-    (add-hook 'align-load-hook
-              (lambda ()
-                (progn
-                  (add-to-list 'align-rules-list
-                               '(haskell-types
-                                 (regexp . "\\(\\s-+\\)\\(::\\|∷\\)\\s-+")
-                                 (modes '(haskell-mode literate-haskell-mode))))
-                  (add-to-list 'align-rules-list
-                               '(haskell-assignment
-                                 (regexp . "\\(\\s-+\\)=\\s-+")
-                                 (modes '(haskell-mode literate-haskell-mode))))
-                  (add-to-list 'align-rules-list
-                               '(haskell-arrows
-                                 (regexp . "\\(\\s-+\\)\\(->\\|→\\)\\s-+")
-                                 (modes '(haskell-mode literate-haskell-mode))))
-                  (add-to-list 'align-rules-list
-                               '(haskell-left-arrows
-                                 (regexp . "\\(\\s-+\\)\\(<-\\|←\\)\\s-+")
-                                 (modes '(haskell-mode literate-haskell-mode)))))))))
-  ;;(autoload 'ghc-init "ghc" nil t)
-  ;;(add-hook 'haskell-mode-hook (lambda () (ghc-init) (flymake-mode))
+  :config (progn
+            ;; (haskell-indent-offset 2)
+            ;; (haskell-program-name "ghci")
+            ;; alignment rules after: https://github.com/haskell/haskell-mode/wiki/Indentation#aligning-code
+            (add-hook 'align-load-hook
+                      (lambda ()
+                        (progn
+                          (add-to-list 'align-rules-list
+                                       '(haskell-types
+                                         (regexp . "\\(\\s-+\\)\\(::\\|∷\\)\\s-+")
+                                         (modes '(haskell-mode literate-haskell-mode))))
+                          (add-to-list 'align-rules-list
+                                       '(haskell-assignment
+                                         (regexp . "\\(\\s-+\\)=\\s-+")
+                                         (modes '(haskell-mode literate-haskell-mode))))
+                          (add-to-list 'align-rules-list
+                                       '(haskell-arrows
+                                         (regexp . "\\(\\s-+\\)\\(->\\|→\\)\\s-+")
+                                         (modes '(haskell-mode literate-haskell-mode))))
+                          (add-to-list 'align-rules-list
+                                       '(haskell-left-arrows
+                                         (regexp . "\\(\\s-+\\)\\(<-\\|←\\)\\s-+")
+                                         (modes '(haskell-mode literate-haskell-mode)))))))))
+;;(autoload 'ghc-init "ghc" nil t)
+;;(add-hook 'haskell-mode-hook (lambda () (ghc-init) (flymake-mode))
 
 ;; cc mode
 (use-package cc-mode
@@ -392,9 +381,6 @@ Emacs buffer are those starting with “*”."
   :mode ("\\.cpp\\'" . c++-mode)
   :mode ("\\.h\\'" . c++-mode)
   :config (progn
-            (setq c-default-style "ellemtel"
-                  c-basic-offset 2)
-            (setq c-echo-syntactic-information-p t) ; print type at every indent
             (add-to-list 'c-offsets-alist
                          '(access-label . +)
                          '(inclass . +)
@@ -409,7 +395,11 @@ Emacs buffer are those starting with “*”."
             (c-set-offset 'cpp-macro 0)
             (c-set-offset 'friend -2)
             (c-set-offset 'innamespace 2)
-            (c-set-offset 'comment-intro 0)))
+            (c-set-offset 'comment-intro 0))
+  :custom
+  (c-default-style "ellemtel")
+  (c-basic-offset 2)
+  (c-echo-syntactic-information-p t)) ; print type at every indent
 
 ;; octave mode
 (use-package octave
@@ -457,9 +447,8 @@ Emacs buffer are those starting with “*”."
   :mode "\\.php\\'")
 
 ;; distraction free writing
-(use-package writeroom-mode
-  ;;:init (add-hook 'writeroom-mode-hook (lambda () (linum-mode -1)))
-  )
+(use-package writeroom-mode)
+;;:init (add-hook 'writeroom-mode-hook (lambda () (linum-mode -1)))
 
 ;; auctex
 (use-package tex
@@ -472,68 +461,68 @@ Emacs buffer are those starting with “*”."
                                         (electric-indent-mode f)
                                         (turn-off-auto-fill))))
           (add-hook 'LaTeX-mode-hook 'turn-on-auto-fill))
-  :config (progn
-            (setq TeX-PDF-mode t)
-            (setq TeX-auto-save t)
-            (setq TeX-command-default "LaTeX")
-            (setq TeX-view-program-list '(("TeXworks" "texworks %o")
-                                          ("Evince" "evince %o")))
-            (setq TeX-view-program-selection '((output-pdf "TeXworks")
-                                               (output-dvi "Evince")))
-            (setq TeX-command-list
-                  '(("TeX" "%(PDF)%(tex) -shell-escape %`%S%(PDFout)%(mode)%' %t"
-                     TeX-run-TeX nil (plain-tex-mode)
-                     :help "Run plain TeX")
-                    ("LaTeX" "%(PDF)%(latex) -shell-escape %t"
-                     TeX-run-TeX nil (latex-mode)
-                     :help "Run LaTeX")
-                    ("XeLaTeX" "xelatex -shell-escape %t"
-                     TeX-run-TeX nil (latex-mode)
-                     :help "Run XeLaTeX")
-                    ("Biber" "biber %s" TeX-run-Biber nil t :help "Run Biber")
-                    ("BibTeX" "bibtex %s" TeX-run-BibTeX nil t :help "Run BibTeX")
-                    ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
-                    ("Dvips" "%(o?)dvips %d -o %f " TeX-run-command t t :help "Generate PostScript file")
-                    ("Ps2pdf" "ps2pdf %f" TeX-run-ps2pdf nil t :help "Convert PostScript file to PDF")
-                    ("latexmk" "latexmk -pdf %s"
-                     TeX-run-TeX nil t
-                     :help "Run latexmk on file")
-                    ("ConTeXt" "texexec --once --texutil %(execopts)%t" TeX-run-TeX nil
-                     (context-mode)
-                     :help "Run ConTeXt once")
-                    ("ConTeXt Full" "texexec %(execopts)%t" TeX-run-TeX nil
-                     (context-mode)
-                     :help "Run ConTeXt until completion")
-                    ("Index" "makeindex %s" TeX-run-command nil t :help "Create index file")
-                    ("Check" "lacheck %s" TeX-run-compile nil
-                     (latex-mode)
-                     :help "Check LaTeX file for correctness")
-                    ("Spell" "(TeX-ispell-document \"\")"
-                     TeX-run-function nil t
-                     :help "Spell-check the document")
-                    ("Clean" "TeX-clean"
-                     TeX-run-function nil t
-                     :help "Delete generated intermediate files")
-                    ("Clean All" "(TeX-clean t)"
-                     TeX-run-function nil t
-                     :help "Delete generated intermediate and output files")
-                    ("Other" "" TeX-run-command t t :help "Run an arbitrary command")))))
+  :custom 
+  (TeX-PDF-mode t)
+  (TeX-auto-save t)
+  (TeX-command-default "LaTeX")
+  (TeX-view-program-list '(("TeXworks" "texworks %o")
+                           ("Evince" "evince %o")))
+  (TeX-view-program-selection '((output-pdf "TeXworks")
+                                (output-dvi "Evince")))
+  (TeX-command-list
+   '(("TeX" "%(PDF)%(tex) -shell-escape %`%S%(PDFout)%(mode)%' %t"
+      TeX-run-TeX nil (plain-tex-mode)
+      :help "Run plain TeX")
+     ("LaTeX" "%(PDF)%(latex) -shell-escape %t"
+      TeX-run-TeX nil (latex-mode)
+      :help "Run LaTeX")
+     ("XeLaTeX" "xelatex -shell-escape %t"
+      TeX-run-TeX nil (latex-mode)
+      :help "Run XeLaTeX")
+     ("Biber" "biber %s" TeX-run-Biber nil t :help "Run Biber")
+     ("BibTeX" "bibtex %s" TeX-run-BibTeX nil t :help "Run BibTeX")
+     ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
+     ("Dvips" "%(o?)dvips %d -o %f " TeX-run-command t t :help "Generate PostScript file")
+     ("Ps2pdf" "ps2pdf %f" TeX-run-ps2pdf nil t :help "Convert PostScript file to PDF")
+     ("latexmk" "latexmk -pdf %s"
+      TeX-run-TeX nil t
+      :help "Run latexmk on file")
+     ("ConTeXt" "texexec --once --texutil %(execopts)%t" TeX-run-TeX nil
+      (context-mode)
+      :help "Run ConTeXt once")
+     ("ConTeXt Full" "texexec %(execopts)%t" TeX-run-TeX nil
+      (context-mode)
+      :help "Run ConTeXt until completion")
+     ("Index" "makeindex %s" TeX-run-command nil t :help "Create index file")
+     ("Check" "lacheck %s" TeX-run-compile nil
+      (latex-mode)
+      :help "Check LaTeX file for correctness")
+     ("Spell" "(TeX-ispell-document \"\")"
+      TeX-run-function nil t
+      :help "Spell-check the document")
+     ("Clean" "TeX-clean"
+      TeX-run-function nil t
+      :help "Delete generated intermediate files")
+     ("Clean All" "(TeX-clean t)"
+      TeX-run-function nil t
+      :help "Delete generated intermediate and output files")
+     ("Other" "" TeX-run-command t t :help "Run an arbitrary command"))))
 
 ;; JavaScript
 ;; (use-package js-mode
 ;;   :ensure js2-mode
-;;   :config (progn
-;;             (setq js-indent-level 2)
-;;             (setq js-switch-indent-offset 2)))
+;;   :custom
+;;   (js-indent-level 2)
+;;   (js-switch-indent-offset 2)))
 
 (use-package python
   :mode ("\\.py\\'" . python-mode)
   :bind (:map python-mode-map
               ("C-c l" . python-indent-shift-left)
               ("C-c r" . python-indent-shift-right))
-  :config (progn
-            (setq python-python-command "python")
-            (setq python-shell-interpreter "ipython")))
+  :custom
+  (python-python-command "python")
+  (python-shell-interpreter "ipython"))
 
 (use-package dockerfile-mode
   :mode ("Dockerfile\\'" . dockerfile-mode))
