@@ -16,7 +16,6 @@
 ;;   - https://dotfiles.github.io/
 ;;   - https://github.com/fommil/dotfiles/blob/master/.emacs.d/init.el
 ;;   - https://github.com/mattfidler/emacs.d
-;; - https://github.com/alexeyr/company-auctex/
 ;; - customize [whitespace mode](https://www.emacswiki.org/emacs/WhiteSpace), use
 ;;   global-whitespace-newline-mode and nice glyphs
 ;; - emacs as daemon: https://www.emacswiki.org/emacs/EmacsAsDaemon,
@@ -316,6 +315,12 @@ Emacs buffer are those starting with “*”."
               (set-face-attribute 'company-scrollbar-fg nil :background "#073642")))
   :custom (company-idle-delay 0))
 
+(use-package company-auctex
+  :init (company-auctex-init))
+
+(use-package company-math
+  :config (add-to-list 'company-backends 'company-math-symbols-unicode))
+
 ;; 'describe-unbound-keys' lets fone find unused key combos
 (use-package unbound)
 
@@ -407,12 +412,10 @@ Emacs buffer are those starting with “*”."
 
 ;; ESS-mode for R and julia
 (use-package ess
-  :init (progn
-          (require 'ess-site)
-          (add-hook 'julia-mode-hook
-                    (lambda () (set-input-method "TeX"))))
+  :disabled
+  :init (require 'ess-site))
   :config (progn
-            (setq ess-swv-processor 'knitr)))
+            (setq ess-swv-processor 'knitr))
 
 ;; scala-mode
 ;; (use-package ensime
