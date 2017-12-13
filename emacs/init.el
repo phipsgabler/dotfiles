@@ -29,7 +29,7 @@
       column-number-mode t
       indent-tabs-mode nil
       tab-width 2)
-(global-linum-mode t)
+;; (global-linum-mode t)
 (global-hl-line-mode t) ; turn on highlighting current line
 (delete-selection-mode t) ; delete selected text when typing
 
@@ -208,59 +208,6 @@ point reaches the beginning or end of the buffer, stop there."
   :init (save-place-mode t)
   :custom save-place-file (in-emacs-d "cache/saved-places"))
 
-;; useful visualization stuff
-(use-package rainbow-delimiters
-  :hook ((prog-mode TeX-mode) . rainbow-delimiters-mode)
-  )
-
-(use-package paren
-  :init (show-paren-mode t)
-  :config (progn
-            (set-face-background 'show-paren-match (face-background 'default))
-            (set-face-foreground 'show-paren-match "#def")
-            (set-face-attribute 'show-paren-match nil :weight 'extra-bold)))
-
-(use-package fill-column-indicator
-  :hook ((prog-mode TeX-mode) . fci-mode))
-
-;; automatically set color theme depending on display/console
-(use-package solarized-theme
-  :when (display-graphic-p)
-  :config (load-theme 'solarized-light)
-  :custom
-  (solarized-distinct-fringe-background t)
-  (x-underline-at-descent-line t))
-  
-;; tabbar: show tabs at the top, automatically grouped
-(defun tabbar-buffer-groups ()
-  ;; http://stackoverflow.com/a/3814313/1346276
-  "Return the list of group names the current buffer belongs to.
-This function is a custom function for tabbar-mode's
-tabbar-buffer-groups.  This function group all buffers into 3
-groups: Those Dired, those user buffer, and those emacs buffer.
-Emacs buffer are those starting with “*”."
-  (list
-   (cond
-    ((string-equal "*" (substring (buffer-name) 0 1))
-     "Emacs Buffer")
-    ((eq major-mode 'dired-mode)
-     "Dired")
-    (t
-     "User Buffer"))))
-
-(use-package tabbar
-  :bind (([M-left] . tabbar-backward-tab)
-         ([M-right] . tabbar-forward-tab))
-  :init (tabbar-mode t))
-;; :config (setq tabbar-buffer-groups-function 'tabbar-buffer-groups)
-
-;; better looking tabs for tabbar, and automatic ruler
-(use-package tabbar-ruler
-  :custom (tabbar-ruler-global-tabbar t))
-
-(use-package powerline
-  :config (powerline-default-theme))
-
 ;; multiple-cursors
 (use-package multiple-cursors
   :init (multiple-cursors-mode t)
@@ -323,6 +270,69 @@ Emacs buffer are those starting with “*”."
 
 ;; 'describe-unbound-keys' lets fone find unused key combos
 (use-package unbound)
+
+
+;; ;; VISUAL CUSTOMIZATIONS
+
+;; useful visualization stuff
+(use-package rainbow-delimiters
+  :hook ((prog-mode TeX-mode) . rainbow-delimiters-mode))
+
+(use-package nlinum
+  :init (global-nlinum-mode)
+  :custom
+  (nlinum-format " %d ")
+  (nlinum-highlight-current-line t))
+
+(use-package paren
+  :init (show-paren-mode t)
+  :config (progn
+            (set-face-background 'show-paren-match (face-background 'default))
+            (set-face-foreground 'show-paren-match "#def")
+            (set-face-attribute 'show-paren-match nil :weight 'extra-bold)))
+
+(use-package fill-column-indicator
+  :hook ((prog-mode TeX-mode) . fci-mode))
+
+;; automatically set color theme depending on display/console
+(use-package solarized-theme
+  :when (display-graphic-p)
+  :config (load-theme 'solarized-light)
+  :custom
+  (solarized-distinct-fringe-background t)
+  (x-underline-at-descent-line t))
+  
+;; tabbar: show tabs at the top, automatically grouped
+(defun tabbar-buffer-groups ()
+  ;; http://stackoverflow.com/a/3814313/1346276
+  "Return the list of group names the current buffer belongs to.
+This function is a custom function for tabbar-mode's
+tabbar-buffer-groups.  This function group all buffers into 3
+groups: Those Dired, those user buffer, and those emacs buffer.
+Emacs buffer are those starting with “*”."
+  (list
+   (cond
+    ((string-equal "*" (substring (buffer-name) 0 1))
+     "Emacs Buffer")
+    ((eq major-mode 'dired-mode)
+     "Dired")
+    (t
+     "User Buffer"))))
+
+(use-package tabbar
+  :bind (([M-left] . tabbar-backward-tab)
+         ([M-right] . tabbar-forward-tab))
+  :init (tabbar-mode t))
+;; :config (setq tabbar-buffer-groups-function 'tabbar-buffer-groups)
+
+;; better looking tabs for tabbar, and automatic ruler
+(use-package tabbar-ruler
+  :custom (tabbar-ruler-global-tabbar t))
+
+(use-package powerline
+  :config (powerline-default-theme))
+
+
 
 
 ;; MAJOR MODES
