@@ -161,9 +161,11 @@ point reaches the beginning or end of the buffer, stop there."
     (progn
       (package-refresh-contents)
       (package-install 'use-package)))
-(require 'use-package)
+(eval-when-compile
+  (require 'use-package)
+  (require 'bind-key))
 (setq-default use-package-always-ensure t)
-(require 'bind-key)
+
 
 ;; automatic updating every 7 days
 (use-package auto-package-update
