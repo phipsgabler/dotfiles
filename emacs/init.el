@@ -271,8 +271,13 @@ point reaches the beginning or end of the buffer, stop there."
 ;; 'describe-unbound-keys' lets fone find unused key combos
 (use-package unbound)
 
+;; deleting a whitespace character will delete all whitespace until the next non-whitespace
+;; character
+(use-package hungry-delete
+  :init (global-hungry-delete-mode))
 
-;; ;; VISUAL CUSTOMIZATIONS
+
+;; ;; VISUAL CUSTOMIZATIONS 
 
 ;; useful visualization stuff
 (use-package rainbow-delimiters

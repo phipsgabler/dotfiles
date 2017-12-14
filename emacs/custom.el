@@ -19,7 +19,7 @@
  '(nlinum-highlight-current-line t)
  '(package-selected-packages
    (quote
-    (julia-mode company-math company-auctex tabbar-ruler powerline unbound solarized-theme yaml-mode dockerfile-mode company company-mode writeroom-mode fill-column-indicator smex lisp-mode scala-mode js2-mode rainbow-delimiters pandoc-mode web-mode tabbar multiple-cursors markdown-mode idris-mode haskell-mode darkroom auctex)))
+    (hungry-delete julia-mode company-math company-auctex tabbar-ruler powerline unbound solarized-theme yaml-mode dockerfile-mode company company-mode writeroom-mode fill-column-indicator smex lisp-mode scala-mode js2-mode rainbow-delimiters pandoc-mode web-mode tabbar multiple-cursors markdown-mode idris-mode haskell-mode darkroom auctex)))
  '(recentf-max-menu-items 25)
  '(safe-local-variable-values
    (quote
