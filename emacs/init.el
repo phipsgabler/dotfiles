@@ -421,11 +421,25 @@ Emacs buffer are those starting with “*”."
   :mode ("\\.m\\'" . octave-mode))
 
 ;; ESS-mode for R and julia
-(use-package ess
-  :disabled
-  :init (require 'ess-site))
-  :config (progn
-            (setq ess-swv-processor 'knitr))
+;; (use-package ess
+;;   :disabled
+;;   :init (require 'ess-site))
+;;   :config (progn
+;;             (setq ess-swv-processor 'knitr))
+
+(use-package julia-mode
+  :mode "\\.jl\\'")
+
+(use-package julia-repl
+  ;; :hook julia-mode
+  :bind (("C-c C-c" . julia-repl-send-region-or-line)
+	 ("C-c C-b" . julia-repl-send-buffer)
+	 ("C-c C-z" . julia-repl)
+	 ("<C-return>" . julia-repl-send-line)
+	 ("C-c C-e" . julia-repl-edit)
+	 ("C-c C-d" . julia-repl-doc)
+	 ("C-c C-w" . julia-repl-workspace)
+	 ("C-c C-m" . julia-repl-macroexpand)))
 
 ;; scala-mode
 ;; (use-package ensime
