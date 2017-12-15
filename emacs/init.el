@@ -18,12 +18,10 @@
 ;;   - https://github.com/fommil/dotfiles/blob/master/.emacs.d/init.el
 ;;   - https://github.com/mattfidler/emacs.d
 ;;   - https://github.com/gicmo/dot-emacs/blob/master/init.el
-;; - customize [whitespace mode](https://www.emacswiki.org/emacs/WhiteSpace), use
 ;; - emacs as daemon: https://www.emacswiki.org/emacs/EmacsAsDaemon,
 ;;   https://askubuntu.com/questions/682898/how-to-open-files-with-emacs-in-new-tabs
 ;; - htmlize: https://tpapp.github.io/post/htmlize-screenshot/
 ;; - Weave for Julia: https://github.com/mpastell/Weave.jl
-;; - TODO: use named solarized-colors, maybe change solarized theme implementation?
 
 
 (setq inhibit-startup-screen t
@@ -168,7 +166,7 @@ point reaches the beginning or end of the buffer, stop there."
 ;; automatic updating every 7 days
 (use-package auto-package-update
   :init (auto-package-update-maybe)
-  :custom 
+  :custom
   (auto-package-update-interval 7)
   (auto-package-update-prompt-before-update t)
   (auto-package-update-delete-old-versions t))
@@ -342,6 +340,7 @@ Emacs buffer are those starting with “*”."
 
 (use-package whitespace
   :init (global-whitespace-mode t)
+  ;; TODO: adapt for terminal use
   :config (mapc (lambda (face)
                   (set-face-attribute face nil :background nil :foreground solarized-orange))
                 (list 'whitespace-trailing 'whitespace-line 'whitespace-tab 'whitespace-empty))
@@ -578,5 +577,3 @@ Emacs buffer are those starting with “*”."
 
 (use-package yaml-mode
   :mode "\\.yml\\'")
-
-
