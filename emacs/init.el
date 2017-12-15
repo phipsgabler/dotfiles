@@ -505,6 +505,8 @@ Emacs buffer are those starting with “*”."
                                         (electric-indent-mode f)
                                         (turn-off-auto-fill))))
           (add-hook 'LaTeX-mode-hook 'turn-on-auto-fill))
+  ;; '(font-latex-fontify-sectioning (quote color))
+  ;; '(font-latex-quotes nil)
   :custom
   (TeX-PDF-mode t)
   (TeX-auto-save t)
@@ -565,8 +567,8 @@ Emacs buffer are those starting with “*”."
               ("C-c l" . python-indent-shift-left)
               ("C-c r" . python-indent-shift-right))
   :custom
-  (python-python-command "python")
-  (python-shell-interpreter "ipython"))
+  ;; (python-shell-interpreter "ipython")
+  (python-python-command "python3"))
 
 (use-package dockerfile-mode
   :mode ("Dockerfile\\'" . dockerfile-mode))
