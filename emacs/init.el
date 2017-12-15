@@ -1,10 +1,11 @@
 (defun in-emacs-d (filename)
   (expand-file-name filename user-emacs-directory))
 
-;; ;; CUSTOMIZE (in extra file)
+;; ;; CUSTOMIZE AND OTHER EXTRA FILES
 (setq custom-file (in-emacs-d "custom.el"))
 (load custom-file)
 
+(load (in-emacs-d "solarized-colors.el"))
 
 ;; ;; GENERAL
 ;; TODO:
@@ -16,19 +17,19 @@
 ;;   - https://dotfiles.github.io/
 ;;   - https://github.com/fommil/dotfiles/blob/master/.emacs.d/init.el
 ;;   - https://github.com/mattfidler/emacs.d
+;;   - https://github.com/gicmo/dot-emacs/blob/master/init.el
 ;; - customize [whitespace mode](https://www.emacswiki.org/emacs/WhiteSpace), use
-;;   global-whitespace-newline-mode and nice glyphs
 ;; - emacs as daemon: https://www.emacswiki.org/emacs/EmacsAsDaemon,
 ;;   https://askubuntu.com/questions/682898/how-to-open-files-with-emacs-in-new-tabs
-;; - alternative fonts: source code pro, inconsolata, dejavu sans mono, droid sans mono, hack
-;; - JULIA: https://tpapp.github.io/post/julia-workflow/
 ;; - htmlize: https://tpapp.github.io/post/htmlize-screenshot/
+;; - Weave for Julia: https://github.com/mpastell/Weave.jl
+;; - TODO: use named solarized-colors, maybe change solarized theme implementation?
 
 
 (setq inhibit-startup-screen t
-      column-number-mode t
-      indent-tabs-mode nil
-      tab-width 2)
+      column-number-mode t)
+(setq-default indent-tabs-mode nil
+              tab-width 2)
 ;; (global-linum-mode t)
 (global-hl-line-mode t) ; turn on highlighting current line
 (delete-selection-mode t) ; delete selected text when typing
@@ -224,7 +225,7 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package ido
   :init (ido-mode t)
   :bind ("C-x C-b" . ibuffer)
-  :custom 
+  :custom
   (ido-save-directory-list-file (in-emacs-d "cache/ido.last"))
   (ido-enable-flex-matching t)
   (ido-everywhere t))
@@ -257,9 +258,10 @@ point reaches the beginning or end of the buffer, stop there."
   :commands company-mode
   :config (if (display-graphic-p)
             (progn
-              (set-face-attribute 'company-tooltip nil :background "#eee8d5" :foreground "#586e75")
-              (set-face-attribute 'company-scrollbar-bg nil :background "#93a1a1")
-              (set-face-attribute 'company-scrollbar-fg nil :background "#073642")))
+              (set-face-attribute 'company-tooltip nil
+                                  :background solarized-base2 :foreground solarized-base01)
+              (set-face-attribute 'company-scrollbar-bg nil :background solarized-base1)
+              (set-face-attribute 'company-scrollbar-fg nil :background solarized-base02)))
   :custom (company-idle-delay 0))
 
 (use-package company-auctex
@@ -277,7 +279,7 @@ point reaches the beginning or end of the buffer, stop there."
   :init (global-hungry-delete-mode))
 
 
-;; ;; VISUAL CUSTOMIZATIONS 
+;; ;; VISUAL CUSTOMIZATIONS
 
 ;; useful visualization stuff
 (use-package rainbow-delimiters
@@ -286,7 +288,7 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package nlinum
   :init (global-nlinum-mode)
   :custom
-  (nlinum-format " %d ")
+  (nlinum-format "%4d ")
   (nlinum-highlight-current-line t))
 
 (use-package paren
@@ -300,13 +302,14 @@ point reaches the beginning or end of the buffer, stop there."
   :hook ((prog-mode TeX-mode) . fci-mode))
 
 ;; automatically set color theme depending on display/console
+;; alternative: color-theme-solarized; but this looks better.
 (use-package solarized-theme
   :when (display-graphic-p)
   :config (load-theme 'solarized-light)
   :custom
   (solarized-distinct-fringe-background t)
   (x-underline-at-descent-line t))
-  
+
 ;; tabbar: show tabs at the top, automatically grouped
 (defun tabbar-buffer-groups ()
   ;; http://stackoverflow.com/a/3814313/1346276
@@ -337,8 +340,18 @@ Emacs buffer are those starting with “*”."
 (use-package powerline
   :config (powerline-default-theme))
 
-
-
+(use-package whitespace
+  :init (global-whitespace-mode t)
+  :config (mapc (lambda (face)
+                  (set-face-attribute face nil :background nil :foreground solarized-orange))
+                (list 'whitespace-trailing 'whitespace-line 'whitespace-tab 'whitespace-empty))
+  :custom
+  (whitespace-line-column fill-column)
+  (whitespace-style '(face empty tabs lines-tail trailing tab-mark newline-mark))
+  ;; mappings: <mark> <character to be replaced (html code)> <replacements (html code)>
+  (whitespace-display-mappings '((newline-mark 10 [172 10]) ;; not sign: "¬"
+                                 (space-mark 32 [183]) ;; middle dot: "⋅"
+                                 (tab-mark 9 [8677 9])))) ;; rightwards arrow to bar: "⇥"
 
 ;; MAJOR MODES
 
@@ -438,23 +451,23 @@ Emacs buffer are those starting with “*”."
 (use-package julia-repl
   ;; :hook julia-mode
   :bind (("C-c C-c" . julia-repl-send-region-or-line)
-	 ("C-c C-b" . julia-repl-send-buffer)
-	 ("C-c C-z" . julia-repl)
-	 ("<C-return>" . julia-repl-send-line)
-	 ("C-c C-e" . julia-repl-edit)
-	 ("C-c C-d" . julia-repl-doc)
-	 ("C-c C-w" . julia-repl-workspace)
-	 ("C-c C-m" . julia-repl-macroexpand)))
+         ("C-c C-b" . julia-repl-send-buffer)
+         ("C-c C-z" . julia-repl)
+         ("<C-return>" . julia-repl-send-line)
+         ("C-c C-e" . julia-repl-edit)
+         ("C-c C-d" . julia-repl-doc)
+         ("C-c C-w" . julia-repl-workspace)
+         ("C-c C-m" . julia-repl-macroexpand)))
 
 ;; scala-mode
 ;; (use-package ensime
 ;;   :config (progn
-;; 	    (setq ensime-startup-notification nil
-;; 		  ensime-startup-snapshot-notification nil)))
+;;    (setq ensime-startup-notification nil
+;;  ensime-startup-snapshot-notification nil)))
 ;; (add-hook 'ensime-mode-hook
 ;;           (lambda ()
 ;;             (let ((backends (company-backends-for-buffer)))
-;; 	      (setq company-backends (push '(ensime-company company-yasnippet) backends)))))
+;;      (setq company-backends (push '(ensime-company company-yasnippet) backends)))))
 
 ;; (use-package scala-mode
 ;;   :interpreter ("scala" . scala-mode)
@@ -487,13 +500,13 @@ Emacs buffer are those starting with “*”."
   :ensure auctex
   :init (progn
           ;; this is just for editing song files
-          (add-to-list 'auto-mode-alist 
+          (add-to-list 'auto-mode-alist
                        '("\\.sg\\'" . (lambda ()
                                         (LaTeX-mode)
                                         (electric-indent-mode f)
                                         (turn-off-auto-fill))))
           (add-hook 'LaTeX-mode-hook 'turn-on-auto-fill))
-  :custom 
+  :custom
   (TeX-PDF-mode t)
   (TeX-auto-save t)
   (TeX-command-default "LaTeX")
@@ -565,3 +578,5 @@ Emacs buffer are those starting with “*”."
 
 (use-package yaml-mode
   :mode "\\.yml\\'")
+
+
