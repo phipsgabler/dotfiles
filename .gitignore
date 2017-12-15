@@ -5,6 +5,7 @@ emacs/.last-package-update-day
 emacs/abbrev_defs
 emacs/cache
 emacs/recentf
+emacs/var
 xmonad/*.errors
 xmonad/*.hi
 xmonad/*.o
