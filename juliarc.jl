@@ -1,16 +1,16 @@
-let pkgs = Pkg.installed()
-    if haskey(pkgs, "OhMyREPL")
-        using OhMyREPL
-    else
-        warn("'OhMyREPL' is not installed")
-    end
+isinstalled(pkg) = isdir(Pkg.dir(pkg))
 
-    if haskey(pkgs, "Revise")
-        @schedule begin
-            sleep(0.1)
-            @eval using Revise
-        end
-    else
-        warn("'Revise' is not installed")
+if isinstalled("OhMyREPL")
+    @eval using OhMyREPL
+else
+    warn("'OhMyREPL' is not installed")
+end
+
+if isinstalled("Revise")
+    @schedule begin
+        sleep(0.1)
+        @eval using Revise
     end
+else
+    warn("'Revise' is not installed")
 end
