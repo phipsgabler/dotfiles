@@ -22,6 +22,7 @@
 ;;   https://askubuntu.com/questions/682898/how-to-open-files-with-emacs-in-new-tabs
 ;; - htmlize: https://tpapp.github.io/post/htmlize-screenshot/
 ;; - Weave for Julia: https://github.com/mpastell/Weave.jl
+;; - Unicode-substitution in AucTeX ausschalten
 
 
 (setq inhibit-startup-screen t
