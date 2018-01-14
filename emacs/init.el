@@ -492,7 +492,11 @@ Emacs buffer are those starting with “*”."
   :mode "\\.php\\'")
 
 ;; distraction free writing
-(use-package writeroom-mode)
+(use-package writeroom-mode
+  :init (setq writeroom-width fill-column)
+  :bind (("C-M-<" . writeroom-decrease-width)
+         ("C-M->" . writeroom-increase-width)
+         ("C-M-=" . writeroom-adjust-width)))
 ;;:init (add-hook 'writeroom-mode-hook (lambda () (linum-mode -1)))
 
 ;; auctex
