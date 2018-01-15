@@ -499,7 +499,14 @@ Emacs buffer are those starting with “*”."
          ("C-M-=" . writeroom-adjust-width)))
 ;;:init (add-hook 'writeroom-mode-hook (lambda () (linum-mode -1)))
 
-;; auctex
+;; auctex/reftex
+(use-package reftex
+  :init (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+  :config (progn
+            (setq reftex-plug-into-AUCTeX t)
+            (setq reftex-bibliography-commands '("bibliography" "nobibliography" "addbibresource"))
+            (setq reftex-default-bibliography '("ref.bib"))))
+
 (use-package tex
   :ensure auctex
   :init (progn
