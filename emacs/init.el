@@ -211,6 +211,7 @@ point reaches the beginning or end of the buffer, stop there."
 ;; multiple-cursors
 (use-package multiple-cursors
   :init (multiple-cursors-mode t)
+  :config (mc/always-run-for-all t)
   :bind (("C-S-c C-S-c" . mc/edit-lines)
          ("C-S-c a" . mc/edit-beginnings-of-lines)
          ("C-S-c e" . mc/edit-ends-of-lines)
