@@ -23,14 +23,13 @@
 ;; - htmlize: https://tpapp.github.io/post/htmlize-screenshot/
 ;; - Weave for Julia: https://github.com/mpastell/Weave.jl
 ;; - Add phi-search: https://github.com/zk-phi/phi-search
+;; - color customizations: constants -- should be independent of display-graphics-p!
 
 
 (setq inhibit-startup-screen t
       column-number-mode t)
 (setq-default indent-tabs-mode nil
               tab-width 2)
-;; (global-linum-mode t)
-(global-hl-line-mode t) ; turn on highlighting current line
 (delete-selection-mode t) ; delete selected text when typing
 
 ;; font stuff
@@ -287,19 +286,15 @@ point reaches the beginning or end of the buffer, stop there."
   :hook ((prog-mode TeX-mode) . rainbow-delimiters-mode))
 
 (use-package yalinum
-  :init (global-yalinum-mode t))
-;; (use-package nlinum
-;;   :init (global-nlinum-mode)
-;;   :custom
-;;   (nlinum-format "%4d ")
-;;   (nlinum-highlight-current-line t))
+  :init (global-yalinum-mode t)
+  :config (progn
+            (set-face-attribute 'yalinum-face nil
+                                :background solarized-base2 :foreground solarized-base01)
+            (set-face-attribute 'yalinum-bar-face nil
+                                :background solarized-base1 :foreground solarized-base02)))
 
-;; (use-package paren
-;;   :init (show-paren-mode t)
-;;   :config (progn
-;;             (set-face-background 'show-paren-match (face-background 'default))
-;;             (set-face-foreground 'show-paren-match "#def")
-;;             (set-face-attribute 'show-paren-match nil :weight 'extra-bold)))
+(use-package highlight-parentheses
+  :init (highlight-parentheses-mode))
 
 (use-package fill-column-indicator
   :hook ((prog-mode TeX-mode) . fci-mode))
@@ -496,12 +491,13 @@ Emacs buffer are those starting with “*”."
   :mode "\\.php\\'")
 
 ;; distraction free writing
+;; replace by olivetti:     https://login.yoursecurecloud.de/d/346a8921204a4ec5acc1/
 (use-package writeroom-mode
   :init (setq writeroom-width fill-column)
   :bind (("C-M-<" . writeroom-decrease-width)
          ("C-M->" . writeroom-increase-width)
          ("C-M-=" . writeroom-adjust-width)))
-  :init (add-hook 'writeroom-mode-hook (lambda () (linum-mode -1)))
+  :init (add-hook 'writeroom-mode-hook (lambda () (yalinum-mode nil)))
 
 ;; auctex/reftex
 (use-package reftex
@@ -518,7 +514,7 @@ Emacs buffer are those starting with “*”."
           (add-to-list 'auto-mode-alist
                        '("\\.sg\\'" . (lambda ()
                                         (LaTeX-mode)
-                                        (electric-indent-mode f)
+                                        (electric-indent-mode nil)
                                         (turn-off-auto-fill))))
           (add-hook 'LaTeX-mode-hook 'turn-on-auto-fill))
   ;; '(font-latex-fontify-sectioning (quote color))
