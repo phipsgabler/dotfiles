@@ -22,7 +22,7 @@
 ;;   https://askubuntu.com/questions/682898/how-to-open-files-with-emacs-in-new-tabs
 ;; - htmlize: https://tpapp.github.io/post/htmlize-screenshot/
 ;; - Weave for Julia: https://github.com/mpastell/Weave.jl
-;; - Unicode-substitution in AucTeX ausschalten
+;; - Add phi-search: https://github.com/zk-phi/phi-search
 
 
 (setq inhibit-startup-screen t
@@ -152,6 +152,7 @@ point reaches the beginning or end of the buffer, stop there."
 ;; ;; MELPA and packages
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+;; (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/"))
 (package-initialize)
 
 ;; automatically load use-package to subsequently do loading automatically
@@ -202,7 +203,7 @@ point reaches the beginning or end of the buffer, stop there."
             (bind-key "^" '(lambda () (interactive) (find-alternate-file "..")) dired-mode-map)))
 
 
-;; ;; GLOBALLY USED MINOR MODES
+;; ;; ;; GLOBALLY USED MINOR MODES
 
 (use-package saveplace
   :init (save-place-mode t)
@@ -271,7 +272,7 @@ point reaches the beginning or end of the buffer, stop there."
   :config (add-to-list 'company-backends 'company-math-symbols-unicode))
 
 ;; 'describe-unbound-keys' lets fone find unused key combos
-(use-package unbound)
+;; (use-package unbound)
 
 ;; deleting a whitespace character will delete all whitespace until the next non-whitespace
 ;; character
@@ -279,24 +280,26 @@ point reaches the beginning or end of the buffer, stop there."
   :init (global-hungry-delete-mode))
 
 
-;; ;; VISUAL CUSTOMIZATIONS
+;; ;; ;; VISUAL CUSTOMIZATIONS
 
-;; useful visualization stuff
+;; ;; useful visualization stuff
 (use-package rainbow-delimiters
   :hook ((prog-mode TeX-mode) . rainbow-delimiters-mode))
 
-(use-package nlinum
-  :init (global-nlinum-mode)
-  :custom
-  (nlinum-format "%4d ")
-  (nlinum-highlight-current-line t))
+(use-package yalinum
+  :init (global-yalinum-mode t))
+;; (use-package nlinum
+;;   :init (global-nlinum-mode)
+;;   :custom
+;;   (nlinum-format "%4d ")
+;;   (nlinum-highlight-current-line t))
 
-(use-package paren
-  :init (show-paren-mode t)
-  :config (progn
-            (set-face-background 'show-paren-match (face-background 'default))
-            (set-face-foreground 'show-paren-match "#def")
-            (set-face-attribute 'show-paren-match nil :weight 'extra-bold)))
+;; (use-package paren
+;;   :init (show-paren-mode t)
+;;   :config (progn
+;;             (set-face-background 'show-paren-match (face-background 'default))
+;;             (set-face-foreground 'show-paren-match "#def")
+;;             (set-face-attribute 'show-paren-match nil :weight 'extra-bold)))
 
 (use-package fill-column-indicator
   :hook ((prog-mode TeX-mode) . fci-mode))
@@ -340,19 +343,19 @@ Emacs buffer are those starting with “*”."
 (use-package powerline
   :config (powerline-default-theme))
 
-(use-package whitespace
-  :init (global-whitespace-mode t)
-  ;; TODO: adapt for terminal use
-  :config (mapc (lambda (face)
-                  (set-face-attribute face nil :background nil :foreground solarized-orange))
-                (list 'whitespace-trailing 'whitespace-line 'whitespace-tab 'whitespace-empty))
-  :custom
-  (whitespace-line-column fill-column)
-  (whitespace-style '(face empty tabs lines-tail trailing tab-mark newline-mark))
-  ;; mappings: <mark> <character to be replaced (html code)> <replacements (html code)>
-  (whitespace-display-mappings '((newline-mark 10 [172 10]) ;; not sign: "¬"
-                                 (space-mark 32 [183]) ;; middle dot: "⋅"
-                                 (tab-mark 9 [8677 9])))) ;; rightwards arrow to bar: "⇥"
+;; (use-package whitespace
+;;   :init (global-whitespace-mode t)
+;;   ;; TODO: adapt for terminal use
+;;   :config (mapc (lambda (face)
+;;                   (set-face-attribute face nil :background nil :foreground solarized-orange))
+;;                 (list 'whitespace-trailing 'whitespace-line 'whitespace-tab 'whitespace-empty))
+;;   :custom
+;;   (whitespace-line-column fill-column)
+;;   (whitespace-style '(face empty tabs lines-tail trailing tab-mark newline-mark))
+;;   ;; mappings: <mark> <character to be replaced (html code)> <replacements (html code)>
+;;   (whitespace-display-mappings '((newline-mark 10 [172 10]) ;; not sign: "¬"
+;;                                  (space-mark 32 [183]) ;; middle dot: "⋅"
+;;                                  (tab-mark 9 [8677 9])))) ;; rightwards arrow to bar: "⇥"
 
 ;; MAJOR MODES
 
@@ -407,58 +410,58 @@ Emacs buffer are those starting with “*”."
 ;;(autoload 'ghc-init "ghc" nil t)
 ;;(add-hook 'haskell-mode-hook (lambda () (ghc-init) (flymake-mode))
 
-;; cc mode
-(use-package cc-mode
-  :bind (:map c-mode-base-map
-              ("RET" . newline-and-indent)
-              ("C-c M-c" . uncomment-region))
-  :mode ("\\.cpp\\'" . c++-mode)
-  :mode ("\\.h\\'" . c++-mode)
-  :config (progn
-            (add-to-list 'c-offsets-alist
-                         '(access-label . +)
-                         '(inclass . +)
-                         ;;'(case-label . +)
-                         )
-            (c-set-offset 'access-label -2)
-            (c-set-offset 'inclass 4)
-            (c-set-offset 'topmost-intro 0)
-            (c-set-offset 'topmost-intro-cont 0)
-            (c-set-offset 'inline-open 0)
-            (c-set-offset 'case-label 2)
-            (c-set-offset 'cpp-macro 0)
-            (c-set-offset 'friend -2)
-            (c-set-offset 'innamespace 2)
-            (c-set-offset 'comment-intro 0))
-  :custom
-  (c-default-style "ellemtel")
-  (c-basic-offset 2)
-  (c-echo-syntactic-information-p t)) ; print type at every indent
+;; ;; cc mode
+;; (use-package cc-mode
+;;   :bind (:map c-mode-base-map
+;;               ("RET" . newline-and-indent)
+;;               ("C-c M-c" . uncomment-region))
+;;   :mode ("\\.cpp\\'" . c++-mode)
+;;   :mode ("\\.h\\'" . c++-mode)
+;;   :config (progn
+;;             (add-to-list 'c-offsets-alist
+;;                          '(access-label . +)
+;;                          '(inclass . +)
+;;                          ;;'(case-label . +)
+;;                          )
+;;             (c-set-offset 'access-label -2)
+;;             (c-set-offset 'inclass 4)
+;;             (c-set-offset 'topmost-intro 0)
+;;             (c-set-offset 'topmost-intro-cont 0)
+;;             (c-set-offset 'inline-open 0)
+;;             (c-set-offset 'case-label 2)
+;;             (c-set-offset 'cpp-macro 0)
+;;             (c-set-offset 'friend -2)
+;;             (c-set-offset 'innamespace 2)
+;;             (c-set-offset 'comment-intro 0))
+;;   :custom
+;;   (c-default-style "ellemtel")
+;;   (c-basic-offset 2)
+;;   (c-echo-syntactic-information-p t)) ; print type at every indent
 
-;; octave mode
-(use-package octave
-  :mode ("\\.m\\'" . octave-mode))
+;; ;; octave mode
+;; (use-package octave
+;;   :mode ("\\.m\\'" . octave-mode))
 
 ;; ESS-mode for R and julia
-;; (use-package ess
-;;   :disabled
-;;   :init (require 'ess-site))
-;;   :config (progn
-;;             (setq ess-swv-processor 'knitr))
+(use-package ess
+  :disabled
+  :init (require 'ess-site))
+  :config (progn
+            (setq ess-swv-processor 'knitr))
 
 (use-package julia-mode
   :mode "\\.jl\\'")
 
 (use-package julia-repl
-  ;; :hook julia-mode
-  :bind (("C-c C-c" . julia-repl-send-region-or-line)
-         ("C-c C-b" . julia-repl-send-buffer)
-         ("C-c C-z" . julia-repl)
-         ("<C-return>" . julia-repl-send-line)
-         ("C-c C-e" . julia-repl-edit)
-         ("C-c C-d" . julia-repl-doc)
-         ("C-c C-w" . julia-repl-workspace)
-         ("C-c C-m" . julia-repl-macroexpand)))
+  :bind (:map julia-mode-map
+              ("C-c C-c" . julia-repl-send-region-or-line)
+              ("C-c C-b" . julia-repl-send-buffer)
+              ("C-c C-z" . julia-repl)
+              ("<C-return>" . julia-repl-send-line)
+              ("C-c C-e" . julia-repl-edit)
+              ("C-c C-d" . julia-repl-doc)
+              ("C-c C-w" . julia-repl-workspace)
+              ("C-c C-m" . julia-repl-macroexpand)))
 
 ;; scala-mode
 ;; (use-package ensime
@@ -498,7 +501,7 @@ Emacs buffer are those starting with “*”."
   :bind (("C-M-<" . writeroom-decrease-width)
          ("C-M->" . writeroom-increase-width)
          ("C-M-=" . writeroom-adjust-width)))
-;;:init (add-hook 'writeroom-mode-hook (lambda () (linum-mode -1)))
+  :init (add-hook 'writeroom-mode-hook (lambda () (linum-mode -1)))
 
 ;; auctex/reftex
 (use-package reftex
@@ -567,12 +570,12 @@ Emacs buffer are those starting with “*”."
       :help "Delete generated intermediate and output files")
      ("Other" "" TeX-run-command t t :help "Run an arbitrary command"))))
 
-;; JavaScript
-;; (use-package js-mode
-;;   :ensure js2-mode
-;;   :custom
-;;   (js-indent-level 2)
-;;   (js-switch-indent-offset 2)))
+;; ;; JavaScript
+;; ;; (use-package js-mode
+;; ;;   :ensure js2-mode
+;; ;;   :custom
+;; ;;   (js-indent-level 2)
+;; ;;   (js-switch-indent-offset 2)))
 
 (use-package python
   :mode ("\\.py\\'" . python-mode)
@@ -585,10 +588,6 @@ Emacs buffer are those starting with “*”."
 
 (use-package dockerfile-mode
   :mode ("Dockerfile\\'" . dockerfile-mode))
-
-(use-package cperl-mode
-  :init (defalias 'perl-mode 'cperl-mode)
-  :mode "\\.pl\\'")
 
 (use-package yaml-mode
   :mode "\\.yml\\'")
