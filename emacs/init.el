@@ -449,10 +449,10 @@ Emacs buffer are those starting with “*”."
 
 ;; ESS-mode for R and julia
 (use-package ess
-  :disabled
-  :init (require 'ess-site))
+  :init (require 'ess-site)
   :config (progn
-            (setq ess-swv-processor 'knitr))
+            (setq ess-swv-processor 'knitr)))
+;; (setq auto-mode-alist (assq-delete-all "\\.jl\\'"))
 
 (use-package julia-mode
   :mode "\\.jl\\'")
