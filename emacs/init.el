@@ -293,9 +293,6 @@ point reaches the beginning or end of the buffer, stop there."
             (set-face-attribute 'yalinum-bar-face nil
                                 :background solarized-base1 :foreground solarized-base02)))
 
-(use-package highlight-parentheses
-  :init (highlight-parentheses-mode))
-
 (use-package fill-column-indicator
   :hook ((prog-mode TeX-mode) . fci-mode))
 
