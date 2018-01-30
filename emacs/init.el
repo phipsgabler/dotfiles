@@ -456,10 +456,10 @@ Emacs buffer are those starting with “*”."
 
 (use-package julia-repl
   :bind (:map julia-mode-map
-              ("C-c C-c" . julia-repl-send-region-or-line)
+              ;; ("C-c C-c" . julia-repl-send-region-or-line)
               ("C-c C-b" . julia-repl-send-buffer)
               ("C-c C-z" . julia-repl)
-              ("<C-return>" . julia-repl-send-line)
+              ("<C-return>" . julia-repl-send-region-or-line)
               ("C-c C-e" . julia-repl-edit)
               ("C-c C-d" . julia-repl-doc)
               ("C-c C-w" . julia-repl-workspace)
