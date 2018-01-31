@@ -276,6 +276,7 @@ point reaches the beginning or end of the buffer, stop there."
 ;; deleting a whitespace character will delete all whitespace until the next non-whitespace
 ;; character
 (use-package hungry-delete
+  :disabled
   :init (global-hungry-delete-mode))
 
 
@@ -454,6 +455,20 @@ Emacs buffer are those starting with “*”."
 (use-package julia-mode
   :mode "\\.jl\\'")
 
+(defun julia-repl-weave ()
+  "Weave the file associated with the current buffer. If it is
+modified, prompts for saving."
+  (interactive)
+  (let* ((file buffer-file-name))
+    (when (and file (buffer-modified-p))
+      (if (y-or-n-p "Buffer modified, save?")
+          (save-buffer)
+        (setq file nil)))
+    (if file
+        (julia-repl--send-string
+         (concat "weave(\"" file "\")"))
+      (message "File not found, can't weave!"))))
+
 (use-package julia-repl
   :bind (:map julia-mode-map
               ;; ("C-c C-c" . julia-repl-send-region-or-line)
@@ -463,7 +478,8 @@ Emacs buffer are those starting with “*”."
               ("C-c C-e" . julia-repl-edit)
               ("C-c C-d" . julia-repl-doc)
               ("C-c C-w" . julia-repl-workspace)
-              ("C-c C-m" . julia-repl-macroexpand)))
+              ("C-c C-m" . julia-repl-macroexpand)
+              ("C-c C-W" . julia-repl-weave)))
 
 ;; scala-mode
 ;; (use-package ensime
