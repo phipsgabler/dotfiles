@@ -230,6 +230,13 @@ point reaches the beginning or end of the buffer, stop there."
   (ido-enable-flex-matching t)
   (ido-everywhere t))
 
+(use-package ido-completing-read+
+  :init (ido-ubiquitous-mode t))
+
+(use-package amx
+  :custom
+  (amx-save-file (in-emacs-d "cache/amx-items")))
+
 (defun recentf-ido-find-file ()
   ;; http://www.xsteve.at/prg/emacs/power-user-tips.html
   "Find a recent file using Ido."
@@ -246,11 +253,6 @@ point reaches the beginning or end of the buffer, stop there."
   :init (recentf-mode t)
   :bind ("C-x C-S-f" . recentf-ido-find-file)
   :custom (recentf-max-menu-items 25))
-
-(use-package smex
-  :init (smex-initialize)
-  :bind ("M-x" . smex)
-  :custom (smex-save-file (in-emacs-d "cache/smex-items")))
 
 ;; visual completion
 (use-package company
