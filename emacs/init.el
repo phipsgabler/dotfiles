@@ -481,7 +481,7 @@ modified, prompts for saving."
               ("C-c C-d" . julia-repl-doc)
               ("C-c C-w" . julia-repl-workspace)
               ("C-c C-m" . julia-repl-macroexpand)
-              ("C-c C-W" . julia-repl-weave)))
+              ("C-c C-S-w" . julia-repl-weave)))
 
 ;; scala-mode
 ;; (use-package ensime
