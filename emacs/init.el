@@ -447,15 +447,17 @@ Emacs buffer are those starting with “*”."
 ;; (use-package octave
 ;;   :mode ("\\.m\\'" . octave-mode))
 
-;; ESS-mode for R and julia
+;; ESS-mode for R (not Julia)
 (use-package ess
   :init (require 'ess-site)
-  :config (progn
-            (setq ess-swv-processor 'knitr)))
-;; (setq auto-mode-alist (assq-delete-all "\\.jl\\'"))
+  :config (setq ess-swv-processor 'knitr))
 
+;; Julia modes
 (use-package julia-mode
-  :mode "\\.jl\\'")
+  :init
+  ;; hack to overwrite ess's loading (see https://emacs.stackexchange.com/a/38578/14414):
+  (push '("\\.jl\\'" . julia-mode) auto-mode-alist)
+  (delete-dups auto-mode-alist))
 
 (defun julia-repl-weave ()
   "Weave the file associated with the current buffer. If it is
@@ -473,15 +475,17 @@ modified, prompts for saving."
 
 (use-package julia-repl
   :bind (:map julia-mode-map
-              ;; ("C-c C-c" . julia-repl-send-region-or-line)
-              ("C-c C-b" . julia-repl-send-buffer)
-              ("C-c C-z" . julia-repl)
-              ("<C-return>" . julia-repl-send-region-or-line)
-              ("C-c C-e" . julia-repl-edit)
-              ("C-c C-d" . julia-repl-doc)
-              ("C-c C-w" . julia-repl-workspace)
-              ("C-c C-m" . julia-repl-macroexpand)
-              ("C-c C-S-w" . julia-repl-weave)))
+         ;; ("C-c C-c" . julia-repl-send-region-or-line)
+         ("C-c C-b" . julia-repl-send-buffer)
+         ("C-c C-z" . julia-repl)
+         ("<C-return>" . julia-repl-send-region-or-line)
+         ("C-c C-e" . julia-repl-edit)
+         ("C-c C-d" . julia-repl-doc)
+         ("C-c C-w" . julia-repl-workspace)
+         ("C-c C-m" . julia-repl-macroexpand)
+         ("C-c C-S-w" . julia-repl-weave)))
+
+
 
 ;; scala-mode
 ;; (use-package ensime
