@@ -338,6 +338,23 @@ Emacs buffer are those starting with “*”."
 (use-package powerline
   :config (powerline-default-theme))
 
+(use-package dired-sidebar
+  :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
+  :commands (dired-sidebar-toggle-sidebar)
+  :config
+  (setq dired-sidebar-subtree-line-prefix " .")
+  (setq dired-sidebar-use-term-integration t)
+  (if (display-graphic-p)
+      (setq dired-sidebar-theme 'icons)
+    (setq dired-sidebar-theme 'nerd)))
+
+;; https://github.com/jojojames/dired-sidebar
+;; https://github.com/jtbm37/all-the-icons-dired
+;; https://github.com/domtronn/all-the-icons.el
+;; https://github.com/jojojames/ibuffer-sidebar
+;; https://github.com/emacsfodder/move-text/tree/7cbc941a9150468609010a93c429117da2523903
+;; https://github.com/mattfidler/tabbar-ruler.el
+
 ;; (use-package whitespace
 ;;   :init (global-whitespace-mode t)
 ;;   ;; TODO: adapt for terminal use
