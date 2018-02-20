@@ -455,6 +455,8 @@ Emacs buffer are those starting with “*”."
 ;; Julia modes
 (use-package julia-mode
   :init
+  (setq ;; comment-start "#' "
+        comment-start-skip "#+\\('\\|\\+\\)?\\s-*")
   ;; hack to overwrite ess's loading (see https://emacs.stackexchange.com/a/38578/14414):
   (push '("\\.jl\\'" . julia-mode) auto-mode-alist)
   (delete-dups auto-mode-alist))
@@ -483,6 +485,10 @@ modified, prompts for saving."
          ("C-c C-d" . julia-repl-doc)
          ("C-c C-w" . julia-repl-workspace)
          ("C-c C-m" . julia-repl-macroexpand)
+         ("C-c C-S-w" . julia-repl-weave)
+         :map julia-repl-mode-map
+         ("C-c C-w" . julia-repl-workspace)
+         ("C-c C-b" . julia-repl-send-buffer)
          ("C-c C-S-w" . julia-repl-weave)))
 
 
