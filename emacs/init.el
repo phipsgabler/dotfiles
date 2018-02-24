@@ -382,16 +382,26 @@ Emacs buffer are those starting with “*”."
 ;; MAJOR MODES
 
 ;; markdown/pandoc
+
+;; https://jblevins.org/projects/markdown-mode/
 (use-package markdown-mode
   :mode "\\.text\\'"
   :mode "\\.md\\'"
-  :mode "\\.Rmd\\'")
+  :mode "\\.Rmd\\'"
+  :mode "\\.jmd\\'"
+  :mode ("README\\.md\\'" . gfm-mode)
+  :custom
+  (markdown-command (let ((stylesheet (in-emacs-d "github-pandoc.css")))
+                      (concat "pandoc -s --wrap=none -f markdown_github -c " stylesheet))))
 ;; :config (progn
 ;;           (remove-hook 'markdown-mode-hook 'turn-on-auto-fill)
 ;;           (add-hook 'markdown-mode-hook 'turn-off-auto-fill))
 
 (use-package pandoc-mode
   :hook markdown-mode)
+
+(use-package markdown-preview-mode)
+
 
 
 ;; haskell mode
@@ -467,7 +477,9 @@ Emacs buffer are those starting with “*”."
 ;; ESS-mode for R (not Julia)
 (use-package ess
   :init (require 'ess-site)
-  :config (setq ess-swv-processor 'knitr))
+  :config
+  (setq ess-swv-processor 'knitr)
+  (setq ess-use-ido t))
 
 ;; Julia modes
 (use-package julia-mode
