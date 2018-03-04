@@ -24,7 +24,6 @@
 ;; - Add phi-search: https://github.com/zk-phi/phi-search
 ;; - color customizations: constants -- should be independent of display-graphics-p!
 ;; - fallback fonts: https://emacs.stackexchange.com/q/13983/14414
-;; - https://github.com/emacsfodder/move-text/tree/7cbc941a9150468609010a93c429117da2523903
 ;; - https://github.com/mattfidler/tabbar-ruler.el
 
 
@@ -227,6 +226,10 @@ point reaches the beginning or end of the buffer, stop there."
          ("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)
          ("C-S-<mouse-1>" . mc/add-cursor-on-click)))
+
+(use-package move-text
+  :bind (("C-P" . move-text-up)
+         ("C-N" . move-text-down)))
 
 ;; ido and stuff
 (use-package ido
