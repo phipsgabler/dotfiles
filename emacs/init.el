@@ -200,21 +200,22 @@ point reaches the beginning or end of the buffer, stop there."
 ;; ;; BUILTIN MODES
 (use-package dired
   :ensure f
-  :init (put 'dired-find-alternate-file 'disabled nil)
-  :config (progn
-            (bind-key "^" '(lambda () (interactive) (find-alternate-file "..")) dired-mode-map)))
+  :config
+  (put 'dired-find-alternate-file 'disabled nil)
+  (bind-key "^" '(lambda () (interactive) (find-alternate-file "..")) dired-mode-map))
 
 
 ;; ;; ;; GLOBALLY USED MINOR MODES
 
 (use-package saveplace
-  :init (save-place-mode t)
+  :config (save-place-mode t)
   :custom save-place-file (in-emacs-d "cache/saved-places"))
 
 ;; multiple-cursors
 (use-package multiple-cursors
-  :init (multiple-cursors-mode t)
-  :config (mc/always-run-for-all t)
+  :config
+  (multiple-cursors-mode t)
+  (mc/always-run-for-all t)
   :bind (("C-S-c C-S-c" . mc/edit-lines)
          ("C-S-c a" . mc/edit-beginnings-of-lines)
          ("C-S-c e" . mc/edit-ends-of-lines)
@@ -226,7 +227,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; ido and stuff
 (use-package ido
-  :init (ido-mode t)
+  :config (ido-mode t)
   :bind ("C-x C-b" . ibuffer)
   :custom
   (ido-save-directory-list-file (in-emacs-d "cache/ido.last"))
@@ -234,11 +235,12 @@ point reaches the beginning or end of the buffer, stop there."
   (ido-everywhere t))
 
 (use-package ido-completing-read+
-  :init (ido-ubiquitous-mode t))
+  :config (ido-ubiquitous-mode t))
 
 (use-package amx
   :custom
-  (amx-save-file (in-emacs-d "cache/amx-items")))
+  (amx-save-file (in-emacs-d "cache/amx-items"))
+  (amx-history-length 50))
 
 (defun recentf-ido-find-file ()
   ;; http://www.xsteve.at/prg/emacs/power-user-tips.html
@@ -259,18 +261,18 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; visual completion
 (use-package company
-  :init (global-company-mode t)
   :commands company-mode
-  :config (if (display-graphic-p)
-            (progn
-              (set-face-attribute 'company-tooltip nil
-                                  :background solarized-base2 :foreground solarized-base01)
-              (set-face-attribute 'company-scrollbar-bg nil :background solarized-base1)
-              (set-face-attribute 'company-scrollbar-fg nil :background solarized-base02)))
+  :config
+  (global-company-mode t)
+  (when (display-graphic-p)
+    (set-face-attribute 'company-tooltip nil
+                        :background solarized-base2 :foreground solarized-base01)
+    (set-face-attribute 'company-scrollbar-bg nil :background solarized-base1)
+    (set-face-attribute 'company-scrollbar-fg nil :background solarized-base02))
   :custom (company-idle-delay 0))
 
 (use-package company-auctex
-  :init (company-auctex-init))
+  :config (company-auctex-init))
 
 (use-package company-math
   :config (add-to-list 'company-backends 'company-math-symbols-unicode))
@@ -292,12 +294,12 @@ point reaches the beginning or end of the buffer, stop there."
   :hook ((prog-mode TeX-mode) . rainbow-delimiters-mode))
 
 (use-package yalinum
-  :init (global-yalinum-mode t)
-  :config (progn
-            (set-face-attribute 'yalinum-face nil
-                                :background solarized-base2 :foreground solarized-base01)
-            (set-face-attribute 'yalinum-bar-face nil
-                                :background solarized-base1 :foreground solarized-base02)))
+  :config
+  (global-yalinum-mode t)
+  (set-face-attribute 'yalinum-face nil
+                      :background solarized-base2 :foreground solarized-base01)
+  (set-face-attribute 'yalinum-bar-face nil
+                      :background solarized-base1 :foreground solarized-base02))
 
 (use-package fill-column-indicator
   :hook ((prog-mode TeX-mode) . fci-mode))
@@ -331,7 +333,7 @@ Emacs buffer are those starting with “*”."
 (use-package tabbar
   :bind (([M-left] . tabbar-backward-tab)
          ([M-right] . tabbar-forward-tab))
-  :init (tabbar-mode t))
+  :config (tabbar-mode t))
 ;; :config (setq tabbar-buffer-groups-function 'tabbar-buffer-groups)
 
 ;; better looking tabs for tabbar, and automatic ruler
@@ -419,29 +421,29 @@ Emacs buffer are those starting with “*”."
               ("C-c <right>" . comment-region)
               ("C-c <left>" . uncomment-region)
               ("C-x C-s" . haskell-mode-save-buffer))
-  :config (progn
-            ;; (haskell-indent-offset 2)
-            ;; (haskell-program-name "ghci")
-            ;; alignment rules after: https://github.com/haskell/haskell-mode/wiki/Indentation#aligning-code
-            (add-hook 'align-load-hook
-                      (lambda ()
-                        (progn
-                          (add-to-list 'align-rules-list
-                                       '(haskell-types
-                                         (regexp . "\\(\\s-+\\)\\(::\\|∷\\)\\s-+")
-                                         (modes '(haskell-mode literate-haskell-mode))))
-                          (add-to-list 'align-rules-list
-                                       '(haskell-assignment
-                                         (regexp . "\\(\\s-+\\)=\\s-+")
-                                         (modes '(haskell-mode literate-haskell-mode))))
-                          (add-to-list 'align-rules-list
-                                       '(haskell-arrows
-                                         (regexp . "\\(\\s-+\\)\\(->\\|→\\)\\s-+")
-                                         (modes '(haskell-mode literate-haskell-mode))))
-                          (add-to-list 'align-rules-list
-                                       '(haskell-left-arrows
-                                         (regexp . "\\(\\s-+\\)\\(<-\\|←\\)\\s-+")
-                                         (modes '(haskell-mode literate-haskell-mode)))))))))
+  :config 
+  ;; (haskell-indent-offset 2)
+  ;; (haskell-program-name "ghci")
+  ;; alignment rules after: https://github.com/haskell/haskell-mode/wiki/Indentation#aligning-code
+  (add-hook 'align-load-hook
+            (lambda ()
+              (progn
+                (add-to-list 'align-rules-list
+                             '(haskell-types
+                               (regexp . "\\(\\s-+\\)\\(::\\|∷\\)\\s-+")
+                               (modes '(haskell-mode literate-haskell-mode))))
+                (add-to-list 'align-rules-list
+                             '(haskell-assignment
+                               (regexp . "\\(\\s-+\\)=\\s-+")
+                               (modes '(haskell-mode literate-haskell-mode))))
+                (add-to-list 'align-rules-list
+                             '(haskell-arrows
+                               (regexp . "\\(\\s-+\\)\\(->\\|→\\)\\s-+")
+                               (modes '(haskell-mode literate-haskell-mode))))
+                (add-to-list 'align-rules-list
+                             '(haskell-left-arrows
+                               (regexp . "\\(\\s-+\\)\\(<-\\|←\\)\\s-+")
+                               (modes '(haskell-mode literate-haskell-mode))))))))
 ;;(autoload 'ghc-init "ghc" nil t)
 ;;(add-hook 'haskell-mode-hook (lambda () (ghc-init) (flymake-mode))
 
@@ -560,30 +562,30 @@ modified, prompts for saving."
 ;; distraction free writing
 ;; replace by olivetti:     https://login.yoursecurecloud.de/d/346a8921204a4ec5acc1/
 (use-package writeroom-mode
-  :init (setq writeroom-width fill-column)
   :bind (("C-M-<" . writeroom-decrease-width)
          ("C-M->" . writeroom-increase-width)
-         ("C-M-=" . writeroom-adjust-width)))
+         ("C-M-=" . writeroom-adjust-width))
   :init (add-hook 'writeroom-mode-hook (lambda () (yalinum-mode nil)))
+  :config (setq writeroom-width fill-column))
 
 ;; auctex/reftex
 (use-package reftex
   :init (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-  :config (progn
-            (setq reftex-plug-into-AUCTeX t)
-            (setq reftex-bibliography-commands '("bibliography" "nobibliography" "addbibresource"))
-            (setq reftex-default-bibliography '("ref.bib"))))
+  :config
+  (setq reftex-plug-into-AUCTeX t)
+  (setq reftex-bibliography-commands '("bibliography" "nobibliography" "addbibresource"))
+  (setq reftex-default-bibliography '("ref.bib")))
 
 (use-package tex
   :ensure auctex
-  :init (progn
-          ;; this is just for editing song files
-          (add-to-list 'auto-mode-alist
-                       '("\\.sg\\'" . (lambda ()
-                                        (LaTeX-mode)
-                                        (electric-indent-mode nil)
-                                        (turn-off-auto-fill))))
-          (add-hook 'LaTeX-mode-hook 'turn-on-auto-fill))
+  :init 
+  ;; this is just for editing song files
+  (add-to-list 'auto-mode-alist
+               '("\\.sg\\'" . (lambda ()
+                                (LaTeX-mode)
+                                (electric-indent-mode nil)
+                                (turn-off-auto-fill))))
+  (add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
   ;; '(font-latex-fontify-sectioning (quote color))
   ;; '(font-latex-quotes nil)
   :custom
