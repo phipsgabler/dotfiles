@@ -21,10 +21,13 @@
 ;; - emacs as daemon: https://www.emacswiki.org/emacs/EmacsAsDaemon,
 ;;   https://askubuntu.com/questions/682898/how-to-open-files-with-emacs-in-new-tabs
 ;; - htmlize: https://tpapp.github.io/post/htmlize-screenshot/
-;; - Weave for Julia: https://github.com/mpastell/Weave.jl
 ;; - Add phi-search: https://github.com/zk-phi/phi-search
 ;; - color customizations: constants -- should be independent of display-graphics-p!
 ;; - fallback fonts: https://emacs.stackexchange.com/q/13983/14414
+;; - https://github.com/emacsfodder/move-text/tree/7cbc941a9150468609010a93c429117da2523903
+;; - https://github.com/mattfidler/tabbar-ruler.el
+
+
 
 (setq inhibit-startup-screen t
       column-number-mode t)
@@ -344,7 +347,6 @@ Emacs buffer are those starting with “*”."
   :config (powerline-default-theme))
 
 (use-package dired-sidebar
-  :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
   :commands (dired-sidebar-toggle-sidebar)
   :config
   (setq dired-sidebar-subtree-line-prefix " .")
@@ -353,12 +355,21 @@ Emacs buffer are those starting with “*”."
       (setq dired-sidebar-theme 'icons)
     (setq dired-sidebar-theme 'nerd)))
 
-;; https://github.com/jojojames/dired-sidebar
-;; https://github.com/jtbm37/all-the-icons-dired
-;; https://github.com/domtronn/all-the-icons.el
-;; https://github.com/jojojames/ibuffer-sidebar
-;; https://github.com/emacsfodder/move-text/tree/7cbc941a9150468609010a93c429117da2523903
-;; https://github.com/mattfidler/tabbar-ruler.el
+(use-package all-the-icons-dired
+  ;; M-x all-the-icons-install-fonts
+  :commands (all-the-icons-dired-mode))
+
+(use-package ibuffer-sidebar
+  :commands (ibuffer-sidebar-toggle-sidebar))
+
+(defun toggle-sidebars ()
+  "Toggle both `dired-sidebar' and `ibuffer-sidebar'."
+  (interactive)
+  (dired-sidebar-toggle-sidebar)
+  (ibuffer-sidebar-toggle-sidebar))
+
+(bind-key "C-x C-n" 'toggle-sidebars)
+
 
 ;; (use-package whitespace
 ;;   :init (global-whitespace-mode t)
