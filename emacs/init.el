@@ -24,7 +24,7 @@
 ;; - Weave for Julia: https://github.com/mpastell/Weave.jl
 ;; - Add phi-search: https://github.com/zk-phi/phi-search
 ;; - color customizations: constants -- should be independent of display-graphics-p!
-
+;; - fallback fonts: https://emacs.stackexchange.com/q/13983/14414
 
 (setq inhibit-startup-screen t
       column-number-mode t)
@@ -34,7 +34,11 @@
 
 ;; font stuff
 (when (member "DejaVu Sans Mono" (font-family-list))
-    (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-11")))
+  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-11")))
+;; (when (member "DejaVu Sans" (font-family-list))
+;;   (set-fontset-font "fontset-default" '(#x1D400 . #x1D7FF) "DejaVu Sans"))
+
+
 
 ;; autofill mode
 (setq-default fill-column 100)
@@ -155,10 +159,9 @@ point reaches the beginning or end of the buffer, stop there."
 (package-initialize)
 
 ;; automatically load use-package to subsequently do loading automatically
-(if (not (package-installed-p 'use-package))
-    (progn
+(unless (package-installed-p 'use-package)
       (package-refresh-contents)
-      (package-install 'use-package)))
+      (package-install 'use-package))
 (eval-when-compile
   (require 'use-package)
   (require 'bind-key))
@@ -387,7 +390,7 @@ Emacs buffer are those starting with “*”."
 (use-package markdown-mode
   :mode "\\.text\\'"
   :mode "\\.md\\'"
-  :mode "\\.Rmd\\'"
+  :mode "\\.Rmd\\'" ;; TODO: possibly use MMM-mode or similar for this situation
   :mode "\\.jmd\\'"
   :mode ("README\\.md\\'" . gfm-mode)
   :custom
