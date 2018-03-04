@@ -23,8 +23,6 @@
 ;; - htmlize: https://tpapp.github.io/post/htmlize-screenshot/
 ;; - Add phi-search: https://github.com/zk-phi/phi-search
 ;; - color customizations: constants -- should be independent of display-graphics-p!
-;; - fallback fonts: https://emacs.stackexchange.com/q/13983/14414
-
 
 
 (setq inhibit-startup-screen t
@@ -36,9 +34,10 @@
 ;; font stuff
 (when (member "DejaVu Sans Mono" (font-family-list))
   (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-11")))
-;; (when (member "DejaVu Sans" (font-family-list))
-;;   (set-fontset-font "fontset-default" '(#x1D400 . #x1D7FF) "DejaVu Sans"))
-
+;; (setq use-default-font-for-symbols nil) ;; see https://emacs.stackexchange.com/q/29777/14414
+(when (member "FreeSerif" (font-family-list))
+  (set-fontset-font t '(#x1D400 . #x1D7FF) "FreeSerif" nil "prepend")
+  (set-fontset-font t '(#x2100 . #x214F) "FreeSerif" nil "prepend"))
 
 
 ;; autofill mode
@@ -227,8 +226,8 @@ point reaches the beginning or end of the buffer, stop there."
          ("C-S-<mouse-1>" . mc/add-cursor-on-click)))
 
 (use-package move-text
-  :bind (("C-P" . move-text-up)
-         ("C-N" . move-text-down)))
+  :bind (("C-S-p" . move-text-up)
+         ("C-S-n" . move-text-down)))
 
 ;; ido and stuff
 (use-package ido
