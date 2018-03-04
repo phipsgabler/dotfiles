@@ -24,7 +24,6 @@
 ;; - Add phi-search: https://github.com/zk-phi/phi-search
 ;; - color customizations: constants -- should be independent of display-graphics-p!
 ;; - fallback fonts: https://emacs.stackexchange.com/q/13983/14414
-;; - https://github.com/mattfidler/tabbar-ruler.el
 
 
 
@@ -344,6 +343,7 @@ Emacs buffer are those starting with “*”."
 
 ;; better looking tabs for tabbar, and automatic ruler
 (use-package tabbar-ruler
+  :bind ("C-c t" . tabbar-ruler-move)
   :custom (tabbar-ruler-global-tabbar t))
 
 (use-package powerline
