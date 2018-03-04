@@ -21,7 +21,7 @@
 ;; - emacs as daemon: https://www.emacswiki.org/emacs/EmacsAsDaemon,
 ;;   https://askubuntu.com/questions/682898/how-to-open-files-with-emacs-in-new-tabs
 ;; - htmlize: https://tpapp.github.io/post/htmlize-screenshot/
-;; - Add phi-search: https://github.com/zk-phi/phi-search
+;; - Add phi-search-mc: https://github.com/knu/phi-search-mc.el
 ;; - color customizations: constants -- should be independent of display-graphics-p!
 
 
@@ -225,6 +225,11 @@ point reaches the beginning or end of the buffer, stop there."
          ("C-<" . mc/mark-previous-like-this)
          ("C-S-<mouse-1>" . mc/add-cursor-on-click)))
 
+(use-package phi-search
+  :bind (;;("M-%" . phi-replace-query) ;; TODO: buggy! 
+         ("C-s" . phi-search)
+         ("C-r" . phi-search-backward)))
+
 (use-package move-text
   :bind (("C-S-p" . move-text-up)
          ("C-S-n" . move-text-down)))
@@ -337,13 +342,17 @@ Emacs buffer are those starting with “*”."
 (use-package tabbar
   :bind (([M-left] . tabbar-backward-tab)
          ([M-right] . tabbar-forward-tab))
-  :config (tabbar-mode t))
+  :init (tabbar-mode t))
 ;; :config (setq tabbar-buffer-groups-function 'tabbar-buffer-groups)
 
-;; better looking tabs for tabbar, and automatic ruler
+;; better looking tabs for tabbar
 (use-package tabbar-ruler
   :bind ("C-c t" . tabbar-ruler-move)
-  :custom (tabbar-ruler-global-tabbar t))
+  :demand                               ; otherwise not automaticaly loaded...
+  :init
+  (setq tabbar-ruler-global-tabbar t))
+
+
 
 (use-package powerline
   :config (powerline-default-theme))
