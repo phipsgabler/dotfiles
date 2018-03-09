@@ -24,6 +24,7 @@
 ;; - htmlize: https://tpapp.github.io/post/htmlize-screenshot/
 ;; - Add phi-search-mc: https://github.com/knu/phi-search-mc.el
 ;; - color customizations: constants -- should be independent of display-graphics-p!
+;; - update yalinum width upon text-scale-increase
 
 
 (setq inhibit-startup-screen t
@@ -311,6 +312,11 @@ point reaches the beginning or end of the buffer, stop there."
                       :background solarized-base2 :foreground solarized-base01)
   (set-face-attribute 'yalinum-bar-face nil
                       :background solarized-base1 :foreground solarized-base02))
+
+;; hook needed to update line numbers on scrolling
+;; (defvar text-scale-mode-hook nil
+  ;; "Hook run at end of command `text-scale-mode'.")
+;; (add-hook 'text-scale-mode-hook 'yalinum-update-current)
 
 (use-package fill-column-indicator
   :hook ((prog-mode TeX-mode) . fci-mode))
