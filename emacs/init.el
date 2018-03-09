@@ -92,23 +92,22 @@
   (setq killed-rectangle (extract-rectangle start end))
   (message "Copied rectangle from %d to %d" start end))
 
-;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
+;; original source: http://steve.yegge.googlepages.com/my-dot-emacs-file
 (defun rename-file-and-buffer (new-name)
   "Renames both current buffer and file it's visiting to NEW-NAME."
-  (interactive "sNew name: ")
-  (let ((name (buffer-name))
+  (interactive "sNew name for buffer and file: ")
+  (let ((buffername (buffer-name))
         (filename (buffer-file-name)))
-    (if (not filename)
-        (error "Buffer '%s' is not visiting a file!" name)
-      (if (get-buffer new-name)
-          (error "A buffer named '%s' already exists!" new-name)
-        (progn
-          (rename-file filename new-name 1)
-          (rename-buffer new-name)
-          (set-visited-file-name new-name)
-          (set-buffer-modified-p nil)
-          (message "File '%s' successfully renamed to '%s'"
-                   name (file-name-nondirectory new-name)))))))
+    (cond ((not filename)
+           (error "Buffer `%s' is not visiting a file!" buffername))
+          ((get-buffer new-name)
+           (error "A buffer named `%s' already exists!" new-name))
+          (t (rename-file filename new-name 1)
+             (rename-buffer new-name)
+             (set-visited-file-name new-name)
+             (set-buffer-modified-p nil)
+             (message "File `%s' successfully renamed to `%s'"
+                      buffername (file-name-nondirectory new-name))))))
 
 (defun kill-to-bol ()
   "Kill from point to beginning of line."
