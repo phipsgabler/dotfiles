@@ -18,6 +18,7 @@
 ;;   - https://github.com/fommil/dotfiles/blob/master/.emacs.d/init.el
 ;;   - https://github.com/mattfidler/emacs.d
 ;;   - https://github.com/gicmo/dot-emacs/blob/master/init.el
+;;   - https://sites.google.com/site/steveyegge2/my-dot-emacs-file
 ;; - emacs as daemon: https://www.emacswiki.org/emacs/EmacsAsDaemon,
 ;;   https://askubuntu.com/questions/682898/how-to-open-files-with-emacs-in-new-tabs
 ;; - htmlize: https://tpapp.github.io/post/htmlize-screenshot/
@@ -91,17 +92,17 @@
   (setq killed-rectangle (extract-rectangle start end))
   (message "Copied rectangle from %d to %d" start end))
 
-(defun rename-current-buffer-file ()
-  "Renames current buffer and file it is visiting."
-  (interactive)
-  (let* ((name (buffer-name))
-        (filename (buffer-file-name))
-        (basename (file-name-nondirectory filename)))
-    (if (not (and filename (file-exists-p filename)))
+;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
+(defun rename-file-and-buffer (new-name)
+  "Renames both current buffer and file it's visiting to NEW-NAME."
+  (interactive "sNew name: ")
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not filename)
         (error "Buffer '%s' is not visiting a file!" name)
-      (let ((new-name (read-file-name "New name: " (file-name-directory filename) basename nil basename)))
-        (if (get-buffer new-name)
-            (error "A buffer named '%s' already exists!" new-name)
+      (if (get-buffer new-name)
+          (error "A buffer named '%s' already exists!" new-name)
+        (progn
           (rename-file filename new-name 1)
           (rename-buffer new-name)
           (set-visited-file-name new-name)
@@ -185,7 +186,7 @@ point reaches the beginning or end of the buffer, stop there."
 (bind-key "C-x r w" 'copy-rectangle)
 (bind-key "C-<backspace>" 'kill-to-bol)
 (bind-key "C-a" 'smarter-move-beginning-of-line)
-(bind-key "C-c r" 'rename-current-buffer-file)
+(bind-key "C-c r" 'rename-file-and-buffer)
 
 ;; various missing stuff
 (bind-key "C-x a r" 'align-regexp)
