@@ -192,6 +192,8 @@ point reaches the beginning or end of the buffer, stop there."
 (bind-key "C-x a r" 'align-regexp)
 (bind-key "C-x C-r" 'revert-buffer)
 (bind-key "M-SPC" 'cycle-spacing)
+(bind-key "C-<mouse-4>" 'text-scale-increase)
+(bind-key "C-<mouse-5>" 'text-scale-decrease)
 
 ;; redefinitions
 (bind-key "M-;" 'comment-line)
