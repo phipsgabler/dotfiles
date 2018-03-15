@@ -303,6 +303,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; ;; useful visualization stuff
 (use-package rainbow-delimiters
+  :config (show-paren-mode t)           ;builtin mode, highlight current matching delimiter
   :hook ((prog-mode TeX-mode) . rainbow-delimiters-mode))
 
 (use-package yalinum
