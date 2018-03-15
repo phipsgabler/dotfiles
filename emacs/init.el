@@ -695,3 +695,6 @@ modified, prompts for saving."
 (use-package lisp-mode
   :ensure nil
   :mode "\\.actr\\'")
+
+(use-package slime
+  :custom inferior-lisp-program "clisp")
