@@ -298,6 +298,10 @@ point reaches the beginning or end of the buffer, stop there."
   :disabled
   :init (global-hungry-delete-mode))
 
+(use-package smartparens
+  :config (require 'smartparens-config)
+  :hook ((prog-mode TeX-mode) . smartparens-mode))
+
 
 ;; ;; ;; VISUAL CUSTOMIZATIONS
 
@@ -687,3 +691,7 @@ modified, prompts for saving."
 
 (use-package yaml-mode
   :mode "\\.yml\\'")
+
+(use-package lisp-mode
+  :ensure nil
+  :mode "\\.actr\\'")
