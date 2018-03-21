@@ -19,6 +19,7 @@
 ;;   - https://github.com/mattfidler/emacs.d
 ;;   - https://github.com/gicmo/dot-emacs/blob/master/init.el
 ;;   - https://sites.google.com/site/steveyegge2/my-dot-emacs-file
+;;   - https://github.com/steckerhalter/steckemacs.el
 ;; - emacs as daemon: https://www.emacswiki.org/emacs/EmacsAsDaemon,
 ;;   https://askubuntu.com/questions/682898/how-to-open-files-with-emacs-in-new-tabs
 ;; - htmlize: https://tpapp.github.io/post/htmlize-screenshot/
@@ -218,7 +219,7 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package multiple-cursors
   :config
   (multiple-cursors-mode t)
-  (mc/always-run-for-all t)
+  (add-to-list 'mc/unsupported-minor-modes smartparens-mode)
   :bind (("C-S-c C-S-c" . mc/edit-lines)
          ("C-S-c a" . mc/edit-beginnings-of-lines)
          ("C-S-c e" . mc/edit-ends-of-lines)
