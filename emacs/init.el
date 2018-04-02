@@ -154,6 +154,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 
 ;; ;; MELPA and packages
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 ;; (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/"))
@@ -161,8 +162,8 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; automatically load use-package to subsequently do loading automatically
 (unless (package-installed-p 'use-package)
-      (package-refresh-contents)
-      (package-install 'use-package))
+  (package-refresh-contents)
+  (package-install 'use-package))
 (eval-when-compile
   (require 'use-package)
   (require 'bind-key))
@@ -179,7 +180,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; ;; KEY BINDINGS
 
-;; custom stuff defined above
+;; custom bindings using functions defined above
 (bind-key "C-@" 'select-current-line)
 (bind-key "C-M-w" 'copy-current-line)
 (bind-key "C-S-k" 'kill-current-line)
@@ -188,7 +189,7 @@ point reaches the beginning or end of the buffer, stop there."
 (bind-key "C-a" 'smarter-move-beginning-of-line)
 (bind-key "C-c r" 'rename-file-and-buffer)
 
-;; various missing stuff
+;; various missing bindings for existing functions
 (bind-key "C-x a r" 'align-regexp)
 (bind-key "C-x C-r" 'revert-buffer)
 (bind-key "M-SPC" 'cycle-spacing)
@@ -201,6 +202,8 @@ point reaches the beginning or end of the buffer, stop there."
 
 
 ;; ;; BUILTIN MODES
+
+;; for listing of and operating on files and directories
 (use-package dired
   :ensure f
   :config
@@ -208,17 +211,18 @@ point reaches the beginning or end of the buffer, stop there."
   (bind-key "^" '(lambda () (interactive) (find-alternate-file "..")) dired-mode-map))
 
 
-;; ;; ;; GLOBALLY USED MINOR MODES
+;; ;; GLOBALLY USED MINOR MODES
 
+;; open files at the same place they were closed at
 (use-package saveplace
   :config (save-place-mode t)
   :custom save-place-file (in-emacs-d "cache/saved-places"))
 
-;; multiple-cursors
+;; multiple cursors at once
 (use-package multiple-cursors
   :config
   (multiple-cursors-mode t)
-  (add-to-list 'mc/unsupported-minor-modes smartparens-mode)
+  (add-to-list 'mc/unsupported-minor-modes 'smartparens-mode)
   :bind (("C-S-c C-S-c" . mc/edit-lines)
          ("C-S-c a" . mc/edit-beginnings-of-lines)
          ("C-S-c e" . mc/edit-ends-of-lines)
@@ -228,23 +232,26 @@ point reaches the beginning or end of the buffer, stop there."
          ("C-<" . mc/mark-previous-like-this)
          ("C-S-<mouse-1>" . mc/add-cursor-on-click)))
 
+;; somewhat better seach experience, plays well with multiple-cursors
 (use-package phi-search
   :bind (;;("M-%" . phi-replace-query) ;; TODO: buggy! 
          ("C-s" . phi-search)
          ("C-r" . phi-search-backward)))
 
+;; enable phi-search in multiple-cursors
 (use-package phi-search-mc
   :config (phi-search-mc/setup-keys))
 
+;; move regions around, instead of having to copy them (like in IDEA)
 (use-package move-text
   :bind (("C-S-p" . move-text-up)
          ("C-S-n" . move-text-down)))
 
-;; https://github.com/magnars/expand-region.el/blob/master/README.md
+;; automatic semantic region expansion
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 
-;; ido and stuff
+;; for interactive expansions
 (use-package ido
   :config (ido-mode t)
   :bind ("C-x C-b" . ibuffer)
@@ -253,13 +260,15 @@ point reaches the beginning or end of the buffer, stop there."
   (ido-enable-flex-matching t)
   (ido-everywhere t))
 
+;; for more ido completion, everywhere
 (use-package ido-completing-read+
   :config (ido-ubiquitous-mode t))
 
-(use-package amx
-  :custom
-  (amx-save-file (in-emacs-d "cache/amx-items"))
-  (amx-history-length 50))
+;; use ido style interface for M-x
+(use-package smex
+  :bind (("M-x" . smex)
+         ("M-X" . smex-major-mode-commands))
+  :custom (smex-save-file (in-emacs-d "cache/smex-items")))
 
 (defun recentf-ido-find-file ()
   ;; http://www.xsteve.at/prg/emacs/power-user-tips.html
@@ -273,8 +282,9 @@ point reaches the beginning or end of the buffer, stop there."
                                   recentf-list)
                           nil t))))
 
+;; command for opening recently opened files
 (use-package recentf
-  :init (recentf-mode t)
+  :init (recentf-mode t) ; for some reason, this doesn't work with :config
   :bind ("C-x C-S-f" . recentf-ido-find-file)
   :custom (recentf-max-menu-items 25))
 
@@ -299,12 +309,7 @@ point reaches the beginning or end of the buffer, stop there."
 ;; 'describe-unbound-keys' lets fone find unused key combos
 ;; (use-package unbound)
 
-;; deleting a whitespace character will delete all whitespace until the next non-whitespace
-;; character
-(use-package hungry-delete
-  :disabled
-  :init (global-hungry-delete-mode))
-
+;; automatically insert maching pairs, and some useful stuff on regions
 (use-package smartparens
   :config (require 'smartparens-config)
   :hook ((prog-mode TeX-mode) . smartparens-mode))
@@ -314,9 +319,10 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; ;; useful visualization stuff
 (use-package rainbow-delimiters
-  :config (show-paren-mode t)           ;builtin mode, highlight current matching delimiter
+  :config (show-paren-mode t)   ; builtin mode, highlight current matching delimiter
   :hook ((prog-mode TeX-mode) . rainbow-delimiters-mode))
 
+;; show line numbers with a scrolled position indicator
 (use-package yalinum
   :config
   (global-yalinum-mode t)
@@ -333,6 +339,7 @@ point reaches the beginning or end of the buffer, stop there."
   ;; (yalinum-update-current))
 ;; (add-hook 'text-scale-mode-hook 'rescale-yalinum)
 
+;; visual vertical line to indicate the current fill-column
 (use-package fill-column-indicator
   :hook ((prog-mode TeX-mode) . fci-mode))
 
@@ -345,7 +352,6 @@ point reaches the beginning or end of the buffer, stop there."
   (solarized-distinct-fringe-background t)
   (x-underline-at-descent-line t))
 
-;; tabbar: show tabs at the top, automatically grouped
 (defun tabbar-buffer-groups ()
   ;; http://stackoverflow.com/a/3814313/1346276
   "Return the list of group names the current buffer belongs to.
@@ -362,6 +368,7 @@ Emacs buffer are those starting with “*”."
     (t
      "User Buffer"))))
 
+;; show tabs at the top, automatically grouped
 (use-package tabbar
   :bind (([M-left] . tabbar-backward-tab)
          ([M-right] . tabbar-forward-tab))
@@ -371,15 +378,15 @@ Emacs buffer are those starting with “*”."
 ;; better looking tabs for tabbar
 (use-package tabbar-ruler
   :bind ("C-c t" . tabbar-ruler-move)
-  :demand                               ; otherwise not automaticaly loaded...
+  :demand   ; otherwise this isn't automaticaly loaded...
   :init
   (setq tabbar-ruler-global-tabbar t))
 
-
-
+;; cool looking mode line ;)
 (use-package powerline
   :config (powerline-default-theme))
 
+;; navigation panel for dired, like in an IDE
 (use-package dired-sidebar
   :commands (dired-sidebar-toggle-sidebar)
   :config
@@ -389,10 +396,12 @@ Emacs buffer are those starting with “*”."
       (setq dired-sidebar-theme 'icons)
     (setq dired-sidebar-theme 'nerd)))
 
+;; icons for dired-sidebar
 (use-package all-the-icons-dired
   ;; M-x all-the-icons-install-fonts
   :commands (all-the-icons-dired-mode))
 
+;; show buffers in the same side bar
 (use-package ibuffer-sidebar
   :commands (ibuffer-sidebar-toggle-sidebar))
 
