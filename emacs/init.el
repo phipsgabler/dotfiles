@@ -25,7 +25,6 @@
 ;; - htmlize: https://tpapp.github.io/post/htmlize-screenshot/
 ;; - color customizations: constants -- should be independent of display-graphics-p!
 ;; - update yalinum width upon text-scale-increase
-;; - typo mode: https://github.com/jorgenschaefer/typoel
 
 (setq inhibit-startup-screen t
       column-number-mode t)
@@ -168,6 +167,14 @@ point reaches the beginning or end of the buffer, stop there."
   (require 'use-package)
   (require 'bind-key))
 (setq-default use-package-always-ensure t)
+
+;; to install packages from sources
+(use-package quelpa)
+(use-package quelpa-use-package
+  :config
+  (quelpa-use-package-activate-advice)
+  :custom 
+  (quelpa-update-melpa-p nil))
 
 ;; automatic updating every 7 days
 (use-package auto-package-update
@@ -314,6 +321,12 @@ point reaches the beginning or end of the buffer, stop there."
   :config (require 'smartparens-config)
   :hook ((prog-mode TeX-mode) . smartparens-mode))
 
+;; insertion of typographic unicode characters
+(use-package typo-mode
+  :ensure f
+  :quelpa (typo :fetcher github :repo "jorgenschaefer/typoel")
+  :hook text-mode)
+
 
 ;; ;; ;; VISUAL CUSTOMIZATIONS
 
@@ -412,21 +425,6 @@ Emacs buffer are those starting with “*”."
   (ibuffer-sidebar-toggle-sidebar))
 
 (bind-key "C-x C-n" 'toggle-sidebars)
-
-
-;; (use-package whitespace
-;;   :init (global-whitespace-mode t)
-;;   ;; TODO: adapt for terminal use
-;;   :config (mapc (lambda (face)
-;;                   (set-face-attribute face nil :background nil :foreground solarized-orange))
-;;                 (list 'whitespace-trailing 'whitespace-line 'whitespace-tab 'whitespace-empty))
-;;   :custom
-;;   (whitespace-line-column fill-column)
-;;   (whitespace-style '(face empty tabs lines-tail trailing tab-mark newline-mark))
-;;   ;; mappings: <mark> <character to be replaced (html code)> <replacements (html code)>
-;;   (whitespace-display-mappings '((newline-mark 10 [172 10]) ;; not sign: "¬"
-;;                                  (space-mark 32 [183]) ;; middle dot: "⋅"
-;;                                  (tab-mark 9 [8677 9])))) ;; rightwards arrow to bar: "⇥"
 
 (use-package leerzeichen
   :hook (prog-mode . leerzeichen-mode)

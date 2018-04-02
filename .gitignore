@@ -1,5 +1,6 @@
 emacs/custom.el
 emacs/elpa/
+emacs/quelpa/
 emacs/.mc-lists.el
 emacs/auto-save-list/
 emacs/.last-package-update-day
