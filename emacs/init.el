@@ -26,6 +26,7 @@
 ;; - Add phi-search-mc: https://github.com/knu/phi-search-mc.el
 ;; - color customizations: constants -- should be independent of display-graphics-p!
 ;; - update yalinum width upon text-scale-increase
+;; - expand-region: https://github.com/magnars/expand-region.el
 
 
 (setq inhibit-startup-screen t
@@ -237,6 +238,10 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package move-text
   :bind (("C-S-p" . move-text-up)
          ("C-S-n" . move-text-down)))
+
+;; https://github.com/magnars/expand-region.el/blob/master/README.md
+(use-package expand-region
+  :bind (("C-=" . er/expand-region)))
 
 ;; ido and stuff
 (use-package ido
