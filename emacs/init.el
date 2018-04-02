@@ -25,7 +25,7 @@
 ;; - htmlize: https://tpapp.github.io/post/htmlize-screenshot/
 ;; - color customizations: constants -- should be independent of display-graphics-p!
 ;; - update yalinum width upon text-scale-increase
-
+;; - typo mode: https://github.com/jorgenschaefer/typoel
 
 (setq inhibit-startup-screen t
       column-number-mode t)
@@ -428,14 +428,14 @@ Emacs buffer are those starting with “*”."
 ;;                                  (space-mark 32 [183]) ;; middle dot: "⋅"
 ;;                                  (tab-mark 9 [8677 9])))) ;; rightwards arrow to bar: "⇥"
 
-;; (use-package leerzeichen
-;;   :commands (leerzeichen-enable)
-;;   :config (progn
-;;             (set-face-attribute 'leerzeichen nil :foreground solarized-base1)
-;;             (setq
-;;              leerzeichen-line-feed-glyph (make-glyph-code ?¬ 'leerzeichen)
-;;              leerzeichen-tab-glyph (make-glyph-code ?⇥ 'leerzeichen)
-;;              leerzeichen-space-glyph (make-glyph-code nil 'leerzeichen))))
+(use-package leerzeichen
+  :hook (prog-mode . leerzeichen-mode)
+  :config
+  (set-face-attribute 'leerzeichen nil :foreground solarized-base1)
+  (setq
+   leerzeichen-line-feed-glyph (make-glyph-code ?¬ 'leerzeichen)
+   leerzeichen-tab-glyph (make-glyph-code ?⇥ 'leerzeichen)
+   leerzeichen-space-glyph (make-glyph-code nil 'leerzeichen)))
 
 
 ;; MAJOR MODES
