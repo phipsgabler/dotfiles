@@ -23,7 +23,6 @@
 ;; - emacs as daemon: https://www.emacswiki.org/emacs/EmacsAsDaemon,
 ;;   https://askubuntu.com/questions/682898/how-to-open-files-with-emacs-in-new-tabs
 ;; - htmlize: https://tpapp.github.io/post/htmlize-screenshot/
-;; - Add phi-search-mc: https://github.com/knu/phi-search-mc.el
 ;; - color customizations: constants -- should be independent of display-graphics-p!
 ;; - update yalinum width upon text-scale-increase
 
@@ -233,6 +232,9 @@ point reaches the beginning or end of the buffer, stop there."
   :bind (;;("M-%" . phi-replace-query) ;; TODO: buggy! 
          ("C-s" . phi-search)
          ("C-r" . phi-search-backward)))
+
+(use-package phi-search-mc
+  :config (phi-search-mc/setup-keys))
 
 (use-package move-text
   :bind (("C-S-p" . move-text-up)
