@@ -338,13 +338,20 @@ point reaches the beginning or end of the buffer, stop there."
   :hook ((prog-mode TeX-mode) . rainbow-delimiters-mode))
 
 ;; show line numbers with a scrolled position indicator
-(use-package yalinum
-  :config
-  (global-yalinum-mode t)
-  (set-face-attribute 'yalinum-face nil
-                      :background solarized-base2 :foreground solarized-base01)
-  (set-face-attribute 'yalinum-bar-face nil
-                      :background solarized-base1 :foreground solarized-base02))
+(use-package nlinum
+  :config (global-nlinum-mode t)
+  :custom
+  (nlinum-highlight-current-line t))
+(use-package nlinum-hl)
+(use-package hlinum
+  :config (hlinum-activate))
+;; (use-package yalinum
+;;   :config
+;;   (global-yalinum-mode t)
+;;   (set-face-attribute 'yalinum-face nil
+;;                       :background solarized-base2 :foreground solarized-base01)
+;;   (set-face-attribute 'yalinum-bar-face nil
+;;                       :background solarized-base1 :foreground solarized-base02))
 
 ;; visual vertical line to indicate the current fill-column
 (use-package fill-column-indicator
