@@ -307,11 +307,6 @@ point reaches the beginning or end of the buffer, stop there."
   :commands company-mode
   :config
   (global-company-mode t)
-  (when (display-graphic-p)
-    (set-face-attribute 'company-tooltip nil
-                        :background solarized-base2 :foreground solarized-base01)
-    (set-face-attribute 'company-scrollbar-bg nil :background solarized-base1)
-    (set-face-attribute 'company-scrollbar-fg nil :background solarized-base02))
   :custom (company-idle-delay 0))
 
 (use-package company-auctex
