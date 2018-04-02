@@ -20,11 +20,13 @@
 ;;   - https://github.com/gicmo/dot-emacs/blob/master/init.el
 ;;   - https://sites.google.com/site/steveyegge2/my-dot-emacs-file
 ;;   - https://github.com/steckerhalter/steckemacs.el
+;;   - https://github.com/kshenoy/dotfiles/blob/master/emacs.d/config.org
 ;; - emacs as daemon: https://www.emacswiki.org/emacs/EmacsAsDaemon,
 ;;   https://askubuntu.com/questions/682898/how-to-open-files-with-emacs-in-new-tabs
 ;; - htmlize: https://tpapp.github.io/post/htmlize-screenshot/
 ;; - color customizations: constants -- should be independent of display-graphics-p!
-;; - update yalinum width upon text-scale-increase
+;; - company mode handled by solarized-theme?
+;; - yalinum + fonts: https://github.com/bbatsov/solarized-emacs/issues/240
 
 (setq inhibit-startup-screen t
       column-number-mode t)
@@ -33,12 +35,17 @@
 (delete-selection-mode t) ; delete selected text when typing
 
 ;; font stuff
-(when (member "DejaVu Sans Mono" (font-family-list))
-  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-11")))
-;; (setq use-default-font-for-symbols nil) ;; see https://emacs.stackexchange.com/q/29777/14414
-(when (member "FreeSerif" (font-family-list))
-  (set-fontset-font t '(#x1D400 . #x1D7FF) "FreeSerif" nil "prepend")
-  (set-fontset-font t '(#x2100 . #x214F) "FreeSerif" nil "prepend"))
+(when (display-graphic-p)
+  (when  (x-list-fonts "DejaVu Sans Mono")
+    (let ((my-display-font "DejaVu Sans Mono-11"))
+      (set-face-attribute 'default        nil :font my-display-font)
+      (set-face-attribute 'variable-pitch nil :font my-display-font)
+      (set-face-attribute 'fixed-pitch    nil :font my-display-font)
+      (add-to-list 'default-frame-alist `(font . ,my-display-font)))
+    ;; consistently use a different font for some partially supported math ranges
+    (when (x-list-fonts "FreeSerif")
+      (set-fontset-font t '(#x1D400 . #x1D7FF) "FreeSerif" nil "prepend")
+      (set-fontset-font t '(#x2100 . #x214F) "FreeSerif" nil "prepend"))))
 
 
 ;; autofill mode
@@ -343,14 +350,6 @@ point reaches the beginning or end of the buffer, stop there."
                       :background solarized-base2 :foreground solarized-base01)
   (set-face-attribute 'yalinum-bar-face nil
                       :background solarized-base1 :foreground solarized-base02))
-
-;; hook needed to update line numbers on scrolling
-;; (defvar text-scale-mode-hook nil
-  ;; "Hook run at end of command `text-scale-mode'.")
-;; (defun rescale-yalinum ()
-  ;; (message "bla")
-  ;; (yalinum-update-current))
-;; (add-hook 'text-scale-mode-hook 'rescale-yalinum)
 
 ;; visual vertical line to indicate the current fill-column
 (use-package fill-column-indicator
