@@ -26,7 +26,6 @@
 ;; - Add phi-search-mc: https://github.com/knu/phi-search-mc.el
 ;; - color customizations: constants -- should be independent of display-graphics-p!
 ;; - update yalinum width upon text-scale-increase
-;; - expand-region: https://github.com/magnars/expand-region.el
 
 
 (setq inhibit-startup-screen t
@@ -241,7 +240,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; https://github.com/magnars/expand-region.el/blob/master/README.md
 (use-package expand-region
-  :bind (("C-=" . er/expand-region)))
+  :bind ("C-=" . er/expand-region))
 
 ;; ido and stuff
 (use-package ido
@@ -327,7 +326,10 @@ point reaches the beginning or end of the buffer, stop there."
 ;; hook needed to update line numbers on scrolling
 ;; (defvar text-scale-mode-hook nil
   ;; "Hook run at end of command `text-scale-mode'.")
-;; (add-hook 'text-scale-mode-hook 'yalinum-update-current)
+;; (defun rescale-yalinum ()
+  ;; (message "bla")
+  ;; (yalinum-update-current))
+;; (add-hook 'text-scale-mode-hook 'rescale-yalinum)
 
 (use-package fill-column-indicator
   :hook ((prog-mode TeX-mode) . fci-mode))
