@@ -164,7 +164,6 @@ point reaches the beginning or end of the buffer, stop there."
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 ;; (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/"))
-(package-initialize)
 
 ;; automatically load use-package to subsequently do loading automatically
 (unless (package-installed-p 'use-package)
@@ -265,20 +264,20 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 
-(defun my/ido-insert-home ()
-  ;; https://github.com/DarwinAwardWinner/ido-completing-read-plus/issues/56#issuecomment-61833674
-  (interactive)
-  (if (looking-back "/")
-      (insert "~/")
-    (call-interactively 'self-insert-command)))
-
 ;; for interactive expansions
 (use-package ido
+  :preface
+  (defun phg/ido-insert-home ()
+    ;; https://github.com/DarwinAwardWinner/ido-completing-read-plus/issues/56#issuecomment-61833674
+    (interactive)
+    (if (looking-back "/")
+        (insert "~/")
+      (call-interactively 'self-insert-command)))  
   :config
   (ido-mode t)
   :bind (("C-x C-b" . ibuffer)
          :map ido-file-completion-map
-         ("~" . my/ido-insert-home))
+         ("~" . phg/ido-insert-home))
   :custom
   (ido-save-directory-list-file (in-emacs-d "cache/ido.last"))
   (ido-enable-flex-matching t)
@@ -297,22 +296,24 @@ point reaches the beginning or end of the buffer, stop there."
          ("M-X" . smex-major-mode-commands))
   :custom (smex-save-file (in-emacs-d "cache/smex-items")))
 
-(defun recentf-ido-find-file ()
-  ;; http://www.xsteve.at/prg/emacs/power-user-tips.html
-  "Find a recent file using Ido."
-  (interactive)
-  (let ((home (expand-file-name (getenv "HOME"))))
-    (find-file
-     (ido-completing-read "Open recent file: "
-                          (mapcar (lambda (path)
-                                    (replace-regexp-in-string home "~" path))
-                                  recentf-list)
-                          nil t))))
+
 
 ;; command for opening recently opened files
 (use-package recentf
+  :preface
+  (defun phg/recentf-ido-find-file ()
+    ;; http://www.xsteve.at/prg/emacs/power-user-tips.html
+    "Find a recent file using Ido."
+    (interactive)
+    (let ((home (expand-file-name (getenv "HOME"))))
+      (find-file
+       (ido-completing-read "Open recent file: "
+                            (mapcar (lambda (path)
+                                      (replace-regexp-in-string home "~" path))
+                                    recentf-list)
+                            nil t))))  
   :init (recentf-mode t) ; for some reason, this doesn't work with :config
-  :bind ("C-x C-S-f" . recentf-ido-find-file)
+  :bind ("C-x C-S-f" . phg/recentf-ido-find-file)
   :custom (recentf-max-menu-items 25))
 
 ;; visual completion
@@ -380,28 +381,30 @@ point reaches the beginning or end of the buffer, stop there."
   (solarized-distinct-fringe-background t)
   (x-underline-at-descent-line t))
 
-(defun tabbar-buffer-groups ()
-  ;; http://stackoverflow.com/a/3814313/1346276
-  "Return the list of group names the current buffer belongs to.
+
+
+;; show tabs at the top, automatically grouped
+(use-package tabbar
+  :preface
+  (defun phg/tabbar-buffer-groups ()
+    ;; http://stackoverflow.com/a/3814313/1346276
+    "Return the list of group names the current buffer belongs to.
 This function is a custom function for tabbar-mode's
 tabbar-buffer-groups.  This function group all buffers into 3
 groups: Those Dired, those user buffer, and those emacs buffer.
 Emacs buffer are those starting with “*”."
-  (list
-   (cond
-    ((string-equal "*" (substring (buffer-name) 0 1))
-     "Emacs Buffer")
-    ((eq major-mode 'dired-mode)
-     "Dired")
-    (t
-     "User Buffer"))))
-
-;; show tabs at the top, automatically grouped
-(use-package tabbar
+    (list
+     (cond
+      ((string-equal "*" (substring (buffer-name) 0 1))
+       "Emacs Buffer")
+      ((eq major-mode 'dired-mode)
+       "Dired")
+      (t
+       "User Buffer"))))
+  ;; :config (setq tabbar-buffer-groups-function 'phg/tabbar-buffer-groups)
   :bind (([M-left] . tabbar-backward-tab)
          ([M-right] . tabbar-forward-tab))
   :init (tabbar-mode t))
-;; :config (setq tabbar-buffer-groups-function 'tabbar-buffer-groups)
 
 ;; better looking tabs for tabbar
 (use-package tabbar-ruler
@@ -433,13 +436,13 @@ Emacs buffer are those starting with “*”."
 (use-package ibuffer-sidebar
   :commands (ibuffer-sidebar-toggle-sidebar))
 
-(defun toggle-sidebars ()
+(defun phg/toggle-sidebars ()
   "Toggle both `dired-sidebar' and `ibuffer-sidebar'."
   (interactive)
   (dired-sidebar-toggle-sidebar)
   (ibuffer-sidebar-toggle-sidebar))
 
-(bind-key "C-x C-n" 'toggle-sidebars)
+(bind-key "C-x C-n" 'phg/toggle-sidebars)
 
 (use-package leerzeichen
   :hook (prog-mode . leerzeichen-mode)
@@ -474,14 +477,11 @@ Emacs buffer are those starting with “*”."
 
 (use-package markdown-preview-mode)
 
-
-
-;; haskell mode
-(defun haskell-mode-save-buffer ()
-  (interactive)
-  (save-buffer))
-
 (use-package haskell-mode
+  :preface
+  (defun haskell-mode-save-buffer ()
+    (interactive)
+    (save-buffer))  
   :mode "\\.hs\\'"
   :bind (:map haskell-mode-map
               ("M-q" . align)
@@ -562,21 +562,23 @@ Emacs buffer are those starting with “*”."
   (push '("\\.jl\\'" . julia-mode) auto-mode-alist)
   (delete-dups auto-mode-alist))
 
-(defun julia-repl-weave ()
-  "Weave the file associated with the current buffer. If it is
-modified, prompts for saving."
-  (interactive)
-  (let* ((file buffer-file-name))
-    (when (and file (buffer-modified-p))
-      (if (y-or-n-p "Buffer modified, save?")
-          (save-buffer)
-        (setq file nil)))
-    (if file
-        (julia-repl--send-string
-         (concat "weave(\"" file "\")"))
-      (message "File not found, can't weave!"))))
+
 
 (use-package julia-repl
+  :preface 
+  (defun julia-repl-weave ()
+    "Weave the file associated with the current buffer. If it is
+modified, prompts for saving."
+    (interactive)
+    (let* ((file buffer-file-name))
+      (when (and file (buffer-modified-p))
+        (if (y-or-n-p "Buffer modified, save?")
+            (save-buffer)
+          (setq file nil)))
+      (if file
+          (julia-repl--send-string
+           (concat "weave(\"" file "\")"))
+        (message "File not found, can't weave!"))))
   :bind (:map julia-mode-map
          ;; ("C-c C-c" . julia-repl-send-region-or-line)
          ("C-c C-b" . julia-repl-send-buffer)
