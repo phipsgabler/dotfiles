@@ -265,10 +265,20 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 
+(defun my/ido-insert-home ()
+  ;; https://github.com/DarwinAwardWinner/ido-completing-read-plus/issues/56#issuecomment-61833674
+  (interactive)
+  (if (looking-back "/")
+      (insert "~/")
+    (call-interactively 'self-insert-command)))
+
 ;; for interactive expansions
 (use-package ido
-  :config (ido-mode t)
-  :bind ("C-x C-b" . ibuffer)
+  :config
+  (ido-mode t)
+  :bind (("C-x C-b" . ibuffer)
+         :map ido-file-completion-map
+         ("~" . my/ido-insert-home))
   :custom
   (ido-save-directory-list-file (in-emacs-d "cache/ido.last"))
   (ido-enable-flex-matching t)
@@ -276,7 +286,10 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; for more ido completion, everywhere
 (use-package ido-completing-read+
-  :config (ido-ubiquitous-mode t))
+  :config
+  (ido-ubiquitous-mode t)
+  :custom
+  (ido-cr+-max-items 50000))
 
 ;; use ido style interface for M-x
 (use-package smex
@@ -327,6 +340,7 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package typo-mode
   :ensure f
   :quelpa (typo :fetcher github :repo "jorgenschaefer/typoel")
+  :config (typo-global-mode t)
   :hook text-mode)
 
 
