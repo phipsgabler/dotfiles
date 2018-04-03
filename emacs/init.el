@@ -159,11 +159,12 @@ point reaches the beginning or end of the buffer, stop there."
 
 
 
-;; ;; MELPA and packages
+;; ;; MELPA and package loading/installation
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 ;; (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/"))
+;; (package-initialize)
 
 ;; automatically load use-package to subsequently do loading automatically
 (unless (package-installed-p 'use-package)
@@ -175,12 +176,14 @@ point reaches the beginning or end of the buffer, stop there."
 (setq-default use-package-always-ensure t)
 
 ;; to install packages from sources
-(use-package quelpa)
-(use-package quelpa-use-package
-  :config
-  (quelpa-use-package-activate-advice)
+(use-package quelpa
   :custom 
   (quelpa-update-melpa-p nil))
+
+;; integrate quelpa into use-package
+(use-package quelpa-use-package
+  :config
+  (quelpa-use-package-activate-advice))
 
 ;; automatic updating every 7 days
 (use-package auto-package-update
@@ -189,6 +192,9 @@ point reaches the beginning or end of the buffer, stop there."
   (auto-package-update-interval 7)
   (auto-package-update-prompt-before-update t)
   (auto-package-update-delete-old-versions t))
+
+;; see issue: https://github.com/rranelli/auto-package-update.el/issues/30
+(setq warning-suppress-types '((package)))
 
 
 ;; ;; KEY BINDINGS
@@ -341,7 +347,7 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package typo-mode
   :ensure f
   :quelpa (typo :fetcher github :repo "jorgenschaefer/typoel")
-  :config (typo-global-mode t)
+  :init (typo-global-mode t)            ; :config doesn't work
   :hook text-mode)
 
 
