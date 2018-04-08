@@ -50,7 +50,7 @@
 
 ;; autofill mode
 (setq-default fill-column 100)
-(add-hook 'text-mode-hook 'turn-on-auto-fill)
+(add-hook 'text-mode-hook #'turn-on-auto-fill)
 
 ;; reactivate downcasing
 (put 'downcase-region 'disabled nil)
@@ -347,8 +347,9 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package typo-mode
   :ensure f
   :quelpa (typo :fetcher github :repo "jorgenschaefer/typoel")
-  :init (typo-global-mode t)            ; :config doesn't work
-  :hook text-mode)
+  :init
+  (typo-global-mode t)            ; :config doesn't work
+  :hook markdown-mode)
 
 
 ;; ;; ;; VISUAL CUSTOMIZATIONS
@@ -356,7 +357,7 @@ point reaches the beginning or end of the buffer, stop there."
 ;; ;; useful visualization stuff
 (use-package rainbow-delimiters
   :config (show-paren-mode t)   ; builtin mode, highlight current matching delimiter
-  :hook ((prog-mode TeX-mode) . rainbow-delimiters-mode))
+  :hook ((prog-mode TeX-mode LaTex-mode) . rainbow-delimiters-mode))
 
 ;; show line numbers with a scrolled position indicator
 (use-package nlinum
@@ -640,12 +641,12 @@ modified, prompts for saving."
   :bind (("C-M-<" . writeroom-decrease-width)
          ("C-M->" . writeroom-increase-width)
          ("C-M-=" . writeroom-adjust-width))
-  :init (add-hook 'writeroom-mode-hook (lambda () (yalinum-mode nil)))
+  ;; :init (add-hook 'writeroom-mode-hook (lambda () (yalinum-mode nil)))
   :config (setq writeroom-width fill-column))
 
 ;; auctex/reftex
 (use-package reftex
-  :init (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+  :init (add-hook 'LaTeX-mode-hook #'turn-on-reftex)
   :config
   (setq reftex-plug-into-AUCTeX t)
   (setq reftex-bibliography-commands '("bibliography" "nobibliography" "addbibresource"))
@@ -660,7 +661,7 @@ modified, prompts for saving."
                                 (LaTeX-mode)
                                 (electric-indent-mode nil)
                                 (turn-off-auto-fill))))
-  (add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
+  (add-hook 'LaTeX-mode-hook #'turn-on-auto-fill)
   ;; '(font-latex-fontify-sectioning (quote color))
   ;; '(font-latex-quotes nil)
   :custom
