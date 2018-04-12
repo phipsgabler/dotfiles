@@ -650,7 +650,18 @@ modified, prompts for saving."
   :config
   (setq reftex-plug-into-AUCTeX t)
   (setq reftex-bibliography-commands '("bibliography" "nobibliography" "addbibresource"))
-  (setq reftex-default-bibliography '("ref.bib")))
+  (setq reftex-default-bibliography '("ref.bib"))
+  (setq reftex-cite-format
+        '((?\C-m . "\\cite[]{%l}")
+          (?x . "\\textcite[]{%l}")
+          (?p . "\\parencite[]{%l}")
+          (?f . "\\footcite[][]{%l}")
+          (?a . "\\citeauthor[][]{%l}")
+          (?t . "\\citetitle[][]{%l}")
+          (?y . "\\citeyear[][]{%l}")
+          (?d . "\\citedate[][]{%l}")
+          (?n . "\\nocite{%l}")
+          (?e . "%l"))))
 
 (use-package tex
   :ensure auctex
