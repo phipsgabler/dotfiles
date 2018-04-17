@@ -68,7 +68,12 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
-
+(setq desktop-dirname             (in-emacs-d "desktops")
+      desktop-base-file-name      "emacs.desktop"
+      desktop-base-lock-name      "lock"
+      desktop-path                (list desktop-dirname)
+      desktop-save                t)
+(desktop-save-mode t)
 
 ;; ;; FUNCTIONS
 (defun select-current-line ()
@@ -651,17 +656,18 @@ modified, prompts for saving."
   (setq reftex-plug-into-AUCTeX t)
   (setq reftex-bibliography-commands '("bibliography" "nobibliography" "addbibresource"))
   (setq reftex-default-bibliography '("ref.bib"))
-  (setq reftex-cite-format
-        '((?\C-m . "\\cite[]{%l}")
-          (?x . "\\textcite[]{%l}")
-          (?p . "\\parencite[]{%l}")
-          (?f . "\\footcite[][]{%l}")
-          (?a . "\\citeauthor[][]{%l}")
-          (?t . "\\citetitle[][]{%l}")
-          (?y . "\\citeyear[][]{%l}")
-          (?d . "\\citedate[][]{%l}")
-          (?n . "\\nocite{%l}")
-          (?e . "%l"))))
+  :custom
+  (reftex-cite-format
+   '((?\C-m . "\\cite[]{%l}")
+     (?x . "\\textcite[]{%l}")
+     (?p . "\\parencite[]{%l}")
+     (?f . "\\footcite[][]{%l}")
+     (?a . "\\citeauthor[][]{%l}")
+     (?t . "\\citetitle[][]{%l}")
+     (?y . "\\citeyear[][]{%l}")
+     (?d . "\\citedate[][]{%l}")
+     (?n . "\\nocite{%l}")
+     (?e . "%l"))))
 
 (use-package tex
   :ensure auctex
