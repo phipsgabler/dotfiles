@@ -8,6 +8,8 @@ emacs/abbrev_defs
 emacs/cache
 emacs/recentf
 emacs/var
+emacs/desktops
+emacs/session.*
 xmonad/*.errors
 xmonad/*.hi
 xmonad/*.o
