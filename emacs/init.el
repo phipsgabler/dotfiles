@@ -33,6 +33,7 @@
 (setq-default indent-tabs-mode nil
               tab-width 2)
 (delete-selection-mode t) ; delete selected text when typing
+(tool-bar-mode nil) ; no tool bar
 
 ;; font stuff
 (when (display-graphic-p)
