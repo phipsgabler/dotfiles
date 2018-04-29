@@ -61,6 +61,11 @@ make install prefix=/usr/local
 - Aliasing is done already in the `bashrc` and `zshrc` files
 - Install [shell tab completion scripts](https://github.com/github/hub#shell-tab-completion).
 
+## Other tools
+
+- [ ] [exa](https://github.com/ogham/exa)
+- [ ] [fzf](https://github.com/junegunn/fzf), [fzf-zsh](https://github.com/Wyntau/fzf-zsh)
+
 ## Solarized for Xfce terminal
 
 See [here](https://github.com/sgerrand/xfce4-terminal-colors-solarized); simply paste the file from
