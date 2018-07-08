@@ -1,11 +1,11 @@
-(defun in-emacs-d (filename)
+(defun phg/in-emacs-d (filename)
   (expand-file-name filename user-emacs-directory))
 
 ;; ;; CUSTOMIZE AND OTHER EXTRA FILES
-(setq custom-file (in-emacs-d "custom.el"))
+(setq custom-file (phg/in-emacs-d "custom.el"))
 (load custom-file)
 
-(load (in-emacs-d "solarized-colors.el"))
+(load (phg/in-emacs-d "solarized-colors.el"))
 
 ;; ;; GENERAL
 ;; TODO:
@@ -60,18 +60,18 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; define location of backups and auto-saves
-(setq backup-directory-alist `(("." . ,(in-emacs-d "cache/backups")))
+(setq backup-directory-alist `(("." . ,(phg/in-emacs-d "cache/backups")))
       delete-old-versions t
       kept-new-versions 2
       kept-old-versions 2
       version-control t)
 
-(setq bookmark-default-file (in-emacs-d "cache/bookmarks"))
+(setq bookmark-default-file (phg/in-emacs-d "cache/bookmarks"))
 
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
-(setq desktop-dirname             (in-emacs-d "desktops")
+(setq desktop-dirname             (phg/in-emacs-d "desktops")
       desktop-base-file-name      "emacs.desktop"
       desktop-base-lock-name      "lock"
       desktop-path                (list desktop-dirname)
@@ -79,21 +79,21 @@
 (desktop-save-mode t)
 
 ;; ;; FUNCTIONS
-(defun select-current-line ()
+(defun phg/select-current-line ()
    "Mark the current line"
    (interactive)
    (end-of-line)
    (set-mark (line-beginning-position))
    (message "Selected line!"))
 
-(defun copy-current-line (&optional arg)
+(defun phg/copy-current-line (&optional arg)
    "Copy lines (as many as prefix argument) in the kill ring"
    (interactive "p")
    (kill-ring-save (line-beginning-position)
                    (line-beginning-position (+ 1 arg)))
    (message "%d line%s copied" arg (if (= 1 arg) "" "s")))
 
-(defun kill-current-line ()
+(defun phg/kill-current-line ()
   "Kills entire current line."
   (interactive)
   (beginning-of-line)
@@ -101,14 +101,14 @@
     (kill-line))
   (message "Line killed!"))
 
-(defun copy-rectangle (start end)
+(defun phg/copy-rectangle (start end)
   "Copy the region-rectangle instead of `kill-rectangle'."
   (interactive "r")
   (setq killed-rectangle (extract-rectangle start end))
   (message "Copied rectangle from %d to %d" start end))
 
 ;; original source: http://steve.yegge.googlepages.com/my-dot-emacs-file
-(defun rename-file-and-buffer (new-name)
+(defun phg/rename-file-and-buffer (new-name)
   "Renames both current buffer and file it's visiting to NEW-NAME."
   (interactive "sNew name for buffer and file: ")
   (let ((buffername (buffer-name))
@@ -124,12 +124,12 @@
              (message "File `%s' successfully renamed to `%s'"
                       buffername (file-name-nondirectory new-name))))))
 
-(defun kill-to-bol ()
+(defun phg/kill-to-bol ()
   "Kill from point to beginning of line."
   (interactive)
   (kill-line 0))
 
-(defun smarter-move-beginning-of-line (arg)
+(defun phg/smarter-move-beginning-of-line (arg)
   ;; from: http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginning-of-a-line/
   "Move point back to indentation of beginning of line.
 
@@ -154,13 +154,13 @@ point reaches the beginning or end of the buffer, stop there."
       (move-beginning-of-line 1))))
 
 ;; shortcuts to customize this file
-(defun reload-init-file ()
+(defun phg/reload-init-file ()
    "Reloads the emacs config file"
    (interactive)
    (load-file "~/.emacs.d/init.el")
    (message "New init file loaded!"))
 
-(defun edit-init-file ()
+(defun phg/edit-init-file ()
   "Opens .init file in a new buffer"
   (interactive)
   (find-file "~/.emacs.d/init.el"))
@@ -208,13 +208,13 @@ point reaches the beginning or end of the buffer, stop there."
 ;; ;; KEY BINDINGS
 
 ;; custom bindings using functions defined above
-(bind-key "C-@" 'select-current-line)
-(bind-key "C-M-w" 'copy-current-line)
-(bind-key "C-S-k" 'kill-current-line)
-(bind-key "C-x r w" 'copy-rectangle)
-(bind-key "C-<backspace>" 'kill-to-bol)
-(bind-key "C-a" 'smarter-move-beginning-of-line)
-(bind-key "C-c r" 'rename-file-and-buffer)
+(bind-key "C-@" 'phg/select-current-line)
+(bind-key "C-M-w" 'phg/copy-current-line)
+(bind-key "C-S-k" 'phg/kill-current-line)
+(bind-key "C-x r w" 'phg/copy-rectangle)
+(bind-key "C-<backspace>" 'phg/kill-to-bol)
+(bind-key "C-a" 'phg/smarter-move-beginning-of-line)
+(bind-key "C-c r" 'phg/rename-file-and-buffer)
 
 ;; various missing bindings for existing functions
 (bind-key "C-x a r" 'align-regexp)
@@ -243,7 +243,7 @@ point reaches the beginning or end of the buffer, stop there."
 ;; open files at the same place they were closed at
 (use-package saveplace
   :config (save-place-mode t)
-  :custom save-place-file (in-emacs-d "cache/saved-places"))
+  :custom save-place-file (phg/in-emacs-d "cache/saved-places"))
 
 ;; multiple cursors at once
 (use-package multiple-cursors
@@ -293,7 +293,7 @@ point reaches the beginning or end of the buffer, stop there."
          :map ido-file-completion-map
          ("~" . phg/ido-insert-home))
   :custom
-  (ido-save-directory-list-file (in-emacs-d "cache/ido.last"))
+  (ido-save-directory-list-file (phg/in-emacs-d "cache/ido.last"))
   (ido-enable-flex-matching t)
   (ido-everywhere t))
 
@@ -308,7 +308,7 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package smex
   :bind (("M-x" . smex)
          ("M-X" . smex-major-mode-commands))
-  :custom (smex-save-file (in-emacs-d "cache/smex-items")))
+  :custom (smex-save-file (phg/in-emacs-d "cache/smex-items")))
 
 
 
@@ -344,7 +344,8 @@ point reaches the beginning or end of the buffer, stop there."
   :config (add-to-list 'company-backends 'company-math-symbols-unicode))
 
 ;; 'describe-unbound-keys' lets fone find unused key combos
-;; (use-package unbound)
+(use-package unbound
+  :quelpa (unbound :fetcher wiki))
 
 ;; automatically insert maching pairs, and some useful stuff on regions
 (use-package smartparens
@@ -513,7 +514,7 @@ Emacs buffer are those starting with “*”."
   :mode "\\.jmd\\'"
   :mode ("README\\.md\\'" . gfm-mode)
   :custom
-  (markdown-command (let ((stylesheet (in-emacs-d "github-pandoc.css")))
+  (markdown-command (let ((stylesheet (phg/in-emacs-d "github-pandoc.css")))
                       (concat "pandoc -s --wrap=none -f markdown_github -c " stylesheet))))
 ;; :config (progn
 ;;           (remove-hook 'markdown-mode-hook 'turn-on-auto-fill)
