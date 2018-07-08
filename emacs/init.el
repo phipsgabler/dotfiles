@@ -33,10 +33,10 @@
 (setq-default indent-tabs-mode nil
               tab-width 2)
 (delete-selection-mode t) ; delete selected text when typing
-(tool-bar-mode nil) ; no tool bar
 
 ;; font stuff
 (when (display-graphic-p)
+  (tool-bar-mode -1) ; no tool bar
   (when  (x-list-fonts "DejaVu Sans Mono")
     (let ((my-display-font "DejaVu Sans Mono-11"))
       (set-face-attribute 'default        nil :font my-display-font)
@@ -468,6 +468,38 @@ Emacs buffer are those starting with “*”."
 
 
 ;; MAJOR MODES
+
+;; Org mode
+(setq calendar-week-start-day 1)
+
+(defun phg/in-org-d (filename)
+  (expand-file-name filename "~/Dropbox/Org"))
+
+(use-package org
+  :mode (("\\.\\(org\\|org_archive\\)$" . org-mode))
+  :config
+  (setq org-default-notes-file (phg/in-org-d "todo.org"))
+  (setq org-completion-use-ido t)
+  (setq org-tag-alist '(("someday" . ?s)))
+  (setq org-footnote-define-inline t)
+  (setq org-use-fast-todo-selection t)
+  (setq org-agenda-skip-deadline-if-done t)
+  (setq org-agenda-skip-scheduled-if-done t)
+  (setq org-capture-templates
+        `(("t" "Todo in tasks.org" entry (file+headline ,(phg/in-org-d "todo.org") "Inbox") "* TODO %?")))
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "STARTED(s)" "WAITING(w)" "PROJ(p)" "NOTE(n)" "DELEGATED(g)"
+                    "|" "DONE(d)" "CANCELED(c)"))))
+
+(bind-keys ("C-c c" . org-capture)
+           ("C-c a" . org-agenda))
+
+
+;; (setq org-hide-leading-stars 'hidestars)
+;; (setq org-return-follows-link t)
+;; (setq org-tags-exclude-from-inheritance '("review")))
+;; (setq org-agenda-filter-preset '("-someday"))
+
 
 ;; markdown/pandoc
 
