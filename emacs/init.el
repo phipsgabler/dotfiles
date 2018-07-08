@@ -66,6 +66,8 @@
       kept-old-versions 2
       version-control t)
 
+(setq bookmark-default-file (in-emacs-d "cache/bookmarks"))
+
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
