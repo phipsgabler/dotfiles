@@ -124,4 +124,4 @@ export JULIA_EDITOR='vim'
 eval "$(stack --bash-completion-script stack)"
 eval "$(hub alias -s)"
 
-export PATH="$PATH:/home/philipp/.local/bin:/home/philipp/anaconda3/bin"
+export PATH="/home/philipp/.local/bin:/home/philipp/anaconda3/bin:$PATH"
