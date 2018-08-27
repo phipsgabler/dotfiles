@@ -172,7 +172,7 @@ point reaches the beginning or end of the buffer, stop there."
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 ;; (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/"))
-;; (package-initialize)
+(package-initialize)
 
 ;; automatically load use-package to subsequently do loading automatically
 (unless (package-installed-p 'use-package)
@@ -345,6 +345,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; 'describe-unbound-keys' lets fone find unused key combos
 (use-package unbound
+  :disabled
   :quelpa (unbound :fetcher wiki))
 
 ;; automatically insert maching pairs, and some useful stuff on regions
