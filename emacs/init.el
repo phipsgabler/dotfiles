@@ -29,6 +29,7 @@
 ;; - yalinum + fonts: https://github.com/bbatsov/solarized-emacs/issues/240
 
 (setq inhibit-startup-screen t
+      ring-bell-function #'ignore
       column-number-mode t)
 (setq-default indent-tabs-mode nil
               tab-width 2)
@@ -402,7 +403,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; show tabs at the top, automatically grouped
 (use-package tabbar
-  :preface
+  :config
   (defun phg/tabbar-buffer-groups ()
     ;; http://stackoverflow.com/a/3814313/1346276
     "Return the list of group names the current buffer belongs to.
@@ -413,12 +414,14 @@ Emacs buffer are those starting with “*”."
     (list
      (cond
       ((string-equal "*" (substring (buffer-name) 0 1))
-       "Emacs Buffer")
+       "[emacs's buffers]")
+      ((string-match ".org\\'")
+       "[org buffers]")
       ((eq major-mode 'dired-mode)
-       "Dired")
+       "[emacs's buffers]")
       (t
-       "User Buffer"))))
-  ;; :config (setq tabbar-buffer-groups-function 'phg/tabbar-buffer-groups)
+       "[user's buffers]"))))
+  (setq tabbar-buffer-groups-function 'phg/tabbar-buffer-groups)
   :bind (([M-left] . tabbar-backward-tab)
          ([M-right] . tabbar-forward-tab))
   :init (tabbar-mode t))
