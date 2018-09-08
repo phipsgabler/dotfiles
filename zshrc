@@ -21,6 +21,8 @@ POWERLEVEL9K_CUSTOM_PYTHON="custom_python"
 POWERLEVEL9K_CUSTOM_PYTHON_BACKGROUND="blue"
 POWERLEVEL9K_CUSTOM_PYTHON_FOREGROUND="black"
 
+# POWERLEVEL9K_CONTEXT_TEMPLATE="%n" # default: "%n@%m"
+DEFAULT_USER="philipp"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
