@@ -81,7 +81,9 @@
       desktop-base-lock-name      "lock"
       desktop-path                (list desktop-dirname)
       desktop-save                t)
-(desktop-save-mode t)
+(when (display-graphic-p)
+  (desktop-save-mode t))
+
 
 ;; ;; FUNCTIONS
 (defun phg/select-current-line ()
