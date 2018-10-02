@@ -411,7 +411,7 @@ Emacs buffer are those starting with “*”."
        "[emacs's buffers]")
       (t
        "[user's buffers]"))))
-  (setq tabbar-buffer-groups-function 'phg/tabbar-buffer-groups)
+  ;(setq tabbar-buffer-groups-function 'phg/tabbar-buffer-groups)
   :bind (([M-left] . tabbar-backward-tab)
          ([M-right] . tabbar-forward-tab))
   :init (tabbar-mode t))
@@ -509,7 +509,8 @@ Emacs buffer are those starting with “*”."
   :mode ("README\\.md\\'" . gfm-mode)
   :custom
   (markdown-command (let ((stylesheet (phg/in-emacs-d "github-pandoc.css")))
-                      (concat "pandoc -s --wrap=none -f markdown_github -c " stylesheet))))
+                      (concat "pandoc -s --wrap=none -f markdown_github -c " stylesheet)))
+  (markdown-spaces-after-code-fence 0))
 ;; :config (progn
 ;;           (remove-hook 'markdown-mode-hook 'turn-on-auto-fill)
 ;;           (add-hook 'markdown-mode-hook 'turn-off-auto-fill))
