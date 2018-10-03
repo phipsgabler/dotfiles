@@ -83,7 +83,7 @@ POWERLEVEL9K_SHORTEN_STRATEGY="truncate_middle"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git gitignore python colored-man-pages)
+plugins=(git gitignore python colored-man-pages zsh-completions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -121,4 +121,3 @@ export INFO='/home/philipp/Uni/Informatik/2017-2018/WS'
 
 eval "$(stack --bash-completion-script stack)"
 eval "$(hub alias -s)"
-

@@ -24,6 +24,13 @@ See [here](https://github.com/robbyrussell/oh-my-zsh); basically, just
 sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 ```
 
+For `zsh-completions`, giving [load of completions](https://github.com/zsh-users/zsh-completions),
+also clone the following:
+
+```
+git clone https://github.com/zsh-users/zsh-completions ~/.oh-my-zsh/custom/plugins/zsh-completions
+```
+
 ## Powerlevel9k
 
 See [here](https://github.com/bhilburn/powerlevel9k):
