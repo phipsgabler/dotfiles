@@ -318,6 +318,10 @@ point reaches the beginning or end of the buffer, stop there."
   :custom (smex-save-file (phg/in-emacs-d "cache/smex-items")))
 
 
+;; tree-style history
+(use-package undo-tree
+  :config (global-undo-tree-mode t))
+
 
 ;; command for opening recently opened files
 (use-package recentf
