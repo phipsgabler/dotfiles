@@ -71,6 +71,8 @@
       kept-old-versions 2
       version-control t)
 
+(setq save-abbrevs 'silently)
+
 (setq bookmark-default-file (phg/in-emacs-d "cache/bookmarks"))
 
 (setq auto-save-file-name-transforms
