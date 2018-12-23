@@ -5,8 +5,12 @@ export PATH="/home/philipp/anaconda3/bin:/home/philipp/.local/bin:$PATH"
 
 # Path to your oh-my-zsh installation.
 export ZSH=/home/philipp/.oh-my-zsh
-POWERLEVEL9K_MODE='awesome-fontconfig'
+
+# Font stuff
+# POWERLEVEL9K_MODE='awesome-fontconfig'
 ZSH_THEME="powerlevel9k/powerlevel9k"
+source ~/.fonts/*.sh
+
 
 custom_python() {
   # Depending on the conda version, either might be set. This
