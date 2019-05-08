@@ -86,3 +86,11 @@ For the `.juliarc.jl`.  Depending on what you want to use, call
 - [`Pkg.add("OhMyREPL")`](https://github.com/KristofferC/OhMyREPL.jl) (for improved REPL features)
 - [`Pkg.add("Revise")`](https://github.com/timholy/Revise.jl) (for automatic module reloading)
 in the Julia shell.
+
+## Xmonad
+
+- [Install xmonad using stack](https://xmonadhaskell.wordpress.com/2018/10/22/xmonad-ubuntu-18-04-install/)
+- Install `dmenu`: `sudo apt-get install suckless-tools`
+- [Install `xmobar`](https://xmonadhaskell.wordpress.com/2018/10/22/xmobar-ubuntu-18-04-install/): `stack install --flag xmobar:all_all_extensions xmobar`
+
+[This blog](https://xmonadhaskell.wordpress.com/) and [this introduction](https://beginners-guide-to-xmonad.readthedocs.io/intro.html) is quite useful in general.
