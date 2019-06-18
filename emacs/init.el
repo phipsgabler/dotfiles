@@ -28,8 +28,8 @@
 ;; - company mode handled by solarized-theme?
 ;; - yalinum + fonts: https://github.com/bbatsov/solarized-emacs/issues/240
 
-(setq inhibit-startup-screen t
-      ring-bell-function #'ignore
+
+(setq ring-bell-function #'ignore
       column-number-mode t)
 (setq-default indent-tabs-mode nil
               tab-width 2)
@@ -79,12 +79,12 @@
       `((".*" ,temporary-file-directory t)))
 
 (setq desktop-dirname             (phg/in-emacs-d "desktops")
-      desktop-base-file-name      "emacs.desktop"
-      desktop-base-lock-name      "lock"
-      desktop-path                (list desktop-dirname)
-      desktop-save                t)
+     desktop-base-file-name      "emacs.desktop"
+     desktop-base-lock-name      "lock"
+     desktop-path                (list desktop-dirname)
+     desktop-save                t)
 (when (display-graphic-p)
-  (desktop-save-mode t))
+ (desktop-save-mode t))
 
 
 ;; ;; FUNCTIONS
@@ -321,8 +321,8 @@ point reaches the beginning or end of the buffer, stop there."
 
 
 ;; tree-style history
-(use-package undo-tree
-  :config (global-undo-tree-mode t))
+;(use-package undo-tree
+;  :config (global-undo-tree-mode t))
 
 
 ;; command for opening recently opened files
@@ -377,7 +377,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; ;; ;; VISUAL CUSTOMIZATIONS
 
-;; ;; useful visualization stuff
+;; useful visualization stuff
 (use-package rainbow-delimiters
   :config (show-paren-mode t)   ; builtin mode, highlight current matching delimiter
   :hook ((prog-mode TeX-mode LaTex-mode) . rainbow-delimiters-mode))
@@ -505,27 +505,29 @@ Emacs buffer are those starting with “*”."
 
 
 ;; markdown/pandoc
-
-;; https://jblevins.org/projects/markdown-mode/
 (use-package markdown-mode
-  :mode "\\.text\\'"
-  :mode "\\.md\\'"
-  :mode "\\.Rmd\\'" ;; TODO: possibly use MMM-mode or similar for this situation
-  :mode "\\.jmd\\'"
-  :mode ("README\\.md\\'" . gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.text\\'" . markdown-mode)
+         ("\\.Rmd\\'" . markdown-mode) ;; TODO: possibly use MMM-mode or similar for this situation
+         ("\\.jmd\\'" . markdown-mode))
   :custom
-  (markdown-command (let ((stylesheet (phg/in-emacs-d "github-pandoc.css")))
-                      (concat "pandoc -s --wrap=none -f markdown_github -c " stylesheet)))
+  (markdown-command "pandoc -s --wrap=none -f markdown_github")
+  (markdown-command-needs-filename t)
   (markdown-spaces-after-code-fence 0))
 ;; :config (progn
 ;;           (remove-hook 'markdown-mode-hook 'turn-on-auto-fill)
 ;;           (add-hook 'markdown-mode-hook 'turn-off-auto-fill))
 
-(use-package pandoc-mode
-  :hook markdown-mode)
+;; (use-package pandoc-mode
+;;   :hook markdown-mode)
 
-(use-package markdown-preview-mode)
+(use-package markdown-preview-mode
+  :custom
+  (markdown-preview-stylesheets (list (phg/in-emacs-d "github-pandoc.css"))))
 
+
+;; programming languages
 (use-package haskell-mode
   :preface
   (defun haskell-mode-save-buffer ()
@@ -611,8 +613,6 @@ Emacs buffer are those starting with “*”."
   (push '("\\.jl\\'" . julia-mode) auto-mode-alist)
   (delete-dups auto-mode-alist))
 
-
-
 (use-package julia-repl
   :preface 
   (defun julia-repl-weave ()
@@ -677,14 +677,17 @@ modified, prompts for saving."
   :mode "\\.css\\'"
   :mode "\\.php\\'")
 
+(use-package js2-mode
+  :mode "\\.js?\\'")
+
 ;; distraction free writing
 ;; replace by olivetti:     https://login.yoursecurecloud.de/d/346a8921204a4ec5acc1/
-(use-package writeroom-mode
-  :bind (("C-M-<" . writeroom-decrease-width)
-         ("C-M->" . writeroom-increase-width)
-         ("C-M-=" . writeroom-adjust-width))
-  ;; :init (add-hook 'writeroom-mode-hook (lambda () (yalinum-mode nil)))
-  :config (setq writeroom-width fill-column))
+;; (use-package writeroom-mode
+;;   :bind (("C-M-<" . writeroom-decrease-width)
+;;          ("C-M->" . writeroom-increase-width)
+;;          ("C-M-=" . writeroom-adjust-width))
+;;   ;; :init (add-hook 'writeroom-mode-hook (lambda () (yalinum-mode nil)))
+;;   :config (setq writeroom-width fill-column))
 
 ;; auctex/reftex
 (use-package reftex
