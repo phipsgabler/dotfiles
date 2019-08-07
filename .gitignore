@@ -10,6 +10,7 @@ emacs/recentf
 emacs/var
 emacs/desktops
 emacs/session.*
+emacs/tramp
 xmonad/*.errors
 xmonad/*.hi
 xmonad/*.o
