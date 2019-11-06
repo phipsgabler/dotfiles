@@ -2,8 +2,9 @@
   (expand-file-name filename user-emacs-directory))
 
 ;; ;; CUSTOMIZE AND OTHER EXTRA FILES
-(setq custom-file (phg/in-emacs-d "custom.el"))
-(load custom-file)
+(let (custom-file (phg/in-emacs-d "custom.el"))
+  (if (file-exists-p custom-file)
+      (load custom-file)))
 
 (load (phg/in-emacs-d "solarized-colors.el"))
 
@@ -78,13 +79,17 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
-(setq desktop-dirname             (phg/in-emacs-d "desktops")
-     desktop-base-file-name      "emacs.desktop"
-     desktop-base-lock-name      "lock"
-     desktop-path                (list desktop-dirname)
-     desktop-save                t)
+
+(let (desktop-dirname (phg/in-emacs-d "desktops"))
+  (unless (file-exists-p desktop-dirname)
+    make-directory desktop-dirname)
+  (setq 
+   desktop-base-file-name      "emacs.desktop"
+   desktop-base-lock-name      "lock"
+   desktop-path                (list desktop-dirname)
+   desktop-save                t))
 (when (display-graphic-p)
- (desktop-save-mode t))
+  (desktop-save-mode t))
 
 
 ;; ;; FUNCTIONS
