@@ -1,13 +1,13 @@
 export TERM="xterm-256color"
 
 # If you come from bash you might have to change your $PATH.
-export PATH="/home/philipp/anaconda3/bin:/home/philipp/.local/bin:$PATH"
+export PATH="~/anaconda3/bin:~/.local/bin:$PATH"
 
 # Path to your oh-my-zsh installation.
-export ZSH=/home/philipp/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 # Font stuff
-# POWERLEVEL9K_MODE='awesome-fontconfig'
+POWERLEVEL9K_MODE='awesome-fontconfig'
 ZSH_THEME="powerlevel9k/powerlevel9k"
 source ~/.fonts/*.sh
 
@@ -26,7 +26,7 @@ POWERLEVEL9K_CUSTOM_PYTHON_BACKGROUND="blue"
 POWERLEVEL9K_CUSTOM_PYTHON_FOREGROUND="black"
 
 # POWERLEVEL9K_CONTEXT_TEMPLATE="%n" # default: "%n@%m"
-DEFAULT_USER="philipp"
+DEFAULT_USER="$USER"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -56,7 +56,7 @@ POWERLEVEL9K_SHORTEN_STRATEGY="truncate_middle"
 # DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+export UPDATE_ZSH_DAYS=13
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -121,7 +121,5 @@ fpath=(~/.zsh/completions $fpath)
 autoload -U compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 
-export INFO='/home/philipp/Uni/Informatik/2017-2018/WS'
-
-eval "$(stack --bash-completion-script stack)"
+#eval "$(stack --bash-completion-script stack)"
 eval "$(hub alias -s)"
