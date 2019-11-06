@@ -58,15 +58,15 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status history background_jobs)
 
 See [here](https://github.com/github/hub).  
 
-- Installation:
+- Installation (requires go to be installed)
 ```
 git clone https://github.com/github/hub.git
 cd hub
-make install prefix=/usr/local
+sudo make install prefix=/usr/local
 ```
 - Add it to `PATH`: `ln -s /usr/local/hub-<version>/bin/hub /usr/local/bin/hub`
 - Aliasing is done already in the `bashrc` and `zshrc` files
-- Install [shell tab completion scripts](https://github.com/github/hub#shell-tab-completion).
+- Install [shell tab completion script](https://github.com/github/hub#shell-tab-completion) into `.oh-my-zsh/custom/plugins/zsh-completions/src/_hub`.
 
 ## Other tools
 
