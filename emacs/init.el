@@ -2,7 +2,7 @@
   (expand-file-name filename user-emacs-directory))
 
 ;; ;; CUSTOMIZE AND OTHER EXTRA FILES
-(let (custom-file (phg/in-emacs-d "custom.el"))
+(let ((custom-file (phg/in-emacs-d "custom.el")))
   (if (file-exists-p custom-file)
       (load custom-file)))
 
@@ -80,7 +80,7 @@
       `((".*" ,temporary-file-directory t)))
 
 
-(let (desktop-dirname (phg/in-emacs-d "desktops"))
+(let ((desktop-dirname (phg/in-emacs-d "desktops")))
   (unless (file-exists-p desktop-dirname)
     make-directory desktop-dirname)
   (setq 
