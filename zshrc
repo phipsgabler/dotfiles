@@ -1,7 +1,7 @@
 export TERM="xterm-256color"
 
 # If you come from bash you might have to change your $PATH.
-export PATH="~/anaconda3/bin:~/.local/bin:$PATH"
+export PATH=/usr/local/texlive/2019/bin/x86_64-linux:~/miniconda3/bin:~/anaconda3/bin:~/.local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
@@ -87,7 +87,7 @@ export UPDATE_ZSH_DAYS=13
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git gitignore python colored-man-pages zsh-completions)
+plugins=(git gitignore python colored-man-pages zsh-completions ssh-agent)
 
 source $ZSH/oh-my-zsh.sh
 
