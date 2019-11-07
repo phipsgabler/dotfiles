@@ -82,7 +82,7 @@
 
 (let ((desktop-dirname (phg/in-emacs-d "desktops")))
   (unless (file-exists-p desktop-dirname)
-    make-directory desktop-dirname)
+    (make-directory desktop-dirname))
   (setq 
    desktop-base-file-name      "emacs.desktop"
    desktop-base-lock-name      "lock"
