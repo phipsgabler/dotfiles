@@ -167,6 +167,35 @@ point reaches the beginning or end of the buffer, stop there."
     (when (= orig-point (point))
       (move-beginning-of-line 1))))
 
+(defun phg/toggle-letter-case ()
+  ;; from https://stackoverflow.com/a/18257888/1346276
+  "Toggle the letter case of current word or text selection.
+   Toggles between: “all lower”, “Init Caps”, “ALL CAPS”."
+  (interactive)
+  (let (p1 p2 (deactivate-mark nil) (case-fold-search nil))
+    (if (region-active-p)
+        (setq p1 (region-beginning) p2 (region-end))
+      (let ((bds (bounds-of-thing-at-point 'word) ) )
+        (setq p1 (car bds) p2 (cdr bds)) ) )
+    (when (not (eq last-command this-command))
+      (save-excursion
+        (goto-char p1)
+        (cond
+         ((looking-at "[[:lower:]][[:lower:]]") (put this-command 'state "all lower"))
+         ((looking-at "[[:upper:]][[:upper:]]") (put this-command 'state "all caps") )
+         ((looking-at "[[:upper:]][[:lower:]]") (put this-command 'state "init caps") )
+         ((looking-at "[[:lower:]]") (put this-command 'state "all lower"))
+         ((looking-at "[[:upper:]]") (put this-command 'state "all caps") )
+         (t (put this-command 'state "all lower") ) ) ) )
+    (cond
+     ((string= "all lower" (get this-command 'state))
+      (upcase-initials-region p1 p2) (put this-command 'state "init caps"))
+     ((string= "init caps" (get this-command 'state))
+      (upcase-region p1 p2) (put this-command 'state "all caps"))
+     ((string= "all caps" (get this-command 'state))
+      (downcase-region p1 p2) (put this-command 'state "all lower")) )
+    ))
+
 ;; shortcuts to customize this file
 (defun phg/reload-init-file ()
    "Reloads the emacs config file"
@@ -229,6 +258,7 @@ point reaches the beginning or end of the buffer, stop there."
 (bind-key "C-<backspace>" 'phg/kill-to-bol)
 (bind-key "C-a" 'phg/smarter-move-beginning-of-line)
 (bind-key "C-c r" 'phg/rename-file-and-buffer)
+(bind-key "C-x t" 'phg/toggle-letter-case)
 
 ;; various missing bindings for existing functions
 (bind-key "C-x a r" 'align-regexp)
@@ -236,6 +266,7 @@ point reaches the beginning or end of the buffer, stop there."
 (bind-key "M-SPC" 'cycle-spacing)
 (bind-key "C-<mouse-4>" 'text-scale-increase)
 (bind-key "C-<mouse-5>" 'text-scale-decrease)
+
 
 ;; redefinitions
 (bind-key "M-;" 'comment-line)
@@ -363,7 +394,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; 'describe-unbound-keys' lets fone find unused key combos
 (use-package unbound
-  :disabled
+  ;; :disabled
   :quelpa (unbound :fetcher wiki))
 
 ;; automatically insert maching pairs, and some useful stuff on regions
