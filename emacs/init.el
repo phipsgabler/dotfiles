@@ -480,7 +480,8 @@ Emacs buffer are those starting with “*”."
 
 ;; icons for dired-sidebar
 (use-package all-the-icons-dired
-  ;; M-x all-the-icons-install-fonts
+  ;; M-x all-the-icons-install-fonts needs to be done regularly
+  :config (add-hook 'auto-package-update-after-hook 'all-the-icons-install-fonts)
   :commands (all-the-icons-dired-mode))
 
 ;; show buffers in the same side bar
