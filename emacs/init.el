@@ -548,19 +548,16 @@ Emacs buffer are those starting with “*”."
          ("\\.Rmd\\'" . markdown-mode) ;; TODO: possibly use MMM-mode or similar for this situation
          ("\\.jmd\\'" . markdown-mode))
   :custom
-  (markdown-command "pandoc -s --wrap=none -f markdown_github")
+  (markdown-command "pandoc -s --wrap=none")
   (markdown-command-needs-filename t)
-  (markdown-spaces-after-code-fence 0))
+  (markdown-spaces-after-code-fence 0)
+  (markdown-css-paths (list (phg/in-emacs-d "github-pandoc.css"))))
 ;; :config (progn
 ;;           (remove-hook 'markdown-mode-hook 'turn-on-auto-fill)
 ;;           (add-hook 'markdown-mode-hook 'turn-off-auto-fill))
 
 ;; (use-package pandoc-mode
 ;;   :hook markdown-mode)
-
-(use-package markdown-preview-mode
-  :custom
-  (markdown-preview-stylesheets (list (phg/in-emacs-d "github-pandoc.css"))))
 
 
 ;; programming languages
