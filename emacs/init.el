@@ -2,9 +2,8 @@
   (expand-file-name filename user-emacs-directory))
 
 ;; ;; CUSTOMIZE AND OTHER EXTRA FILES
-(let ((custom-file (phg/in-emacs-d "custom.el")))
-  (if (file-exists-p custom-file)
-      (load custom-file)))
+(setq custom-file (phg/in-emacs-d "custom.el"))
+(load custom-file)
 
 (load (phg/in-emacs-d "solarized-colors.el"))
 
