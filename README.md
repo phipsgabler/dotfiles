@@ -11,6 +11,14 @@ It mostly stores my settings for zsh with OhMyZsh and Powerlevel9k and my emacs 
 
 # Installations
 
+## Fonts
+
+- DejaVu Sans Mono from [here](https://dejavu-fonts.github.io/)
+- For terminals: the Powerline patched variant from [here](https://github.com/powerline/fonts) (I do
+  that manually, but there's a script, too).
+- Add _Awesome Terminal Fonts_ for additional fallback symbols: clone [the
+  repo](https://github.com/gabrielelana/awesome-terminal-fonts) and run `install.sh`
+
 ## Hub
 
 See [here](https://github.com/github/hub).  
@@ -25,6 +33,8 @@ See [here](https://github.com/github/hub).
 
 See [here](https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH).  To make it the default
 shell: `chsh -s $(which zsh)`.
+
+Now, link the file `zshrc` from here to `~/.zshrc`.
 
 ## OhMyZsh
 
@@ -55,14 +65,6 @@ A list of all available prompt segments is given
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir custom_python vcs)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status history background_jobs)
 ```
-
-## Fonts
-
-- DejaVu Sans Mono from [here](https://dejavu-fonts.github.io/)
-- For terminals: the Powerline patched variant from [here](https://github.com/powerline/fonts) (I do
-  that manually, but there's a script, too).
-- Add _Awesome Terminal Fonts_ for additional fallback symbols: clone [the
-  repo](https://github.com/gabrielelana/awesome-terminal-fonts) and run `install.sh`
 
 ## Other tools
 
