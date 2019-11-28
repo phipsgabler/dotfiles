@@ -11,6 +11,16 @@ It mostly stores my settings for zsh with OhMyZsh and Powerlevel9k and my emacs 
 
 # Installations
 
+## Hub
+
+See [here](https://github.com/github/hub).  
+    
+    snap install hub --classic
+
+- Add it to `PATH`: `ln -s /usr/local/hub-<version>/bin/hub /usr/local/bin/hub`
+- Aliasing is done already in the `bashrc` and `zshrc` files
+- Install [shell tab completion script](https://github.com/github/hub#shell-tab-completion) into `.oh-my-zsh/custom/plugins/zsh-completions/src/_hub`.
+
 ## ZSH
 
 See [here](https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH).  To make it the default
@@ -53,20 +63,6 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status history background_jobs)
   that manually, but there's a script, too).
 - Add _Awesome Terminal Fonts_ for additional fallback symbols: clone [the
   repo](https://github.com/gabrielelana/awesome-terminal-fonts) and run `install.sh`
-
-## Hub
-
-See [here](https://github.com/github/hub).  
-
-- Installation (requires go to be installed)
-```
-git clone https://github.com/github/hub.git
-cd hub
-sudo make install prefix=/usr/local
-```
-- Add it to `PATH`: `ln -s /usr/local/hub-<version>/bin/hub /usr/local/bin/hub`
-- Aliasing is done already in the `bashrc` and `zshrc` files
-- Install [shell tab completion script](https://github.com/github/hub#shell-tab-completion) into `.oh-my-zsh/custom/plugins/zsh-completions/src/_hub`.
 
 ## Other tools
 
