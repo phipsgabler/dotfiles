@@ -51,6 +51,11 @@ also clone the following:
 git clone https://github.com/zsh-users/zsh-completions ~/.oh-my-zsh/custom/plugins/zsh-completions
 ```
 
+To get conda completion, add files to `~/.oh-my-zsh/custom/plugins/zsh-completions/src`:
+
+- Conda: https://github.com/esc/conda-zsh-completion/blob/master/_conda
+- Hub: https://github.com/github/hub/blob/master/etc/hub.zsh_completion
+
 ## Powerlevel9k
 
 See [here](https://github.com/bhilburn/powerlevel9k):
