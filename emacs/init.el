@@ -375,7 +375,8 @@ point reaches the beginning or end of the buffer, stop there."
                                     recentf-list)
                             nil t))))  
   :init (recentf-mode t) ; for some reason, this doesn't work with :config
-  :bind ("C-x C-S-f" . phg/recentf-ido-find-file)
+  :bind (("C-x C-S-f" . phg/recentf-ido-find-file)
+         ("C-S-t" . recentf-open-most-recent-file))
   :custom (recentf-max-menu-items 25))
 
 ;; visual completion
