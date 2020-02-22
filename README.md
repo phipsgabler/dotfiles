@@ -27,7 +27,7 @@ See [here](https://github.com/github/hub).
 
 - Add it to `PATH`: `ln -s /usr/local/hub-<version>/bin/hub /usr/local/bin/hub`
 - Aliasing is done already in the `bashrc` and `zshrc` files
-- Install [shell tab completion script](https://github.com/github/hub#shell-tab-completion) into `.oh-my-zsh/custom/plugins/zsh-completions/src/_hub`.
+- Install [shell tab completion script](https://github.com/github/hub#shell-tab-completion) into `.oh-my-zsh/custom/plugins/zsh-completions/src/_hub` (see below).
 
 ## ZSH
 
@@ -53,8 +53,8 @@ git clone https://github.com/zsh-users/zsh-completions ~/.oh-my-zsh/custom/plugi
 
 To get conda completion, add files to `~/.oh-my-zsh/custom/plugins/zsh-completions/src`:
 
-- Conda: https://github.com/esc/conda-zsh-completion/blob/master/_conda
-- Hub: https://github.com/github/hub/blob/master/etc/hub.zsh_completion
+- Conda: https://raw.githubusercontent.com/esc/conda-zsh-completion/master/_conda
+- Hub: https://raw.githubusercontent.com/github/hub/master/etc/hub.zsh_completion
 
 ## Powerlevel9k
 
