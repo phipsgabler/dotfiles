@@ -815,8 +815,9 @@ modified, prompts for saving."
               ("C-c l" . python-indent-shift-left)
               ("C-c r" . python-indent-shift-right))
   :custom
-  ;; (python-shell-interpreter "ipython")
-  (python-python-command "python3"))
+  (python-shell-interpreter "ipython")
+  (python-shell-interpreter-args "-i"))
+  ;; (python-python-command "python3"))
 
 (use-package dockerfile-mode
   :mode ("Dockerfile\\'" . dockerfile-mode))
