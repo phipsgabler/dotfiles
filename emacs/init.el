@@ -813,11 +813,18 @@ modified, prompts for saving."
   :mode ("\\.py\\'" . python-mode)
   :bind (:map python-mode-map
               ("C-c l" . python-indent-shift-left)
-              ("C-c r" . python-indent-shift-right))
+              ("C-c r" . python-indent-shift-right)
+              ("<C-return>" . python-shell-send-region))
   :custom
   (python-shell-interpreter "ipython")
-  (python-shell-interpreter-args "-i"))
-  ;; (python-python-command "python3"))
+  (python-shell-interpreter-args "-i --simple-prompt --pprint"))
+;; (python-python-command "python3"))
+
+(use-package conda
+  :ensure t
+  :init
+  (setq conda-anaconda-home (expand-file-name "~/anaconda3"))
+  (setq conda-env-home-directory (expand-file-name "~/anaconda3")))
 
 (use-package dockerfile-mode
   :mode ("Dockerfile\\'" . dockerfile-mode))
