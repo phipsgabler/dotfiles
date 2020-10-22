@@ -838,3 +838,28 @@ modified, prompts for saving."
 
 (use-package slime
   :custom inferior-lisp-program "clisp")
+
+;;; stan-mode.el
+(use-package stan-mode
+  :mode ("\\.stan\\'" . stan-mode)
+  :hook (stan-mode . stan-mode-setup)
+  ;;
+  :config
+  ;; The officially recommended offset is 2.
+  (setq stan-indentation-offset 2))
+
+;;; company-stan.el
+(use-package company-stan
+  :hook (stan-mode . company-stan-setup)
+  ;;
+  :config
+  ;; Whether to use fuzzy matching in `company-stan'
+  (setq company-stan-fuzzy nil))
+
+;;; eldoc-stan.el
+(use-package eldoc-stan
+  :hook (stan-mode . eldoc-stan-setup)
+  ;;
+  :config
+  ;; No configuration options as of now.
+  )
