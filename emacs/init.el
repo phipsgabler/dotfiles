@@ -821,10 +821,16 @@ modified, prompts for saving."
 ;; (python-python-command "python3"))
 
 (use-package conda
-  :ensure t
   :init
   (setq conda-anaconda-home (expand-file-name "~/anaconda3"))
-  (setq conda-env-home-directory (expand-file-name "~/anaconda3")))
+  (setq conda-env-home-directory (expand-file-name "~/anaconda3"))
+  (conda-env-initialize-interactive-shells)
+  (conda-env-initialize-eshell)
+  )
+
+(use-package ein
+  :custom
+  (ein:jupyter-default-server-command "~/miniconda3/bin/jupyter"))
 
 (use-package dockerfile-mode
   :mode ("Dockerfile\\'" . dockerfile-mode))
