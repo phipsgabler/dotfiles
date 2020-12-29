@@ -11,6 +11,8 @@ emacs/var
 emacs/desktops
 emacs/session.*
 emacs/tramp
+emacs/eshell
+emacs/request
 xmonad/*.errors
 xmonad/*.hi
 xmonad/*.o
