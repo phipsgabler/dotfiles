@@ -286,14 +286,17 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package tab-bar
   :init
   (tab-bar-mode t)
-  :bind (([M-left] . 'tab-bar-switch-to-prev-tab)
-         ([M-right] . 'tab-bar-switch-to-next-tab)
-         ([M-S-left] . (lambda ()
-                       (interactive)
-                       (tab-move 1)))
-         ([M-S-right] . (lambda ()
-                       (interactive)
-                       (tab-move -1)))))
+  (global-tab-line-mode t)
+  :custom
+  (tab-bar-tab-name-function 'tab-bar-tab-name-truncated))
+  ;; :bind (([M-left] . 'tab-bar-switch-to-prev-tab)
+         ;; ([M-right] . 'tab-bar-switch-to-next-tab)
+         ;; ([M-S-left] . (lambda ()
+                       ;; (interactive)
+                       ;; (tab-move 1)))
+         ;; ([M-S-right] . (lambda ()
+                       ;; (interactive)
+                       ;; (tab-move -1)))))
 
 
 ;; ;; GLOBALLY USED MINOR MODES
