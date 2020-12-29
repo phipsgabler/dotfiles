@@ -26,7 +26,7 @@
 ;; - htmlize: https://tpapp.github.io/post/htmlize-screenshot/
 ;; - color customizations: constants -- should be independent of display-graphics-p!
 ;; - company mode handled by solarized-theme?
-;; - yalinum + fonts: https://github.com/bbatsov/solarized-emacs/issues/240
+;; - tab-bar customizations: https://github.com/andreyorst/dotfiles/blob/master/.config/emacs/README.org#tabline
 
 
 (setq ring-bell-function #'ignore
@@ -257,7 +257,9 @@ point reaches the beginning or end of the buffer, stop there."
 (bind-key "C-<backspace>" 'phg/kill-to-bol)
 (bind-key "C-a" 'phg/smarter-move-beginning-of-line)
 (bind-key "C-c r" 'phg/rename-file-and-buffer)
-(bind-key "C-x t" 'phg/toggle-letter-case)
+(bind-key "C-c t" 'phg/toggle-letter-case)
+(bind-key "C-c i e" 'phg/edit-init-file)
+(bind-key "C-c i r" 'phg/reload-init-file)
 
 ;; various missing bindings for existing functions
 (bind-key "C-x a r" 'align-regexp)
@@ -280,6 +282,18 @@ point reaches the beginning or end of the buffer, stop there."
   :config
   (put 'dired-find-alternate-file 'disabled nil)
   (bind-key "^" '(lambda () (interactive) (find-alternate-file "..")) dired-mode-map))
+
+(use-package tab-bar
+  :init
+  (tab-bar-mode t)
+  :bind (([M-left] . 'tab-bar-switch-to-prev-tab)
+         ([M-right] . 'tab-bar-switch-to-next-tab)
+         ([M-S-left] . (lambda ()
+                       (interactive)
+                       (tab-move 1)))
+         ([M-S-right] . (lambda ()
+                       (interactive)
+                       (tab-move -1)))))
 
 
 ;; ;; GLOBALLY USED MINOR MODES
@@ -431,39 +445,6 @@ point reaches the beginning or end of the buffer, stop there."
   (solarized-distinct-fringe-background t)
   (x-underline-at-descent-line t))
 
-
-
-;; show tabs at the top, automatically grouped
-(use-package tabbar
-  :config
-  (defun phg/tabbar-buffer-groups ()
-    ;; http://stackoverflow.com/a/3814313/1346276
-    "Return the list of group names the current buffer belongs to.
-This function is a custom function for tabbar-mode's
-tabbar-buffer-groups.  This function group all buffers into 3
-groups: Those Dired, those user buffer, and those emacs buffer.
-Emacs buffer are those starting with “*”."
-    (list
-     (cond
-      ((string-equal "*" (substring (buffer-name) 0 1))
-       "[emacs's buffers]")
-      ((string-match ".org\\'")
-       "[org buffers]")
-      ((eq major-mode 'dired-mode)
-       "[emacs's buffers]")
-      (t
-       "[user's buffers]"))))
-  ;(setq tabbar-buffer-groups-function 'phg/tabbar-buffer-groups)
-  :bind (([M-left] . tabbar-backward-tab)
-         ([M-right] . tabbar-forward-tab))
-  :init (tabbar-mode t))
-
-;; better looking tabs for tabbar
-(use-package tabbar-ruler
-  :bind ("C-c t" . tabbar-ruler-move)
-  :demand   ; otherwise this isn't automaticaly loaded...
-  :init
-  (setq tabbar-ruler-global-tabbar t))
 
 ;; cool looking mode line ;)
 (use-package powerline
