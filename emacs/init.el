@@ -764,23 +764,38 @@ modified, prompts for saving."
      ("XeLaTeX" "xelatex -shell-escape %t"
       TeX-run-TeX nil (latex-mode)
       :help "Run XeLaTeX")
-     ("Biber" "biber %s" TeX-run-Biber nil t :help "Run Biber")
-     ("BibTeX" "bibtex %s" TeX-run-BibTeX nil t :help "Run BibTeX")
-     ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
-     ("Dvips" "%(o?)dvips %d -o %f " TeX-run-command t t :help "Generate PostScript file")
-     ("Ps2pdf" "ps2pdf %f" TeX-run-ps2pdf nil t :help "Convert PostScript file to PDF")
+     ("LuaLaTeX" "lualatex -shell-escape %t"
+      TeX-run-TeX nil (latex-mode)
+      :help "Run LuaLaTeX")
+     ("Biber" "biber %s"
+      TeX-run-Biber nil t
+      :help "Run Biber")
+     ("BibTeX" "bibtex %s"
+      TeX-run-BibTeX nil t
+      :help "Run BibTeX")
+     ("View" "%V"
+      TeX-run-discard-or-function t t
+      :help "Run Viewer")
+     ("Dvips" "%(o?)dvips %d -o %f "
+      TeX-run-command t t
+      :help "Generate PostScript file")
+     ("Ps2pdf" "ps2pdf %f"
+      TeX-run-ps2pdf nil t
+      :help "Convert PostScript file to PDF")
      ("latexmk" "latexmk -pdf %s"
       TeX-run-TeX nil t
       :help "Run latexmk on file")
-     ("ConTeXt" "texexec --once --texutil %(execopts)%t" TeX-run-TeX nil
-      (context-mode)
+     ("ConTeXt" "texexec --once --texutil %(execopts)%t"
+      TeX-run-TeX nil (context-mode)
       :help "Run ConTeXt once")
-     ("ConTeXt Full" "texexec %(execopts)%t" TeX-run-TeX nil
-      (context-mode)
+     ("ConTeXt Full" "texexec %(execopts)%t"
+      TeX-run-TeX nil (context-mode)
       :help "Run ConTeXt until completion")
-     ("Index" "makeindex %s" TeX-run-command nil t :help "Create index file")
-     ("Check" "lacheck %s" TeX-run-compile nil
-      (latex-mode)
+     ("Index" "makeindex %s"
+      TeX-run-command nil t
+      :help "Create index file")
+     ("Check" "lacheck %s"
+      TeX-run-compile nil (latex-mode)
       :help "Check LaTeX file for correctness")
      ("Spell" "(TeX-ispell-document \"\")"
       TeX-run-function nil t
@@ -791,7 +806,9 @@ modified, prompts for saving."
      ("Clean All" "(TeX-clean t)"
       TeX-run-function nil t
       :help "Delete generated intermediate and output files")
-     ("Other" "" TeX-run-command t t :help "Run an arbitrary command"))))
+     ("Other" ""
+      TeX-run-command t t
+      :help "Run an arbitrary command"))))
 
 ;; ;; JavaScript
 ;; ;; (use-package js-mode
