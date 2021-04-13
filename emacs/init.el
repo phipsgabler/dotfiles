@@ -283,12 +283,11 @@ point reaches the beginning or end of the buffer, stop there."
   (put 'dired-find-alternate-file 'disabled nil)
   (bind-key "^" '(lambda () (interactive) (find-alternate-file "..")) dired-mode-map))
 
-(use-package tab-bar
-  :init
-  (tab-bar-mode t)
-  (global-tab-line-mode t)
-  :custom
-  (tab-bar-tab-name-function 'tab-bar-tab-name-truncated))
+;; (use-package tab-bar
+  ;; :init
+  ;; (tab-bar-mode f)
+  ;; :custom
+  ;; (tab-bar-tab-name-function 'tab-bar-tab-name-truncated))
   ;; :bind (([M-left] . 'tab-bar-switch-to-prev-tab)
          ;; ([M-right] . 'tab-bar-switch-to-next-tab)
          ;; ([M-S-left] . (lambda ()
@@ -296,7 +295,15 @@ point reaches the beginning or end of the buffer, stop there."
                        ;; (tab-move 1)))
          ;; ([M-S-right] . (lambda ()
                        ;; (interactive)
-                       ;; (tab-move -1)))))
+;; (tab-move -1)))))
+
+(use-package tab-line
+  :init
+  (global-tab-line-mode t)
+  :custom
+  (tab-line-close-tab-function 'kill-buffer)
+  :bind (([M-left] . 'tab-line-switch-to-prev-tab)
+         ([M-right] . 'tab-line-switch-to-next-tab)))
 
 
 ;; ;; GLOBALLY USED MINOR MODES
