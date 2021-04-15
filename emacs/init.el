@@ -828,6 +828,12 @@ modified, prompts for saving."
   (python-shell-interpreter-args "-i --simple-prompt --pprint"))
 ;; (python-python-command "python3"))
 
+(use-package python-black
+  :demand t
+  :after python
+  :custom
+  (python-black-extra-args (list (format "--line-length=%d" fill-column))))
+
 (use-package conda
   :init
   (setq conda-anaconda-home (expand-file-name "~/anaconda3"))
