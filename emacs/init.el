@@ -835,16 +835,18 @@ modified, prompts for saving."
   (python-black-extra-args (list (format "--line-length=%d" fill-column))))
 
 (use-package conda
+  :preface
+  (defun phg/find-conda-dir ()
+    (let ((possible-locations '("~/anaconda3" "~/miniconda3")))
+      (seq-find #'file-exists-p possible-locations)))
   :init
-  (setq conda-anaconda-home (expand-file-name "~/anaconda3"))
-  (setq conda-env-home-directory (expand-file-name "~/anaconda3"))
+  (if-let ((conda-dir (phg/find-conda-dir)))
+      (progn
+        (setq conda-anaconda-home (expand-file-name conda-dir))
+        (setq conda-env-home-directory (expand-file-name conda-dir)))
+    (display-warning '(phg/init) "No valid conda home found!"))
   (conda-env-initialize-interactive-shells)
-  (conda-env-initialize-eshell)
-  )
-
-(use-package ein
-  :custom
-  (ein:jupyter-default-server-command "~/miniconda3/bin/jupyter"))
+  (conda-env-initialize-eshell))
 
 (use-package dockerfile-mode
   :mode ("Dockerfile\\'" . dockerfile-mode))
