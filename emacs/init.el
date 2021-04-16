@@ -283,28 +283,6 @@ point reaches the beginning or end of the buffer, stop there."
   (put 'dired-find-alternate-file 'disabled nil)
   (bind-key "^" '(lambda () (interactive) (find-alternate-file "..")) dired-mode-map))
 
-;; (use-package tab-bar
-  ;; :init
-  ;; (tab-bar-mode f)
-  ;; :custom
-  ;; (tab-bar-tab-name-function 'tab-bar-tab-name-truncated))
-  ;; :bind (([M-left] . 'tab-bar-switch-to-prev-tab)
-         ;; ([M-right] . 'tab-bar-switch-to-next-tab)
-         ;; ([M-S-left] . (lambda ()
-                       ;; (interactive)
-                       ;; (tab-move 1)))
-         ;; ([M-S-right] . (lambda ()
-                       ;; (interactive)
-;; (tab-move -1)))))
-
-(use-package tab-line
-  :init
-  (global-tab-line-mode t)
-  :custom
-  (tab-line-close-tab-function 'kill-buffer)
-  :bind (([M-left] . 'tab-line-switch-to-prev-tab)
-         ([M-right] . 'tab-line-switch-to-next-tab)))
-
 
 ;; ;; GLOBALLY USED MINOR MODES
 
@@ -437,6 +415,48 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; ;; ;; VISUAL CUSTOMIZATIONS
 
+
+;; (use-package tab-bar
+  ;; :init
+  ;; (tab-bar-mode f)
+  ;; :custom
+  ;; (tab-bar-tab-name-function 'tab-bar-tab-name-truncated))
+  ;; :bind (([M-left] . 'tab-bar-switch-to-prev-tab)
+         ;; ([M-right] . 'tab-bar-switch-to-next-tab)
+         ;; ([M-S-left] . (lambda ()
+                       ;; (interactive)
+                       ;; (tab-move 1)))
+         ;; ([M-S-right] . (lambda ()
+                       ;; (interactive)
+;; (tab-move -1)))))
+
+
+
+(use-package mode-icons
+  :config (mode-icons-mode))
+
+(use-package all-the-icons
+  ;; M-x all-the-icons-install-fonts needs to be done regularly
+  :config (add-hook 'auto-package-update-after-hook 'all-the-icons-install-fonts))
+
+(use-package awesome-tab
+  :quelpa (awesome-tab :fetcher github :repo "manateelazycat/awesome-tab")
+  :config
+  (awesome-tab-mode t)
+  :bind (([M-left] . 'awesome-tab-backward)
+         ([M-right] . 'awesome-tab-forward)
+         ([M-S-left] . 'awesome-tab-move-current-tab-to-left)
+         ([M-S-right] . 'awesome-tab-move-current-tab-to-right)
+         ("C-c j" . 'awesome-tab-ace-jump)))
+
+;; (use-package tab-line
+;;   ;; :init
+;;   ;; (global-tab-line-mode t)
+;;   :custom
+;;   (tab-line-close-tab-function 'kill-buffer)
+;;   :bind (([M-left] . 'tab-line-switch-to-prev-tab)
+;;          ([M-right] . 'tab-line-switch-to-next-tab)))
+
 ;; useful visualization stuff
 (use-package rainbow-delimiters
   :config (show-paren-mode t)   ; builtin mode, highlight current matching delimiter
@@ -450,7 +470,10 @@ point reaches the beginning or end of the buffer, stop there."
 ;; alternative: color-theme-solarized; but this looks better.
 (use-package solarized-theme
   :when (display-graphic-p)
-  :config (load-theme 'solarized-light)
+  :config
+  (load-theme 'solarized-light)
+  (when (not (display-graphic-p))
+    (setq frame-background-mode light))
   :custom
   (solarized-distinct-fringe-background t)
   (x-underline-at-descent-line t))
@@ -459,6 +482,10 @@ point reaches the beginning or end of the buffer, stop there."
 ;; cool looking mode line ;)
 (use-package powerline
   :config (powerline-default-theme))
+
+;; icons for dired-sidebar
+(use-package all-the-icons-dired
+  :commands (all-the-icons-dired-mode))
 
 ;; navigation panel for dired, like in an IDE
 (use-package dired-sidebar
@@ -469,12 +496,6 @@ point reaches the beginning or end of the buffer, stop there."
   (if (display-graphic-p)
       (setq dired-sidebar-theme 'icons)
     (setq dired-sidebar-theme 'nerd)))
-
-;; icons for dired-sidebar
-(use-package all-the-icons-dired
-  ;; M-x all-the-icons-install-fonts needs to be done regularly
-  :config (add-hook 'auto-package-update-after-hook 'all-the-icons-install-fonts)
-  :commands (all-the-icons-dired-mode))
 
 ;; show buffers in the same side bar
 (use-package ibuffer-sidebar
