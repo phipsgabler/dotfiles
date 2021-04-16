@@ -25,8 +25,6 @@
 ;;   https://askubuntu.com/questions/682898/how-to-open-files-with-emacs-in-new-tabs
 ;; - htmlize: https://tpapp.github.io/post/htmlize-screenshot/
 ;; - color customizations: constants -- should be independent of display-graphics-p!
-;; - company mode handled by solarized-theme?
-;; - tab-bar customizations: https://github.com/andreyorst/dotfiles/blob/master/.config/emacs/README.org#tabline
 
 
 (setq ring-bell-function #'ignore
@@ -85,7 +83,7 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
-
+;; set up where and how to save window configuration/state
 (let ((desktop-dirname (phg/in-emacs-d "desktops")))
   (unless (file-exists-p desktop-dirname)
     (make-directory desktop-dirname))
@@ -465,7 +463,6 @@ point reaches the beginning or end of the buffer, stop there."
   (solarized-distinct-fringe-background t)
   (x-underline-at-descent-line t))
 
-
 ;; cool looking mode line ;)
 (use-package powerline
   :config (powerline-default-theme))
@@ -496,6 +493,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 (bind-key "C-x C-n" 'phg/toggle-sidebars)
 
+;; visualize tabs and line endings in prog-mode
 (use-package leerzeichen
   :hook (prog-mode . leerzeichen-mode)
   :config
@@ -509,30 +507,29 @@ point reaches the beginning or end of the buffer, stop there."
 ;; MAJOR MODES
 
 ;; Org mode
-(setq calendar-week-start-day 1)
+;; (setq calendar-week-start-day 1)
 
-(defun phg/in-org-d (filename)
-  (expand-file-name filename "~/Dropbox/Org"))
+;; (defun phg/in-org-d (filename)
+;;   (expand-file-name filename "~/Dropbox/Org"))
 
-(use-package org
-  :mode (("\\.\\(org\\|org_archive\\)$" . org-mode))
-  :config
-  (setq org-default-notes-file (phg/in-org-d "todo.org"))
-  (setq org-completion-use-ido t)
-  (setq org-tag-alist '(("someday" . ?s)))
-  (setq org-footnote-define-inline t)
-  (setq org-use-fast-todo-selection t)
-  (setq org-agenda-skip-deadline-if-done t)
-  (setq org-agenda-skip-scheduled-if-done t)
-  (setq org-capture-templates
-        `(("t" "Todo in tasks.org" entry (file+headline ,(phg/in-org-d "todo.org") "Inbox") "* TODO %?")))
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "STARTED(s)" "WAITING(w)" "PROJ(p)" "NOTE(n)" "DELEGATED(g)"
-                    "|" "DONE(d)" "CANCELED(c)"))))
+;; (use-package org
+;;   :mode (("\\.\\(org\\|org_archive\\)$" . org-mode))
+;;   :config
+;;   (setq org-default-notes-file (phg/in-org-d "todo.org"))
+;;   (setq org-completion-use-ido t)
+;;   (setq org-tag-alist '(("someday" . ?s)))
+;;   (setq org-footnote-define-inline t)
+;;   (setq org-use-fast-todo-selection t)
+;;   (setq org-agenda-skip-deadline-if-done t)
+;;   (setq org-agenda-skip-scheduled-if-done t)
+;;   (setq org-capture-templates
+;;         `(("t" "Todo in tasks.org" entry (file+headline ,(phg/in-org-d "todo.org") "Inbox") "* TODO %?")))
+;;   (setq org-todo-keywords
+;;         '((sequence "TODO(t)" "STARTED(s)" "WAITING(w)" "PROJ(p)" "NOTE(n)" "DELEGATED(g)"
+;;                     "|" "DONE(d)" "CANCELED(c)"))))
 
-(bind-keys ("C-c c" . org-capture)
-           ("C-c a" . org-agenda))
-
+;; (bind-keys ("C-c c" . org-capture)
+;;            ("C-c a" . org-agenda))
 
 ;; (setq org-hide-leading-stars 'hidestars)
 ;; (setq org-return-follows-link t)
@@ -675,8 +672,6 @@ modified, prompts for saving."
          ("C-c C-w" . julia-repl-workspace)
          ("C-c C-b" . julia-repl-send-buffer)
          ("C-c C-S-w" . julia-repl-weave)))
-
-
 
 ;; scala-mode
 ;; (use-package ensime
