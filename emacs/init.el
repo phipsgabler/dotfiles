@@ -825,11 +825,23 @@ modified, prompts for saving."
               ("<C-return>" . python-shell-send-region))
   :custom
   (python-shell-interpreter "ipython")
-  (python-shell-interpreter-args "-i --simple-prompt --pprint"))
+  (python-shell-interpreter-args "-i --simple-prompt"))
+  ;; (python-shell-interpreter "jupyter-console")
+  ;; (python-shell-interpreter-args "--simple-prompt --pprint")
+  ;; (python-shell-prompt-detect-failure-warning nil)
+  ;; :config
+  ;; (add-to-list 'python-shell-completion-native-disabled-interpreters
+               ;; "jupyter"))
 ;; (python-python-command "python3"))
 
+;; (use-package elpy
+;;   :defer t
+;;   :init
+;;   (advice-add 'python-mode :before 'elpy-enable)
+;;   :custom
+;;   (highlight-indentation-mode -1))
+
 (use-package python-black
-  :demand t
   :after python
   :custom
   (python-black-extra-args (list (format "--line-length=%d" fill-column))))
