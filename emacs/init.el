@@ -324,6 +324,11 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 
+(use-package ace-jump-mode
+  :quelpa (ace-jump-mode :fetcher github :repo "winterTTr/ace-jump-mode")
+  :bind (("C-c SPC" . ace-jump-mode)
+         ("C-x SPC" . ace-jump-mode-pop-mark)))
+
 ;; for interactive expansions
 (use-package ido
   :preface
@@ -415,23 +420,6 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; ;; ;; VISUAL CUSTOMIZATIONS
 
-
-;; (use-package tab-bar
-  ;; :init
-  ;; (tab-bar-mode f)
-  ;; :custom
-  ;; (tab-bar-tab-name-function 'tab-bar-tab-name-truncated))
-  ;; :bind (([M-left] . 'tab-bar-switch-to-prev-tab)
-         ;; ([M-right] . 'tab-bar-switch-to-next-tab)
-         ;; ([M-S-left] . (lambda ()
-                       ;; (interactive)
-                       ;; (tab-move 1)))
-         ;; ([M-S-right] . (lambda ()
-                       ;; (interactive)
-;; (tab-move -1)))))
-
-
-
 (use-package mode-icons
   :config (mode-icons-mode))
 
@@ -447,15 +435,7 @@ point reaches the beginning or end of the buffer, stop there."
          ([M-right] . 'awesome-tab-forward)
          ([M-S-left] . 'awesome-tab-move-current-tab-to-left)
          ([M-S-right] . 'awesome-tab-move-current-tab-to-right)
-         ("C-c j" . 'awesome-tab-ace-jump)))
-
-;; (use-package tab-line
-;;   ;; :init
-;;   ;; (global-tab-line-mode t)
-;;   :custom
-;;   (tab-line-close-tab-function 'kill-buffer)
-;;   :bind (([M-left] . 'tab-line-switch-to-prev-tab)
-;;          ([M-right] . 'tab-line-switch-to-next-tab)))
+         ("C-c C-SPC" . 'awesome-tab-ace-jump)))
 
 ;; useful visualization stuff
 (use-package rainbow-delimiters
