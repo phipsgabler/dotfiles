@@ -42,7 +42,14 @@
 ;; font stuff
 (when (display-graphic-p)
   (tool-bar-mode -1) ; no tool bar
-  (when  (x-list-fonts "DejaVu Sans Mono")
+  (cond
+   ((x-list-fonts "JuliaMono")
+    (let ((my-display-font "JuliaMono-11"))
+      (set-face-attribute 'default        nil :font my-display-font)
+      (set-face-attribute 'variable-pitch nil :font my-display-font)
+      (set-face-attribute 'fixed-pitch    nil :font my-display-font)
+      (add-to-list 'default-frame-alist `(font . ,my-display-font))))
+   ((x-list-fonts "DejaVu Sans Mono")
     (let ((my-display-font "DejaVu Sans Mono-11"))
       (set-face-attribute 'default        nil :font my-display-font)
       (set-face-attribute 'variable-pitch nil :font my-display-font)
@@ -51,7 +58,7 @@
     ;; consistently use a different font for some partially supported math ranges
     (when (x-list-fonts "FreeSerif")
       (set-fontset-font t '(#x1D400 . #x1D7FF) "FreeSerif" nil "prepend")
-      (set-fontset-font t '(#x2100 . #x214F) "FreeSerif" nil "prepend"))))
+      (set-fontset-font t '(#x2100 . #x214F) "FreeSerif" nil "prepend")))))
 
 
 ;; autofill mode
