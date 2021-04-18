@@ -12,14 +12,13 @@
 ;; - look at the following:
 ;;   - https://github.com/stevenbagley/emacs-init/blob/master/emacs-init.el
 ;;   - https://github.com/jwiegley/dot-emacs/blob/master/init.el
-;;   - https://github.com/tpapp/unicode-math-input, or like this, for julia
 ;;   - https://github.com/bbatsov/prelude
 ;;   - https://dotfiles.github.io/
 ;;   - https://github.com/fommil/dotfiles/blob/master/.emacs.d/init.el
 ;;   - https://github.com/mattfidler/emacs.d
 ;;   - https://github.com/gicmo/dot-emacs/blob/master/init.el
 ;;   - https://sites.google.com/site/steveyegge2/my-dot-emacs-file
-;;   - https://github.com/steckerhalter/steckemacs.el
+;;   - https://framagit.org/steckerhalter/steckemacs.el/-/blob/master/steckemacs.el
 ;;   - https://github.com/kshenoy/dotfiles/blob/master/emacs.d/config.org
 ;; - emacs as daemon: https://www.emacswiki.org/emacs/EmacsAsDaemon,
 ;;   https://askubuntu.com/questions/682898/how-to-open-files-with-emacs-in-new-tabs
@@ -431,6 +430,10 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package all-the-icons
   ;; M-x all-the-icons-install-fonts needs to be done regularly
   :config (add-hook 'auto-package-update-after-hook 'all-the-icons-install-fonts))
+
+(use-package tab-bar
+  :custom
+  (tab-bar-show nil))
 
 (use-package awesome-tab
   :quelpa (awesome-tab :fetcher github :repo "manateelazycat/awesome-tab")
