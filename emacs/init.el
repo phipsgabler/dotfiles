@@ -435,6 +435,10 @@ point reaches the beginning or end of the buffer, stop there."
   :custom
   (tab-bar-show nil))
 
+(use-package tab-line
+  :custom
+  (tab-line-close-button-show t))
+
 (use-package awesome-tab
   :quelpa (awesome-tab :fetcher github :repo "manateelazycat/awesome-tab")
   :config
