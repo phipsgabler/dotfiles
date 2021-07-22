@@ -60,7 +60,7 @@
 
 ;; autofill mode
 (setq-default fill-column 100)
-(add-hook 'text-mode-hook #'turn-on-auto-fill)
+(add-hook 'prog-mode-hook #'turn-on-auto-fill)
 
 ;; reactivate downcasing
 (put 'downcase-region 'disabled nil)
@@ -855,6 +855,11 @@ modified, prompts for saving."
   :after python
   :custom
   (python-black-extra-args (list (format "--line-length=%d" fill-column))))
+
+(use-package py-isort
+  :after python
+  :init
+  (setq py-isort-options (list (format "-l %d" fill-column) "--profile black")))
 
 (use-package conda
   :preface
