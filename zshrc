@@ -87,7 +87,7 @@ export UPDATE_ZSH_DAYS=13
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git gitignore python colored-man-pages zsh-completions ssh-agent)
+plugins=(git gh gitignore python colored-man-pages zsh-completions ssh-agent)
 
 source $ZSH/oh-my-zsh.sh
 
