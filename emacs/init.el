@@ -199,6 +199,30 @@ point reaches the beginning or end of the buffer, stop there."
       (downcase-region p1 p2) (put this-command 'state "all lower")) )
     ))
 
+(defun phg/fill-sentence (&optional justify)
+  "Apply `fill-region` to the current sentence"
+  (interactive)
+  (pcase-let (`(,beg . ,end) (bounds-of-thing-at-point 'sentence))
+    (fill-region beg end justify)))
+
+(defun phg/fill-paragraph-by-sentences (&optional justify region)
+  ;; from https://stackoverflow.com/a/41638368/1346276
+  "Start each sentence in current paragraph on a new line and fill it"
+  (interactive)
+  (save-excursion
+    (let ((emacs-lisp-docstring-fill-column  t)
+          (fill-column (point-max)))
+      (fill-paragraph))
+    (pcase-let ((`(,bop . ,eop) (bounds-of-thing-at-point 'paragraph)))
+      (message "Region: %s" (list bop eop))
+      (goto-char bop)
+      (while (< (point) eop)
+        (forward-sentence)
+        (forward-whitespace 1)
+        (unless (>= (point) eop)
+          (delete-horizontal-space)
+          (insert "\n"))))))
+
 ;; shortcuts to customize this file
 (defun phg/reload-init-file ()
    "Reloads the emacs config file"
@@ -260,6 +284,7 @@ point reaches the beginning or end of the buffer, stop there."
 (bind-key "C-x r w" 'phg/copy-rectangle)
 (bind-key "C-<backspace>" 'phg/kill-to-bol)
 (bind-key "C-a" 'phg/smarter-move-beginning-of-line)
+(bind-key "M-S-q" 'phg/fill-sentence)
 (bind-key "C-c r" 'phg/rename-file-and-buffer)
 (bind-key "C-c t" 'phg/toggle-letter-case)
 (bind-key "C-c i e" 'phg/edit-init-file)
@@ -650,35 +675,41 @@ point reaches the beginning or end of the buffer, stop there."
   (push '("\\.jl\\'" . julia-mode) auto-mode-alist)
   (delete-dups auto-mode-alist))
 
-(use-package julia-repl
-  :preface 
-  (defun julia-repl-weave ()
-    "Weave the file associated with the current buffer. If it is
-modified, prompts for saving."
-    (interactive)
-    (let* ((file buffer-file-name))
-      (when (and file (buffer-modified-p))
-        (if (y-or-n-p "Buffer modified, save?")
-            (save-buffer)
-          (setq file nil)))
-      (if file
-          (julia-repl--send-string
-           (concat "weave(\"" file "\")"))
-        (message "File not found, can't weave!"))))
-  :bind (:map julia-mode-map
-         ;; ("C-c C-c" . julia-repl-send-region-or-line)
-         ("C-c C-b" . julia-repl-send-buffer)
-         ("C-c C-z" . julia-repl)
-         ("<C-return>" . julia-repl-send-region-or-line)
-         ("C-c C-e" . julia-repl-edit)
-         ("C-c C-d" . julia-repl-doc)
-         ("C-c C-w" . julia-repl-workspace)
-         ("C-c C-m" . julia-repl-macroexpand)
-         ("C-c C-S-w" . julia-repl-weave)
-         :map julia-repl-mode-map
-         ("C-c C-w" . julia-repl-workspace)
-         ("C-c C-b" . julia-repl-send-buffer)
-         ("C-c C-S-w" . julia-repl-weave)))
+;; (use-package vterm)
+
+;; (use-package julia-snail
+;;   :requires vterm
+;;   :hook (julia-mode . julia-snail-mode))
+
+;; (use-package julia-repl
+;;   :preface 
+;;   (defun julia-repl-weave ()
+;;     "Weave the file associated with the current buffer. If it is
+;; modified, prompts for saving."
+;;     (interactive)
+;;     (let* ((file buffer-file-name))
+;;       (when (and file (buffer-modified-p))
+;;         (if (y-or-n-p "Buffer modified, save?")
+;;             (save-buffer)
+;;           (setq file nil)))
+;;       (if file
+;;           (julia-repl--send-string
+;;            (concat "weave(\"" file "\")"))
+;;         (message "File not found, can't weave!"))))
+;;   :bind (:map julia-mode-map
+;;          ;; ("C-c C-c" . julia-repl-send-region-or-line)
+;;          ("C-c C-b" . julia-repl-send-buffer)
+;;          ("C-c C-z" . julia-repl)
+;;          ("<C-return>" . julia-repl-send-region-or-line)
+;;          ("C-c C-e" . julia-repl-edit)
+;;          ("C-c C-d" . julia-repl-doc)
+;;          ("C-c C-w" . julia-repl-workspace)
+;;          ("C-c C-m" . julia-repl-macroexpand)
+;;          ("C-c C-S-w" . julia-repl-weave)
+;;          :map julia-repl-mode-map
+;;          ("C-c C-w" . julia-repl-workspace)
+;;          ("C-c C-b" . julia-repl-send-buffer)
+;;          ("C-c C-S-w" . julia-repl-weave)))
 
 ;; scala-mode
 ;; (use-package ensime
@@ -753,7 +784,7 @@ modified, prompts for saving."
                                 (LaTeX-mode)
                                 (electric-indent-mode nil)
                                 (turn-off-auto-fill))))
-  (add-hook 'LaTeX-mode-hook #'turn-on-auto-fill)
+  (add-hook 'LaTeX-mode-hook #'turn-off-auto-fill)
   ;; '(font-latex-fontify-sectioning (quote color))
   ;; '(font-latex-quotes nil)
   :custom
