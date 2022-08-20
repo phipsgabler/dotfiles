@@ -353,10 +353,10 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 
-(use-package ace-jump-mode
-  :quelpa (ace-jump-mode :fetcher github :repo "winterTTr/ace-jump-mode")
-  :bind (("C-c SPC" . ace-jump-mode)
-         ("C-x SPC" . ace-jump-mode-pop-mark)))
+(use-package avy
+  :bind (("C-x SPC" . avy-goto-char)
+         ("C-c SPC" . avy-goto-word-1)
+         ("M-g f" . avy-goto-line)))
 
 ;; for interactive expansions
 (use-package ido
