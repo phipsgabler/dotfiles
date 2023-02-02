@@ -313,7 +313,7 @@ point reaches the beginning or end of the buffer, stop there."
   (bind-key "^" '(lambda () (interactive) (find-alternate-file "..")) dired-mode-map))
 
 (use-package tramp
-  :custom
+  :config
   tramp-inline-compress-start-size nil)
 
 ;; ;; GLOBALLY USED MINOR MODES
