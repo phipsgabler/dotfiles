@@ -75,6 +75,8 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status history background_jobs)
 
 - [x] [exa](https://github.com/ogham/exa)
 - [ ] [fzf](https://github.com/junegunn/fzf), [fzf-zsh](https://github.com/Wyntau/fzf-zsh)
+- [x] [diff-so-fancy](https://github.com/so-fancy/diff-so-fancy)
+- [x] [bat](https://github.com/sharkdp/bat)
 
 ## Solarized for Xfce terminal
 
