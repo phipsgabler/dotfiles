@@ -788,6 +788,7 @@ point reaches the beginning or end of the buffer, stop there."
                                 (electric-indent-mode nil)
                                 (turn-off-auto-fill))))
   (add-hook 'LaTeX-mode-hook #'turn-off-auto-fill)
+  (add-hook 'LaTeX-mode-hook #'visual-line-mode)
   ;; '(font-latex-fontify-sectioning (quote color))
   ;; '(font-latex-quotes nil)
   :custom
