@@ -282,6 +282,7 @@ point reaches the beginning or end of the buffer, stop there."
 (bind-key "C-M-w" 'phg/copy-current-line)
 (bind-key "C-S-k" 'phg/kill-current-line)
 (bind-key "C-x r w" 'phg/copy-rectangle)
+(bind-key "C-x r SPC" 'rectangle-mark-mode)
 (bind-key "C-<backspace>" 'phg/kill-to-bol)
 (bind-key "C-a" 'phg/smarter-move-beginning-of-line)
 (bind-key "M-S-q" 'phg/fill-sentence)
